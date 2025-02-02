@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="VRCFaceTracking.Avalonia.Views.SettingsPageView"
+             x:DataType="vm:SettingsPageViewModel">
+  <ScrollViewer>
+    <StackPanel Margin="20">
+      <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Settings</TextBlock>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">App theme</TextBlock>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">OSC Address</TextBlock>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Calibration Settings</TextBlock>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
+      <templates:ContentExample>
+        <ToggleSwitch IsEnabled="{Binding IsAutoStartEnabled}"></ToggleSwitch>
+      </templates:ContentExample>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Risky Settings</TextBlock>
+      <templates:ContentExample>
+        <ToggleSwitch IsEnabled="{Binding IsRiskySettingsEnabled}"></ToggleSwitch>
+      </templates:ContentExample>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Hardware Debug</TextBlock>
+
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">About</TextBlock>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
+

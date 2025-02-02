@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRCFaceTracking.Avalonia", "src\VRCFaceTracking.Avalonia\VRCFaceTracking.Avalonia.csproj", "{00505DCC-588E-4E46-8F91-2AF6A88CBC78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRCFaceTracking.Avalonia.Android", "src\VRCFaceTracking.Avalonia.Android\VRCFaceTracking.Avalonia.Android.csproj", "{63DAAA66-AF92-4170-9F89-6C2846B8E389}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRCFaceTracking.Avalonia.Desktop", "src\VRCFaceTracking.Avalonia.Desktop\VRCFaceTracking.Avalonia.Desktop.csproj", "{12649311-9B1B-4EDF-8917-4609499D70BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82C6A0B4-5014-4BE4-9F52-7DC1989134E3}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopNotifications", "src\DesktopNotifications\DesktopNotifications\DesktopNotifications.csproj", "{14D776B4-3DC7-4300-97C6-6329D6EA0A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopNotifications.Avalonia", "src\DesktopNotifications\DesktopNotifications.Avalonia\DesktopNotifications.Avalonia.csproj", "{5E11167E-B7FD-4032-A57F-FE5E6982C03F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopNotifications.FreeDesktop", "src\DesktopNotifications\DesktopNotifications.FreeDesktop\DesktopNotifications.FreeDesktop.csproj", "{6A33E375-3B33-42C1-8008-67E3668927DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopNotifications.Windows", "src\DesktopNotifications\DesktopNotifications.Windows\DesktopNotifications.Windows.csproj", "{52B20EE0-9747-4229-9CA3-1983AD97C596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopNotifications.Apple", "src\DesktopNotifications\DesktopNotifications.Apple\DesktopNotifications.Apple.csproj", "{1ECAB195-4BFA-4D3A-9EDD-456402D08155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRCFaceTracking.Core", "src\VRCFaceTracking\VRCFaceTracking.Core\VRCFaceTracking.Core.csproj", "{BB568BB2-2B27-4637-9B13-4B7EDD78CB96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRCFaceTracking.SDK", "src\VRCFaceTracking\VRCFaceTracking.SDK\VRCFaceTracking.SDK.csproj", "{AF1B2D35-C5A4-4507-915D-95E1F74DA988}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00505DCC-588E-4E46-8F91-2AF6A88CBC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00505DCC-588E-4E46-8F91-2AF6A88CBC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00505DCC-588E-4E46-8F91-2AF6A88CBC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00505DCC-588E-4E46-8F91-2AF6A88CBC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63DAAA66-AF92-4170-9F89-6C2846B8E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DAAA66-AF92-4170-9F89-6C2846B8E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DAAA66-AF92-4170-9F89-6C2846B8E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DAAA66-AF92-4170-9F89-6C2846B8E389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12649311-9B1B-4EDF-8917-4609499D70BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12649311-9B1B-4EDF-8917-4609499D70BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12649311-9B1B-4EDF-8917-4609499D70BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12649311-9B1B-4EDF-8917-4609499D70BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D776B4-3DC7-4300-97C6-6329D6EA0A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D776B4-3DC7-4300-97C6-6329D6EA0A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D776B4-3DC7-4300-97C6-6329D6EA0A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D776B4-3DC7-4300-97C6-6329D6EA0A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E11167E-B7FD-4032-A57F-FE5E6982C03F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E11167E-B7FD-4032-A57F-FE5E6982C03F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E11167E-B7FD-4032-A57F-FE5E6982C03F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E11167E-B7FD-4032-A57F-FE5E6982C03F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A33E375-3B33-42C1-8008-67E3668927DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A33E375-3B33-42C1-8008-67E3668927DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A33E375-3B33-42C1-8008-67E3668927DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A33E375-3B33-42C1-8008-67E3668927DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B20EE0-9747-4229-9CA3-1983AD97C596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B20EE0-9747-4229-9CA3-1983AD97C596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B20EE0-9747-4229-9CA3-1983AD97C596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B20EE0-9747-4229-9CA3-1983AD97C596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ECAB195-4BFA-4D3A-9EDD-456402D08155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ECAB195-4BFA-4D3A-9EDD-456402D08155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ECAB195-4BFA-4D3A-9EDD-456402D08155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ECAB195-4BFA-4D3A-9EDD-456402D08155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB568BB2-2B27-4637-9B13-4B7EDD78CB96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB568BB2-2B27-4637-9B13-4B7EDD78CB96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB568BB2-2B27-4637-9B13-4B7EDD78CB96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB568BB2-2B27-4637-9B13-4B7EDD78CB96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF1B2D35-C5A4-4507-915D-95E1F74DA988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF1B2D35-C5A4-4507-915D-95E1F74DA988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF1B2D35-C5A4-4507-915D-95E1F74DA988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF1B2D35-C5A4-4507-915D-95E1F74DA988}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00505DCC-588E-4E46-8F91-2AF6A88CBC78} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{63DAAA66-AF92-4170-9F89-6C2846B8E389} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{12649311-9B1B-4EDF-8917-4609499D70BB} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{14D776B4-3DC7-4300-97C6-6329D6EA0A98} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{5E11167E-B7FD-4032-A57F-FE5E6982C03F} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{6A33E375-3B33-42C1-8008-67E3668927DE} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{52B20EE0-9747-4229-9CA3-1983AD97C596} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{1ECAB195-4BFA-4D3A-9EDD-456402D08155} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{BB568BB2-2B27-4637-9B13-4B7EDD78CB96} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+		{AF1B2D35-C5A4-4507-915D-95E1F74DA988} = {1AA1C9C6-90AF-4BFB-ABA2-B433E9766B0F}
+	EndGlobalSection
+EndGlobal

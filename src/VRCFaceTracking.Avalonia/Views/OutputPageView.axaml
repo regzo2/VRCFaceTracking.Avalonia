@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="VRCFaceTracking.Avalonia.Views.OutputPageView"
+             x:DataType="vm:OutputPageViewModel">
+  <ScrollViewer>
+    <StackPanel Margin="20">
+      <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Output</TextBlock>
+      <StackPanel Orientation="Horizontal">
+        <templates:ContentExample>
+          <Button Content="Copy"></Button>
+        </templates:ContentExample>
+        <templates:ContentExample>
+          <Button Content="Save"></Button>
+        </templates:ContentExample>
+      </StackPanel>
+      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Logs</TextBlock>
+      <templates:ContentExample>
+        <TextBlock>Some text</TextBlock>
+      </templates:ContentExample>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
+

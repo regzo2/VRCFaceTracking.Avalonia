@@ -1,0 +1,16 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VRCFaceTracking.Avalonia.App"
+             xmlns:avaloniaMiaDev="clr-namespace:VRCFaceTracking.Avalonia"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <avaloniaMiaDev:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
+        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
+    </Application.Styles>
+</Application>
