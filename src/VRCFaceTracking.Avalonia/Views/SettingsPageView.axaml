@@ -11,25 +11,144 @@
     <StackPanel Margin="20">
       <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Settings</TextBlock>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">App theme</TextBlock>
+      <TextBlock Margin="0 0 0 0" FontSize="15" FontWeight="Bold">App theme</TextBlock>
+      <TextBlock Margin="0 0 0 20">Select which app theme to display</TextBlock>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">OSC Address</TextBlock>
+      <templates:ContentExample>
+        <ComboBox SelectedIndex="0" x:Name="ThemeCombo">
+          <ComboBoxItem>
+            System
+          </ComboBoxItem>
+          <ComboBoxItem>
+            Light
+          </ComboBoxItem>
+          <ComboBoxItem>
+            Dark
+          </ComboBoxItem>
+        </ComboBox>
+      </templates:ContentExample>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Calibration Settings</TextBlock>
+      <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">OSC Address</TextBlock>
+      <TextBlock Margin="0 0 0 20">Where should OSC Data be sent?</TextBlock>
+      <templates:ContentExample>
+        <StackPanel Spacing="12" Orientation="Horizontal">
+          <StackPanel Spacing="12" MinWidth="150">
+              <TextBlock FontSize="15">Receive Port</TextBlock>
+              <TextBox
+                Text="{Binding ReceivePort}"
+                Watermark="Enter a receiving port..."/>
+          </StackPanel>
+          <StackPanel Spacing="12" MinWidth="150">
+            <TextBlock FontSize="15">IP Address</TextBlock>
+            <TextBox
+              Text="{Binding IpAddress}"
+              Watermark="Enter an IP address..."/>
+          </StackPanel>
+          <StackPanel Spacing="12" MinWidth="150">
+            <TextBlock FontSize="15">Send Port</TextBlock>
+            <TextBox
+              Text="{Binding SendPort}"
+              Watermark="Enter a sending port..."/>
+          </StackPanel>
+        </StackPanel>
+      </templates:ContentExample>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
+      <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Calibration Settings</TextBlock>
+      <TextBlock Margin="0 0 0 20">Tweak tracking data to your heart's content</TextBlock>
+
+      <templates:ContentExample>
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <StackPanel Spacing="12" MinWidth="640">
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Calibration Enabled</TextBlock>
+              <TextBlock VerticalAlignment="Center">Toggles whether or not calibration is enabled</TextBlock>
+            </StackPanel>
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Continuous Calibration:</TextBlock>
+              <TextBlock VerticalAlignment="Center">Slowly calibrates to your facial expressions over time</TextBlock>
+            </StackPanel>
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Calibrate</TextBlock>
+              <TextBlock VerticalAlignment="Center">Heighten the influence your expressions make on calibration temporarily</TextBlock>
+            </StackPanel>
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Calibration Influence:</TextBlock>
+              <TextBlock VerticalAlignment="Center">Controls how much of an influence your facial expressions have on overall calibration over time</TextBlock>
+            </StackPanel>
+          </StackPanel>
+
+          <StackPanel Spacing="12">
+            <ToggleSwitch/>
+            <ToggleSwitch/>
+            <Button>Calibrate</Button>
+            <Slider Value="{Binding SliderValue}"
+                    Width="330"
+                    Maximum="100" />
+          </StackPanel>
+        </StackPanel>
+      </templates:ContentExample>
+
+      <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
+      <TextBlock Margin="0 0 0 20 ">Auto Start when SteamVR is launched</TextBlock>
       <templates:ContentExample>
         <ToggleSwitch IsEnabled="{Binding IsAutoStartEnabled}"></ToggleSwitch>
       </templates:ContentExample>
 
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Risky Settings</TextBlock>
-      <templates:ContentExample>
+      <TextBlock Margin="0 0 0 0 ">Danger, danger. High voltage</TextBlock>
+      <templates:ContentExample Margin="0 20">
         <ToggleSwitch IsEnabled="{Binding IsRiskySettingsEnabled}"></ToggleSwitch>
       </templates:ContentExample>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Hardware Debug</TextBlock>
+      <templates:ContentExample>
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <StackPanel Spacing="12" MinWidth="640">
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Force Relevancy</TextBlock>
+              <TextBlock VerticalAlignment="Center">Forces sending of all parameters every frame by forcing relevancy</TextBlock>
+            </StackPanel>
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Force Re-Initialize</TextBlock>
+              <TextBlock VerticalAlignment="Center">Force VRCFT to unload and reinitialize all modules</TextBlock>
+            </StackPanel>
+            <StackPanel>
+              <TextBlock VerticalAlignment="Center" FontWeight="Bold">Reset VRCFT</TextBlock>
+              <TextBlock VerticalAlignment="Center">Reset all data stored by VRCFT in your AppData folder</TextBlock>
+            </StackPanel>
+          </StackPanel>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">About</TextBlock>
+          <StackPanel Spacing="12">
+            <ToggleSwitch/>
+            <Button>Re-Initialize</Button>
+            <Button>Reset</Button>
+          </StackPanel>
+        </StackPanel>
+      </templates:ContentExample>
+
+      <TextBlock Margin="0 30 0 0" FontSize="15" FontWeight="Bold">Hardware Debug</TextBlock>
+      <TextBlock Margin="0 0 0 20 ">Stare at your tongue I guess?</TextBlock>
+
+      <StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <Border ClipToBounds="True" Width="300">
+            <Image Source="/Assets/Images/chocolate_sample.jpg"
+                   MaxWidth="300">
+            </Image>
+          </Border>
+
+          <Border ClipToBounds="True" Width="300">
+            <Image Source="/Assets/Images/chocolate_sample.jpg"
+                   MaxWidth="300">
+            </Image>
+          </Border>
+        </StackPanel>
+      </StackPanel>
+
+      <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">About</TextBlock>
+      <TextBlock Margin="0 0 0 20">
+         Fill me in!
+      </TextBlock>
+
     </StackPanel>
   </ScrollViewer>
 </UserControl>

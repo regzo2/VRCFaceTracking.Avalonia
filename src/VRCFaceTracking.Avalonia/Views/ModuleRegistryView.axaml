@@ -14,7 +14,7 @@
 
       <templates:ContentExample>
         <StackPanel Orientation="Horizontal" Spacing="12">
-            <Button Content="+"/>
+            <Button Content="+" x:Name="BrowseLocal"/>
             <TextBlock VerticalAlignment="Center">
               Install a module from .zip
             </TextBlock>
@@ -24,7 +24,7 @@
       <templates:ContentExample>
         <StackPanel Orientation="Horizontal" Spacing="12" Height="475">
 
-          <StackPanel Width="200">
+          <StackPanel Width="250">
             <ItemsControl ItemsSource="{Binding ModuleList}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -40,7 +40,7 @@
             </ItemsControl>
           </StackPanel>
 
-          <StackPanel Width="500" Spacing="12">
+          <StackPanel Spacing="12">
             <TextBlock FontSize="20" FontWeight="Bold" >
               Module Name
             </TextBlock>
