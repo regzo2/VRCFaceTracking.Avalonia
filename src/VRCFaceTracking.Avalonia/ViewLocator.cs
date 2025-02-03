@@ -17,21 +17,10 @@ public class ViewLocator : IDataTemplate
     public ViewLocator()
     {
         RegisterViewFactory<MainViewModel, MainWindow>();
+        RegisterViewFactory<HomePageViewModel, HomePageView>();
         RegisterViewFactory<OutputPageViewModel, OutputPageView>();
         RegisterViewFactory<ModuleRegistryViewModel, ModuleRegistryView>();
         RegisterViewFactory<SettingsPageViewModel, SettingsPageView>();
-
-        RegisterViewFactory<HomePageViewModel, HomePageView>();
-        RegisterViewFactory<ButtonPageViewModel, ButtonPageView>();
-        RegisterViewFactory<TextPageViewModel, TextPageView>();
-        RegisterViewFactory<ValueSelectionPageViewModel, ValueSelectionPageView>();
-        RegisterViewFactory<ImagePageViewModel, ImagePageView>();
-        RegisterViewFactory<GridPageViewModel, GridPageView>();
-        RegisterViewFactory<DragAndDropPageViewModel, DragAndDropPageView>();
-        RegisterViewFactory<CustomSplashScreenViewModel, CustomSplashScreenView>();
-        RegisterViewFactory<LoginPageViewModel, LoginPageView>();
-        RegisterViewFactory<SecretViewModel, SecretView>();
-        RegisterViewFactory<ChartsPageViewModel, ChartsPageView>();
     }
 
     public Control Build(object? data)

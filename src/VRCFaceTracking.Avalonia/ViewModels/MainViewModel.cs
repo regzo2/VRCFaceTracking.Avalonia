@@ -17,11 +17,6 @@ public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel(IMessenger messenger)
     {
-        messenger.Register<MainViewModel, LoginSuccessMessage>(this, (_, message) =>
-        {
-            CurrentPage = new SecretViewModel(message.Value);
-        });
-
         Items = new ObservableCollection<ListItemTemplate>(_templates);
 
         SelectedListItem = Items.First(vm => vm.ModelType == typeof(HomePageViewModel));
@@ -33,15 +28,6 @@ public partial class MainViewModel : ViewModelBase
         new ListItemTemplate(typeof(OutputPageViewModel), "TextFirstLineRegular", "Output"),
         new ListItemTemplate(typeof(ModuleRegistryViewModel), "ArrowDownloadRegular", "Module Registry"),
         new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular", "Settings"),
-
-        new ListItemTemplate(typeof(ButtonPageViewModel), "CursorHoverRegular", "Buttons"),
-        new ListItemTemplate(typeof(TextPageViewModel), "TextNumberFormatRegular", "Text"),
-        new ListItemTemplate(typeof(ValueSelectionPageViewModel), "CalendarCheckmarkRegular", "Value Selection"),
-        new ListItemTemplate(typeof(ImagePageViewModel), "ImageRegular", "Images"),
-        new ListItemTemplate(typeof(GridPageViewModel), "GridRegular", "Grids"),
-        new ListItemTemplate(typeof(DragAndDropPageViewModel), "TapDoubleRegular", "Drag And Drop"),
-        new ListItemTemplate(typeof(LoginPageViewModel), "LockRegular", "Login Form"),
-        new ListItemTemplate(typeof(ChartsPageViewModel), "PollRegular", "Charts"),
     ];
 
     public MainViewModel() : this(new WeakReferenceMessenger()) { }
