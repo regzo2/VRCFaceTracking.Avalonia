@@ -1,32 +1,52 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using VRCFaceTracking.Avalonia.Models;
+using VRCFaceTracking.Avalonia.Views;
+using VRCFaceTracking.Core.Models;
 
 namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class ModuleRegistryViewModel : ViewModelBase
 {
-    public IEnumerable<Module> ModuleList =>
-    [
-        new Module("Module 1", "Bob"),
-        new Module("Module 2", "Joe"),
-    ];
+    public InstallableTrackingModule[] ModuleInfos { get; private set; } = [];
+    private ModuleRegistryView _moduleRegistryView { get; }
 
-    [ObservableProperty] public int _version = 1;
-    [ObservableProperty] public string _author = "Sample Author";
-    [ObservableProperty] public int _downloadCount = 1000;
-    [ObservableProperty] public double _rating = 4.5;
-    [ObservableProperty] public string _modulePageUrl = "https://example.com/module";
-    [ObservableProperty] public DateTime _lastUpdated = DateTime.Now;
-    [ObservableProperty] public string _description = "Module description goes here";
-    [ObservableProperty] public string _usageInstructions = "How to use the module";
+    [ObservableProperty] public string version = "1";
+    [ObservableProperty] public string author = "Sample Author";
+    [ObservableProperty] public int downloadCount = 1000;
+    [ObservableProperty] public double rating = 4.5;
+    [ObservableProperty] public string modulePageUrl = "https://example.com/module";
+    [ObservableProperty] public DateTime lastUpdated = DateTime.Now;
+    [ObservableProperty] public string description = "Module description goes here";
+    [ObservableProperty] public string usageInstructions = "How to use the module";
+
+    public ModuleRegistryViewModel()
+    {
+        _moduleRegistryView = Ioc.Default.GetService<ModuleRegistryView>()!;
+        ModuleRegistryView.ModuleSelected += ModuleSelected;
+        ModuleInfos = _moduleRegistryView.GetModules();
+    }
+
+    private void ModuleSelected(InstallableTrackingModule module)
+    {
+        Version = module.Version;
+        Author = module.AuthorName;
+        DownloadCount = module.Downloads;
+        Rating = module.Rating;
+        ModulePageUrl = module.ModulePageUrl;
+        LastUpdated = module.LastUpdated;
+        Description = module.ModuleDescription;
+        UsageInstructions = module.UsageInstructions;
+    }
 
     public void OpenModuleUrl()
     {
-        OpenUrl(_modulePageUrl);
+        OpenUrl(modulePageUrl);
     }
 
     private void OpenUrl(string URL)
@@ -56,5 +76,10 @@ public partial class ModuleRegistryViewModel : ViewModelBase
                 throw;
             }
         }
+    }
+
+    ~ModuleRegistryViewModel()
+    {
+        ModuleRegistryView.ModuleSelected -= ModuleSelected;
     }
 }

@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
              xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
              xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
+             xmlns:models="clr-namespace:VRCFaceTracking.Core.Models;assembly=VRCFaceTracking.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="VRCFaceTracking.Avalonia.Views.ModuleRegistryView"
              x:DataType="vm:ModuleRegistryViewModel">
@@ -22,25 +23,26 @@
       </templates:ContentExample>
 
       <templates:ContentExample>
-        <StackPanel Orientation="Horizontal" Spacing="12" Height="475">
-
-          <StackPanel Width="250">
-            <ItemsControl ItemsSource="{Binding ModuleList}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <ListBoxItem>
-                    <TextBlock>
-                      <Run Text="{Binding ModuleName}" FontWeight="Bold"/>
-                      <LineBreak/>
-                      <Run Text="{Binding ModuleAuthor}"/>
-                    </TextBlock>
-                  </ListBoxItem>
+        <StackPanel Orientation="Horizontal" Spacing="20" Height="475">
+        <ScrollViewer Width="250" VerticalScrollBarVisibility="Auto">
+          <StackPanel>
+            <ListBox Width="250" Height="475"
+                     ItemsSource="{Binding ModuleInfos}"
+                     SelectionChanged="OnModuleSelected">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:InstallableTrackingModule">
+                  <TextBlock>
+                    <Run Text="{Binding ModuleName}" FontWeight="Bold"/>
+                    <LineBreak/>
+                    <Run Text="{Binding AuthorName}"/>
+                  </TextBlock>
                 </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
+              </ListBox.ItemTemplate>
+            </ListBox>
           </StackPanel>
+        </ScrollViewer>
 
-          <StackPanel Spacing="12">
+        <StackPanel Spacing="12" Width="700">
             <TextBlock FontSize="20" FontWeight="Bold" >
               Module Name
             </TextBlock>
@@ -88,13 +90,13 @@
               <Run Text="{Binding LastUpdated}"/>
             </TextBlock>
 
-            <TextBlock>
+            <TextBlock TextWrapping="WrapWithOverflow">
               <Run Text="Description" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Description}"/>
             </TextBlock>
 
-            <TextBlock>
+            <TextBlock TextWrapping="WrapWithOverflow">
               <Run Text="Usage Instructions" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding UsageInstructions}"/>
