@@ -7,3 +7,6 @@
 [submodule "src/HyperText.Avalonia"]
 	path = src/HyperText.Avalonia
 	url = https://github.com/AvaloniaUtils/HyperText.Avalonia.git
+[submodule "src/SimpleRustOSC"]
+	path = src/SimpleRustOSC
+	url = https://github.com/benaclejames/SimpleRustOSC.git

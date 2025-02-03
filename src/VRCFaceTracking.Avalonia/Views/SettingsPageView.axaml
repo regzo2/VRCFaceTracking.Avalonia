@@ -35,19 +35,19 @@
           <StackPanel Spacing="12" MinWidth="150">
               <TextBlock FontSize="15">Receive Port</TextBlock>
               <TextBox
-                Text="{Binding ReceivePort}"
+                Text="{Binding OscTarget.InPort, Mode=TwoWay}"
                 Watermark="Enter a receiving port..."/>
           </StackPanel>
           <StackPanel Spacing="12" MinWidth="150">
             <TextBlock FontSize="15">IP Address</TextBlock>
             <TextBox
-              Text="{Binding IpAddress}"
+              Text="{Binding OscTarget.DestinationAddress}"
               Watermark="Enter an IP address..."/>
           </StackPanel>
           <StackPanel Spacing="12" MinWidth="150">
             <TextBlock FontSize="15">Send Port</TextBlock>
             <TextBox
-              Text="{Binding SendPort}"
+              Text="{Binding OscTarget.OutPort}"
               Watermark="Enter a sending port..."/>
           </StackPanel>
         </StackPanel>

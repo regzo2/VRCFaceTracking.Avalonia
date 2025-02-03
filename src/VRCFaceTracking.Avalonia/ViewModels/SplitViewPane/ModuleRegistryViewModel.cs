@@ -9,35 +9,20 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class ModuleRegistryViewModel : ViewModelBase
 {
-    [ObservableProperty] private int _version = 1;
-    [ObservableProperty] private string _author = "Sample Author";
-    [ObservableProperty] private int _downloadCount = 1000;
-    [ObservableProperty] private double _rating = 4.5;
-    [ObservableProperty] private string _modulePageUrl = "https://example.com/module";
-    [ObservableProperty] private DateTime _lastUpdated = DateTime.Now;
-    [ObservableProperty] private string _description = "Module description goes here";
-    [ObservableProperty] private string _usageInstructions = "How to use the module";
-
     public IEnumerable<Module> ModuleList =>
     [
         new Module("Module 1", "Bob"),
         new Module("Module 2", "Joe"),
     ];
 
-    public void InstallLocalModule()
-    {
-
-    }
-
-    public void InstallRemoteModule()
-    {
-
-    }
-
-    public void UninstallModule()
-    {
-
-    }
+    [ObservableProperty] public int _version = 1;
+    [ObservableProperty] public string _author = "Sample Author";
+    [ObservableProperty] public int _downloadCount = 1000;
+    [ObservableProperty] public double _rating = 4.5;
+    [ObservableProperty] public string _modulePageUrl = "https://example.com/module";
+    [ObservableProperty] public DateTime _lastUpdated = DateTime.Now;
+    [ObservableProperty] public string _description = "Module description goes here";
+    [ObservableProperty] public string _usageInstructions = "How to use the module";
 
     public void OpenModuleUrl()
     {

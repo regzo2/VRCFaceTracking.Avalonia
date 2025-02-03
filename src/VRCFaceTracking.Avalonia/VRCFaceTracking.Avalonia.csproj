@@ -29,5 +29,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HyperText.Avalonia\HyperText.Avalonia\HyperText.Avalonia.csproj" />
+      <ProjectReference Include="..\VRCFaceTracking\VRCFaceTracking.Core\VRCFaceTracking.Core.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Activation\" />
     </ItemGroup>
 </Project>

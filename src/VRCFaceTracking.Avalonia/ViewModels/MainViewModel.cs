@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using VRCFaceTracking.Avalonia.Messages;
 using VRCFaceTracking.Avalonia.Models;
 using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 

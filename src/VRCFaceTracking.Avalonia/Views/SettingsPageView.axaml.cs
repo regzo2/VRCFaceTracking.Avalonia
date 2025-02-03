@@ -1,19 +1,23 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using Avalonia.Styling;
-using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using VRCFaceTracking.Contracts.Services;
 
 namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class SettingsPageView : UserControl
 {
+    private readonly IThemeSelectorService _themeSelectorService;
     private readonly ComboBox _themeComboBox;
 
     public SettingsPageView()
     {
         InitializeComponent();
 
+        _themeSelectorService = Ioc.Default.GetService<IThemeSelectorService>()!;
         _themeComboBox = this.Find<ComboBox>("ThemeCombo")!;
         _themeComboBox.SelectionChanged += ThemeComboBox_SelectionChanged;
     }
@@ -39,8 +43,7 @@ public partial class SettingsPageView : UserControl
                 variant = ThemeVariant.Dark;
                 break;
         }
-
-        Application.Current!.RequestedThemeVariant = variant;
+        Dispatcher.UIThread.InvokeAsync(async () => await _themeSelectorService.SetThemeAsync(variant));
     }
 }
 

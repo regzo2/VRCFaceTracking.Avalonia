@@ -7,12 +7,17 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="VRCFaceTracking.Avalonia.Views.HomePageView"
              x:DataType="viewModels:HomePageViewModel">
+
   <ScrollViewer>
     <StackPanel Margin="20">
       <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Home</TextBlock>
 
       <StackPanel>
-        <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Modules Loaded: Sample</TextBlock>
+        <TextBlock
+          Margin="0 20"
+          FontSize="15"
+          FontWeight="Bold"
+          Text="{Binding LibManager.LoadedModulesMetadata}"></TextBlock>
         <StackPanel Orientation="Horizontal" Spacing="12">
           <Border ClipToBounds="True" Width="300">
             <Image Source="/Assets/Images/chocolate_sample.jpg"
@@ -30,17 +35,31 @@
 
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Toggle tracking</TextBlock>
       <templates:ContentExample>
-        <ToggleSwitch IsEnabled="{Binding IsButtonEnabled}"></ToggleSwitch>
+        <ToggleSwitch/>
       </templates:ContentExample>
 
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">OSC Status</TextBlock>
       <templates:ContentExample>
-        <TextBlock>Some text</TextBlock>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding OscTarget.InPort, StringFormat='Listening on Port: {0}', Mode=OneWay}"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding OscTarget.OutPort, StringFormat='Sending on Port: {0}', Mode=OneWay}"/>
+          </StackPanel>
+        </StackPanel>
       </templates:ContentExample>
 
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Avatar Status</TextBlock>
       <templates:ContentExample>
-        <TextBlock>Some text</TextBlock>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding ParameterOutputService.AvatarInfo, StringFormat='Avatar: {0}', Mode=OneWay}"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding ParameterOutputService.AvatarParameters, StringFormat='Parameters: {0}', Mode=OneWay}"/>
+          </StackPanel>
+        </StackPanel>
       </templates:ContentExample>
 
     </StackPanel>
