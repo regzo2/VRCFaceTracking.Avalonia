@@ -2,15 +2,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="VRCFaceTracking.Avalonia.App"
              xmlns:avaloniaMiaDev="clr-namespace:VRCFaceTracking.Avalonia"
+             xmlns:avalonia="clr-namespace:HyperText.Avalonia;assembly=HyperText.Avalonia"
              RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
         <avaloniaMiaDev:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
-        <FluentTheme />
+      <avalonia:HyperLinkStyle/>
+      <FluentTheme/>
+      <!--<FluentTheme>
+          <FluentTheme.Palettes>
+            <ColorPaletteResources x:Key="Light" Accent="#ff0073cf" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ffcccccc" BaseMedium="#ff898989" BaseMediumHigh="#ff5d5d5d" BaseMediumLow="#ff737373" ChromeAltLow="#ff5d5d5d" ChromeBlackHigh="Black" ChromeBlackLow="#ffcccccc" ChromeBlackMedium="#ff5d5d5d" ChromeBlackMediumLow="#ff898989" ChromeDisabledHigh="#ffcccccc" ChromeDisabledLow="#ff898989" ChromeGray="#ff737373" ChromeHigh="#ffcccccc" ChromeLow="#ffececec" ChromeMedium="#ffe6e6e6" ChromeMediumLow="#ffececec" ChromeWhite="White" ListLow="#ffe6e6e6" ListMedium="#ffcccccc" RegionColor="White" /><ColorPaletteResources x:Key="Dark" Accent="#ff0073cf" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff393939" BaseMedium="#ff9d9d9d" BaseMediumHigh="#ffb6b6b6" BaseMediumLow="#ff6b6b6b" ChromeAltLow="#ffb6b6b6" ChromeBlackHigh="Black" ChromeBlackLow="#ffb6b6b6" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff393939" ChromeDisabledLow="#ff9d9d9d" ChromeGray="#ff848484" ChromeHigh="#ff848484" ChromeLow="#ff181818" ChromeMedium="#ff202020" ChromeMediumLow="#ff313131" ChromeWhite="White" ListLow="#ff202020" ListMedium="#ff393939" RegionColor="#ff1e1e1e" />
+          </FluentTheme.Palettes>
+      </FluentTheme>-->
+
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
+
     </Application.Styles>
+
+    <TrayIcon.Icons>
+      <TrayIcons>
+        <TrayIcon Icon="/Assets/avalonia-logo.ico"
+                  ToolTipText="Right click to see VRCFaceTracking options">
+          <TrayIcon.Menu>
+            <NativeMenu>
+              <NativeMenuItem Header="Exit" Click="OnShutdownClicked"></NativeMenuItem>
+            </NativeMenu>
+          </TrayIcon.Menu>
+        </TrayIcon>
+      </TrayIcons>
+    </TrayIcon.Icons>
+
 </Application>

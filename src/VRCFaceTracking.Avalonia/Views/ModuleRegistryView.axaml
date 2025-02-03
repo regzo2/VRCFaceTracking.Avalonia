@@ -3,12 +3,106 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+             xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="VRCFaceTracking.Avalonia.Views.ModuleRegistryView"
              x:DataType="vm:ModuleRegistryViewModel">
   <ScrollViewer>
-    <StackPanel Margin="20">
+    <StackPanel Margin="20" Spacing="12">
       <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Module Registry</TextBlock>
+
+      <templates:ContentExample>
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <Button Content="+"/>
+            <TextBlock VerticalAlignment="Center">
+              Install a module from .zip
+            </TextBlock>
+        </StackPanel>
+      </templates:ContentExample>
+
+      <templates:ContentExample>
+        <StackPanel Orientation="Horizontal" Spacing="12" Height="475">
+
+          <StackPanel Width="200">
+            <ItemsControl ItemsSource="{Binding ModuleList}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <ListBoxItem>
+                    <TextBlock>
+                      <Run Text="{Binding ModuleName}" FontWeight="Bold"/>
+                      <LineBreak/>
+                      <Run Text="{Binding ModuleAuthor}"/>
+                    </TextBlock>
+                  </ListBoxItem>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+
+          <StackPanel Width="500" Spacing="12">
+            <TextBlock FontSize="20" FontWeight="Bold" >
+              Module Name
+            </TextBlock>
+
+            <Button>
+              Install
+            </Button>
+
+            <TextBlock>
+              <Run Text="Author" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding Author}"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Version" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding Version}"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Downloads" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding DownloadCount}"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Rating" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding Rating, StringFormat='{}{0}/5' }"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Module Page" FontWeight="Bold"/>
+              <LineBreak/>
+              <controls:Hyperlink Alias="{Binding ModulePageUrl}"
+                                  Url="{Binding ModulePageUrl}"
+                                  Command="{Binding OpenModuleUrl}"/>
+
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Last Updated" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding LastUpdated}"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Description" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding Description}"/>
+            </TextBlock>
+
+            <TextBlock>
+              <Run Text="Usage Instructions" FontWeight="Bold"/>
+              <LineBreak/>
+              <Run Text="{Binding UsageInstructions}"/>
+            </TextBlock>
+          </StackPanel>
+        </StackPanel>
+      </templates:ContentExample>
+
     </StackPanel>
   </ScrollViewer>
 </UserControl>

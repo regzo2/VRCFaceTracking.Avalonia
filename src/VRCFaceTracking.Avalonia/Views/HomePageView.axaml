@@ -11,6 +11,23 @@
     <StackPanel Margin="20">
       <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Home</TextBlock>
 
+      <StackPanel>
+        <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Modules Loaded: Sample</TextBlock>
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <Border ClipToBounds="True" Width="300">
+            <Image Source="/Assets/Images/chocolate_sample.jpg"
+                   MaxWidth="300">
+            </Image>
+          </Border>
+
+          <Border ClipToBounds="True" Width="300">
+            <Image Source="/Assets/Images/chocolate_sample.jpg"
+                   MaxWidth="300">
+            </Image>
+          </Border>
+        </StackPanel>
+      </StackPanel>
+
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Toggle tracking</TextBlock>
       <templates:ContentExample>
         <ToggleSwitch IsEnabled="{Binding IsButtonEnabled}"></ToggleSwitch>

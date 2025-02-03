@@ -4,3 +4,6 @@
 [submodule "src/DesktopNotifications"]
 	path = src/DesktopNotifications
 	url = https://github.com/pr8x/DesktopNotifications.git
+[submodule "src/HyperText.Avalonia"]
+	path = src/HyperText.Avalonia
+	url = https://github.com/AvaloniaUtils/HyperText.Avalonia.git

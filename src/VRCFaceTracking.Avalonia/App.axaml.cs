@@ -59,6 +59,14 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    private void OnShutdownClicked(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.Shutdown();
+        }
+    }
+
     [Singleton(typeof(MainViewModel))]
     [Transient(typeof(OutputPageViewModel))]
     [Transient(typeof(ModuleRegistryViewModel))]
