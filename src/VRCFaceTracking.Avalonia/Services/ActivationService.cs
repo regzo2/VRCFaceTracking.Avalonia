@@ -48,16 +48,8 @@ public class ActivationService : IActivationService
         // Execute tasks before activation.
         await InitializeAsync();
 
-        // Handle activation via ActivationHandlers.
-        await HandleActivationAsync(activationArgs);
-
         // Execute tasks after activation.
         await StartupAsync();
-    }
-
-    private async Task HandleActivationAsync(object activationArgs)
-    {
-        await Task.CompletedTask;
     }
 
     private async Task InitializeAsync()
@@ -69,7 +61,7 @@ public class ActivationService : IActivationService
 
     private async Task StartupAsync()
     {
-        await _themeSelectorService.SetRequestedThemeAsync();
+        // await _themeSelectorService.SetRequestedThemeAsync();
 
         _logger.LogInformation("VRCFT Version {version} initializing...", Assembly.GetExecutingAssembly().GetName().Version);
 

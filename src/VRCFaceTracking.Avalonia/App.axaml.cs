@@ -126,6 +126,12 @@ public partial class App : Application
         var vrcft = Ioc.Default.GetRequiredService<IMainService>();
         Task.Run(() => vrcft.InitializeAsync());
 
+        var activation = Ioc.Default.GetRequiredService<IActivationService>();
+        Task.Run(() => activation.ActivateAsync(null));
+
+        var libManager = Ioc.Default.GetRequiredService<ILibManager>();
+        libManager.Initialize();
+
         var vm = Ioc.Default.GetRequiredService<MainViewModel>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

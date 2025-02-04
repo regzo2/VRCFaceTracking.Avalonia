@@ -25,12 +25,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     public IOscTarget OscTarget { get; }
     public GithubService GithubService { get; }
     public IMainService MainStandalone { get; }
-    public ILogger Logger { get; }
     public ParameterSenderService ParameterSenderService { get; }
-
-    [ObservableProperty] public bool _isAutoStartEnabled = true;
-
-    [ObservableProperty] public bool _isRiskySettingsEnabled = true;
 
     [ObservableProperty] public float _sliderValue = 0.5f;
 

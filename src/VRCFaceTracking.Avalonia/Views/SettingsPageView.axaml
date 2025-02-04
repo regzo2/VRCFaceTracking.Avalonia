@@ -91,13 +91,13 @@
       <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
       <TextBlock Margin="0 0 0 20 ">Auto Start when SteamVR is launched</TextBlock>
       <templates:ContentExample>
-        <ToggleSwitch IsEnabled="{Binding IsAutoStartEnabled}"></ToggleSwitch>
+        <ToggleSwitch Click="AutoStartToggled"/>
       </templates:ContentExample>
 
       <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Risky Settings</TextBlock>
       <TextBlock Margin="0 0 0 0 ">Danger, danger. High voltage</TextBlock>
       <templates:ContentExample Margin="0 20">
-        <ToggleSwitch IsEnabled="{Binding IsRiskySettingsEnabled}"></ToggleSwitch>
+        <ToggleSwitch Click="RiskySettingsToggled"/>
       </templates:ContentExample>
 
       <templates:ContentExample>

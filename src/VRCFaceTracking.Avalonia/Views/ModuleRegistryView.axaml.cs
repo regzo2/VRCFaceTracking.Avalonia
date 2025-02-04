@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -16,9 +17,12 @@ namespace VRCFaceTracking.Avalonia.Views;
 public partial class ModuleRegistryView : UserControl
 {
     public static event Action<InstallableTrackingModule>? ModuleSelected;
+    public static event Action<InstallableTrackingModule>? ModuleDownloaded;
     private ModuleInstaller ModuleInstaller { get; }
     private IModuleDataService ModuleDataService { get; }
     private ILibManager LibManager { get; }
+
+    public ListBox _moduleList;
 
     private static FilePickerFileType ZIP { get; } = new("Zip Files")
     {
@@ -33,6 +37,7 @@ public partial class ModuleRegistryView : UserControl
         ModuleInstaller = Ioc.Default.GetService<ModuleInstaller>()!;
         LibManager = Ioc.Default.GetService<UnifiedLibManager>()!;
 
+        _moduleList = this.Get<ListBox>("ModuleList")!;
         this.Get<Button>("BrowseLocal")!.Click += async delegate
         {
             var topLevel = TopLevel.GetTopLevel(this)!;
@@ -55,19 +60,52 @@ public partial class ModuleRegistryView : UserControl
             {
                 if (path != null)
                 {
-                    // CustomInstallStatus.Text = "Successfully installed module.";
+                    BrowseLocalText.Text = "Successfully installed module.";
                     Dispatcher.UIThread.Invoke(() => LibManager.Initialize());
                 }
                 else
                 {
-                    // CustomInstallStatus.Text = "Failed to install module. Check logs for more information.";
+                    BrowseLocalText.Text = "Failed to install module. Check logs for more information.";
                 }
             }
         };
     }
 
+    private void InstallButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_moduleList.ItemCount == 0) return;
+        var index = _moduleList.SelectedIndex;
+        if (index == -1) index = 0;
+        if (_moduleList.Items[index] is not InstallableTrackingModule module) return;
+
+        InstallButton.Content = "Please Restart VRCFT";
+        InstallButton.IsEnabled = false;
+        ModuleDownloaded?.Invoke(module);
+    }
+
     private void OnModuleSelected(object? sender, SelectionChangedEventArgs e)
     {
+        if (_moduleList.ItemCount == 0) return;
+        var index = _moduleList.SelectedIndex;
+        if (index == -1) index = 0;
+        if (_moduleList.Items[index] is not InstallableTrackingModule module) return;
+
+        switch (module.InstallationState)
+        {
+            case InstallState.NotInstalled or InstallState.Outdated:
+            {
+                InstallButton.Content = "Install";
+                InstallButton.IsEnabled = true;
+                break;
+            }
+            case InstallState.Installed:
+            {
+                InstallButton.Content = "Uninstall";
+                InstallButton.IsEnabled = true;
+                break;
+            }
+        }
+
         if (sender is ListBox listBox && listBox.SelectedItem is InstallableTrackingModule selectedModule)
         {
             ModuleSelected?.Invoke(selectedModule);
@@ -103,16 +141,20 @@ public partial class ModuleRegistryView : UserControl
             }
         }
 
-        // Sort our data by name, then place any modules with the author name VRCFT Team at the top of the list. (unbiased)
+        // Sort our data by name, then place dfg at the top of the list :3
         data = data.OrderByDescending(x => x.InstallationState == InstallState.Installed)
-            .ThenByDescending(x => x.AuthorName == "VRCFT Team")
+            .ThenByDescending(x => x.AuthorName == "dfgHiatus")
             .ThenBy(x => x.ModuleName);
 
         // Then prepend the local modules to the list.
         data = localModules.Concat(data);
-        ModuleSelected?.Invoke(data.First());
 
-        return data.ToArray();
+        var modules = data.ToArray();
+        var first = modules.First();
+        _moduleList.SelectedIndex = 0;
+        ModuleSelected?.Invoke(first);
+
+        return modules;
     }
 }
 

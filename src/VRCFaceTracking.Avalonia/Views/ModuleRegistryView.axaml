@@ -16,7 +16,7 @@
       <templates:ContentExample>
         <StackPanel Orientation="Horizontal" Spacing="12">
             <Button Content="+" x:Name="BrowseLocal"/>
-            <TextBlock VerticalAlignment="Center">
+            <TextBlock VerticalAlignment="Center" x:Name="BrowseLocalText">
               Install a module from .zip
             </TextBlock>
         </StackPanel>
@@ -28,7 +28,8 @@
           <StackPanel>
             <ListBox Width="250" Height="475"
                      ItemsSource="{Binding ModuleInfos}"
-                     SelectionChanged="OnModuleSelected">
+                     SelectionChanged="OnModuleSelected"
+                     x:Name="ModuleList">
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="models:InstallableTrackingModule">
                   <TextBlock>
@@ -43,43 +44,43 @@
         </ScrollViewer>
 
         <StackPanel Spacing="12" Width="700">
-            <TextBlock FontSize="20" FontWeight="Bold" >
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Module.ModuleName}" >
               Module Name
             </TextBlock>
 
-            <Button>
+            <Button x:Name="InstallButton" Click="InstallButton_Click">
               Install
             </Button>
 
             <TextBlock>
               <Run Text="Author" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding Author}"/>
+              <Run Text="{Binding Module.AuthorName}"/>
             </TextBlock>
 
             <TextBlock>
               <Run Text="Version" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding Version}"/>
+              <Run Text="{Binding Module.Version}"/>
             </TextBlock>
 
             <TextBlock>
               <Run Text="Downloads" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding DownloadCount}"/>
+              <Run Text="{Binding Module.Downloads}"/>
             </TextBlock>
 
             <TextBlock>
               <Run Text="Rating" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding Rating, StringFormat='{}{0}/5' }"/>
+              <Run Text="{Binding Module.Rating, StringFormat='{}{0}/5' }"/>
             </TextBlock>
 
             <TextBlock>
               <Run Text="Module Page" FontWeight="Bold"/>
               <LineBreak/>
-              <controls:Hyperlink Alias="{Binding ModulePageUrl}"
-                                  Url="{Binding ModulePageUrl}"
+              <controls:Hyperlink Alias="{Binding Module.ModulePageUrl}"
+                                  Url="{Binding Module.ModulePageUrl}"
                                   Command="{Binding OpenModuleUrl}"/>
 
             </TextBlock>
@@ -87,19 +88,19 @@
             <TextBlock>
               <Run Text="Last Updated" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding LastUpdated}"/>
+              <Run Text="{Binding Module.LastUpdated}"/>
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
               <Run Text="Description" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding Description}"/>
+              <Run Text="{Binding Module.ModuleDescription}"/>
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
               <Run Text="Usage Instructions" FontWeight="Bold"/>
               <LineBreak/>
-              <Run Text="{Binding UsageInstructions}"/>
+              <Run Text="{Binding Module.UsageInstructions}"/>
             </TextBlock>
           </StackPanel>
         </StackPanel>

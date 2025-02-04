@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
@@ -10,6 +11,10 @@ namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class SettingsPageView : UserControl
 {
+    public bool IsRiskySettingsEnabled { get; set; } = false;
+
+    public bool IsAutoStartEnabled { get; set; } = false;
+
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ComboBox _themeComboBox;
 
@@ -44,6 +49,16 @@ public partial class SettingsPageView : UserControl
                 break;
         }
         Dispatcher.UIThread.InvokeAsync(async () => await _themeSelectorService.SetThemeAsync(variant));
+    }
+
+    private void AutoStartToggled(object? sender, RoutedEventArgs e)
+    {
+        IsAutoStartEnabled = !IsAutoStartEnabled;
+    }
+
+    private void RiskySettingsToggled(object? sender, RoutedEventArgs e)
+    {
+        IsRiskySettingsEnabled = !IsRiskySettingsEnabled;
     }
 }
 

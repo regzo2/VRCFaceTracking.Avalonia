@@ -25,7 +25,7 @@ public partial class HomePageViewModel : ViewModelBase
 
     public HomePageViewModel()
     {
-        LibManager = Ioc.Default.GetService<UnifiedLibManager>()!;
+        LibManager = Ioc.Default.GetService<ILibManager>()!;
         ParameterOutputService = Ioc.Default.GetService<OscQueryService>()!;
         OscRecvService = Ioc.Default.GetService<OscRecvService>()!;
         OscSendService = Ioc.Default.GetService<OscSendService>()!;
