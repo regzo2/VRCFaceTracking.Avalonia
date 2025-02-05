@@ -35,6 +35,7 @@ namespace VRCFaceTracking.Avalonia;
 
 public partial class App : Application
 {
+    public static event Action<NotificationModel> SendNotification;
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -133,29 +134,37 @@ public partial class App : Application
         libManager.Initialize();
 
         var vm = Ioc.Default.GetRequiredService<MainViewModel>();
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        switch (ApplicationLifetime)
         {
-            desktop.MainWindow = new MainWindow(vm);
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-        {
-            singleViewPlatform.MainView = new MainView { DataContext = vm };
+            case IClassicDesktopStyleApplicationLifetime desktop:
+                desktop.MainWindow = new MainWindow(vm);
+                desktop.ShutdownRequested += OnShutdown;
+                break;
+            case ISingleViewApplicationLifetime singleViewPlatform:
+                singleViewPlatform.MainView = new MainView { DataContext = vm };
+                break;
         }
 
+        var notif = new NotificationModel();
+        notif.Title = "Hello, World!";
+        notif.Body = "This is a test notification.";
+        SendNotification.Invoke(notif);
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void OnShutdownClicked(object? sender, EventArgs e)
+    private void OnShutdown(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
+
+        var vrcft = Ioc.Default.GetRequiredService<IMainService>();
+        vrcft.Teardown();
+    }
+
+    private void OnTrayShutdownClicked(object? sender, EventArgs e)
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var vrcft = Ioc.Default.GetRequiredService<MainStandalone>();
-            Task.Run(async () =>
-            {
-                await vrcft.Teardown();
-                desktop.Shutdown();
-            });
-
+            desktop.Shutdown();
         }
     }
 

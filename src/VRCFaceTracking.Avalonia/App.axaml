@@ -29,7 +29,7 @@
                   ToolTipText="Right click to see VRCFaceTracking options">
           <TrayIcon.Menu>
             <NativeMenu>
-              <NativeMenuItem Header="Exit" Click="OnShutdownClicked"></NativeMenuItem>
+              <NativeMenuItem Header="Exit" Click="OnTrayShutdownClicked"></NativeMenuItem>
             </NativeMenu>
           </TrayIcon.Menu>
         </TrayIcon>

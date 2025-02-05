@@ -20,7 +20,7 @@ public partial class ModuleRegistryView : UserControl
     public static event Action<InstallableTrackingModule>? ModuleDownloaded;
     private ModuleInstaller ModuleInstaller { get; }
     private IModuleDataService ModuleDataService { get; }
-    private ILibManager LibManager { get; }
+    private ILibManager LibManager { get; set; }
 
     public ListBox _moduleList;
 
@@ -35,7 +35,7 @@ public partial class ModuleRegistryView : UserControl
 
         ModuleDataService = Ioc.Default.GetService<IModuleDataService>()!;
         ModuleInstaller = Ioc.Default.GetService<ModuleInstaller>()!;
-        LibManager = Ioc.Default.GetService<UnifiedLibManager>()!;
+        LibManager = Ioc.Default.GetService<ILibManager>()!;
 
         _moduleList = this.Get<ListBox>("ModuleList")!;
         this.Get<Button>("BrowseLocal")!.Click += async delegate
@@ -61,7 +61,7 @@ public partial class ModuleRegistryView : UserControl
                 if (path != null)
                 {
                     BrowseLocalText.Text = "Successfully installed module.";
-                    Dispatcher.UIThread.Invoke(() => LibManager.Initialize());
+                    LibManager.Initialize();
                 }
                 else
                 {

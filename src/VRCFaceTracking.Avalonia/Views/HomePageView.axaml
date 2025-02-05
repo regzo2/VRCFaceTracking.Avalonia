@@ -47,10 +47,10 @@
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
+                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="20 0 0 0" Spacing="6" VerticalAlignment="Center">
                   <TextBlock FontSize="30" FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" />
-                  <TextBlock IsVisible="{Binding UsingEye, Mode=OneWay}" x:Name="EyeTrackingActive" />
-                  <TextBlock IsVisible="{Binding UsingExpression, Mode=OneWay}" x:Name="FaceTrackingActive" />
+                  <TextBlock Text="Eye Tracking Active" IsVisible="{Binding UsingEye, Mode=OneWay}" x:Name="EyeTrackingActive" />
+                  <TextBlock Text="Face Tracking Active" IsVisible="{Binding UsingExpression, Mode=OneWay}" x:Name="FaceTrackingActive" />
                 </StackPanel>
                 <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
                   <ToggleButton Padding="15"
