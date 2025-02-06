@@ -60,5 +60,15 @@ public partial class SettingsPageView : UserControl
     {
         IsRiskySettingsEnabled = !IsRiskySettingsEnabled;
     }
+
+    private void ReInit_OnClick(object? sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void Reset_OnClick(object? sender, RoutedEventArgs e)
+    {
+        
+    }
 }
 

@@ -40,8 +40,7 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
         LiveCharts.Configure(config =>
-                config
-                    .AddDarkTheme()
+                config.AddDarkTheme()
         );
 
         // https://github.com/benaclejames/VRCFaceTracking/blob/51405d57cbbd46c92ff176d5211d043ed875ad42/VRCFaceTracking/App.xaml.cs#L61C9-L71C10
@@ -124,14 +123,11 @@ public partial class App : Application
 
         Ioc.Default.ConfigureServices(provider);
 
-        var vrcft = Ioc.Default.GetRequiredService<IMainService>();
-        Task.Run(() => vrcft.InitializeAsync());
-
         var activation = Ioc.Default.GetRequiredService<IActivationService>();
         Task.Run(() => activation.ActivateAsync(null));
 
-        var libManager = Ioc.Default.GetRequiredService<ILibManager>();
-        libManager.Initialize();
+        var vrcft = Ioc.Default.GetRequiredService<IMainService>();
+        Task.Run(() => vrcft.InitializeAsync());
 
         var vm = Ioc.Default.GetRequiredService<MainViewModel>();
         switch (ApplicationLifetime)
@@ -145,10 +141,10 @@ public partial class App : Application
                 break;
         }
 
-        var notif = new NotificationModel();
-        notif.Title = "Hello, World!";
-        notif.Body = "This is a test notification.";
-        SendNotification.Invoke(notif);
+        // var notif = new NotificationModel();
+        // notif.Title = "Hello, World!";
+        // notif.Body = "This is a test notification.";
+        // SendNotification?.Invoke(notif);
         base.OnFrameworkInitializationCompleted();
     }
 
@@ -157,7 +153,7 @@ public partial class App : Application
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
 
         var vrcft = Ioc.Default.GetRequiredService<IMainService>();
-        vrcft.Teardown();
+        Task.Run(() => vrcft.Teardown());
     }
 
     private void OnTrayShutdownClicked(object? sender, EventArgs e)

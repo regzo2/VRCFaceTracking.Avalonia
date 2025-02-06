@@ -12,7 +12,7 @@ namespace VRCFaceTracking.Services;
 
 public class LocalSettingsService : ILocalSettingsService
 {
-    public const string DefaultApplicationDataFolder = "VRCFaceTracking/ApplicationData";
+    public string DefaultApplicationDataFolder => Path.Combine("VRCFaceTracking", "ApplicationData");
     public const string DefaultLocalSettingsFile = "LocalSettings.json";
 
     private readonly IFileService _fileService;

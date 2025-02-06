@@ -41,13 +41,13 @@
           <StackPanel Spacing="12" MinWidth="150">
             <TextBlock FontSize="15">IP Address</TextBlock>
             <TextBox
-              Text="{Binding OscTarget.DestinationAddress}"
+              Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay}"
               Watermark="Enter an IP address..."/>
           </StackPanel>
           <StackPanel Spacing="12" MinWidth="150">
             <TextBlock FontSize="15">Send Port</TextBlock>
             <TextBox
-              Text="{Binding OscTarget.OutPort}"
+              Text="{Binding OscTarget.OutPort, Mode=TwoWay}"
               Watermark="Enter a sending port..."/>
           </StackPanel>
         </StackPanel>
@@ -119,8 +119,8 @@
 
           <StackPanel Spacing="12">
             <ToggleSwitch/>
-            <Button>Re-Initialize</Button>
-            <Button>Reset</Button>
+            <Button Click="ReInit_OnClick">Re-Initialize</Button>
+            <Button Click="Reset_OnClick">Reset</Button>
           </StackPanel>
         </StackPanel>
       </templates:ContentExample>

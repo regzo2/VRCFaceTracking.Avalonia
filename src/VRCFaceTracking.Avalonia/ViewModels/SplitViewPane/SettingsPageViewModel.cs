@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -21,40 +22,42 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class SettingsPageViewModel : ViewModelBase
 {
+    [ObservableProperty] private bool _enabled;
+
+    public bool AllRelevantDebug
+    {
+        get => ParameterSenderService.AllParametersRelevant;
+        set => ParameterSenderService.AllParametersRelevant = value;
+    }
+
     public SettingsPageView View { get; }
     public IOscTarget OscTarget { get; }
-    public GithubService GithubService { get; }
     public IMainService MainStandalone { get; }
+    public ILocalSettingsService SettingsService { get; }
+    public GithubService GithubService { get; }
     public ParameterSenderService ParameterSenderService { get; }
 
     [ObservableProperty] public float _sliderValue = 0.5f;
 
     [ObservableProperty] private List<GithubContributor> _contributors;
 
-    // private WriteableBitmap _upperImageStream, _lowerImageStream;
-    // private MemoryStream _upperStream, _lowerStream;
-
     public SettingsPageViewModel()
     {
+        // Calibration Settings
+        // TODO
+
         // General Settings
         View = Ioc.Default.GetService<SettingsPageView>()!;
         OscTarget = Ioc.Default.GetService<IOscTarget>()!;
         GithubService = Ioc.Default.GetService<GithubService>()!;
-        // InitializeHardwareDebugStream(UnifiedTracking.EyeImageData, ref _upperImageStream);
-        // InitializeHardwareDebugStream(UnifiedTracking.LipImageData, ref _lowerImageStream);
-        // UnifiedTracking.OnUnifiedDataUpdated += _ => Dispatcher.UIThread.Invoke(OnTrackingDataUpdated);
-        // LoadContributors();
-
-        // Calibration Settings
-        // TODO
+        SettingsService = Ioc.Default.GetService<ILocalSettingsService>()!;
 
         // Risky Settings
-        // MainStandalone = Ioc.Default.GetService<IMainService>()!;
-        // Logger = Ioc.Default.GetService<ILogger>()!;
-        // ParameterSenderService = Ioc.Default.GetService<ParameterSenderService>()!;
+        MainStandalone = Ioc.Default.GetService<IMainService>()!;
+        ParameterSenderService = Ioc.Default.GetService<ParameterSenderService>()!;
     }
 
-    private async void LoadContributors()
+    private async Task LoadContributors()
     {
         Contributors = await GithubService.GetContributors("benaclejames/VRCFaceTracking");
     }
