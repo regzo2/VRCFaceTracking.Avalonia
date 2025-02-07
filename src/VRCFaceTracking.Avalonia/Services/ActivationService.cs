@@ -50,6 +50,8 @@ public class ActivationService : IActivationService
 
         // Execute tasks after activation.
         await StartupAsync();
+
+        await _themeSelectorService.SetRequestedThemeAsync();
     }
 
     private async Task InitializeAsync()
@@ -61,8 +63,6 @@ public class ActivationService : IActivationService
 
     private async Task StartupAsync()
     {
-        // await _themeSelectorService.SetRequestedThemeAsync();
-
         _logger.LogInformation("VRCFT Version {version} initializing...", Assembly.GetExecutingAssembly().GetName().Version);
 
         _logger.LogInformation("Initializing OSC...");

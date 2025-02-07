@@ -14,13 +14,13 @@ namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class OutputPageView : UserControl
 {
+    public ObservableCollection<string> FilteredLog => OutputPageLogger.FilteredLogs;
+    public ObservableCollection<string> AllLog => OutputPageLogger.AllLogs;
+
     private static readonly string[] _fileOptions = ["*.txt"];
     private readonly Button _copyButton;
     private readonly Button _saveButton;
     private ScrollViewer _scrollViewer;
-
-    public ObservableCollection<string> FilteredLog => OutputPageLogger.FilteredLogs;
-    public ObservableCollection<string> AllLog => OutputPageLogger.AllLogs;
 
     public OutputPageView()
     {
@@ -85,12 +85,12 @@ public partial class OutputPageView : UserControl
 
         // We need to subscribe to the observablecollection onchanged event to scroll to the bottom. Note that we need a small delay because windows.
         // If we don't then we'll be scrolling a line too short.
-        FilteredLog.CollectionChanged += (sender, args) =>
+        FilteredLog.CollectionChanged += (_, _) =>
         {
             // Start a timer for 1ms to scroll to the bottom
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1);
-            timer.Tick += (sender, args) =>
+            timer.Tick += (_, _) =>
             {
                 timer.Stop();
                 _scrollViewer.ScrollToEnd();

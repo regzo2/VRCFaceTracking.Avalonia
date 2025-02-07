@@ -1,21 +1,18 @@
+using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using VRCFaceTracking.Contracts.Services;
+using VRCFaceTracking.Core.Contracts.Services;
 
 namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class SettingsPageView : UserControl
 {
-    public bool IsRiskySettingsEnabled { get; set; } = false;
-
-    public bool IsAutoStartEnabled { get; set; } = false;
-
     private readonly IThemeSelectorService _themeSelectorService;
+    private readonly IMainService _mainService;
     private readonly ComboBox _themeComboBox;
 
     public SettingsPageView()
@@ -25,6 +22,29 @@ public partial class SettingsPageView : UserControl
         _themeSelectorService = Ioc.Default.GetService<IThemeSelectorService>()!;
         _themeComboBox = this.Find<ComboBox>("ThemeCombo")!;
         _themeComboBox.SelectionChanged += ThemeComboBox_SelectionChanged;
+        _mainService = Ioc.Default.GetService<IMainService>()!;
+
+        if (_themeSelectorService.Theme is null)
+        {
+            _themeSelectorService.SetThemeAsync(ThemeVariant.Default);
+            return;
+        }
+
+        int index = 0;
+        switch (_themeSelectorService.Theme.ToString())
+        {
+            case "Default":
+                index = 0;
+                break;
+            case "Light":
+                index = 1;
+                break;
+            case "Dark":
+                index = 2;
+                break;
+        }
+
+        _themeComboBox.SelectedIndex = index;
     }
 
     ~SettingsPageView()
@@ -34,11 +54,11 @@ public partial class SettingsPageView : UserControl
 
     private void ThemeComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        string theme = ((ComboBoxItem)_themeComboBox.SelectedItem!)!.Content!.ToString()!;
         ThemeVariant variant = ThemeVariant.Default;
-        switch (theme)
+        var item = _themeComboBox.SelectedItem as ComboBoxItem;
+        switch (item!.Content)
         {
-            case "System":
+            case "Default":
                 variant = ThemeVariant.Default;
                 break;
             case "Light":
@@ -51,24 +71,22 @@ public partial class SettingsPageView : UserControl
         Dispatcher.UIThread.InvokeAsync(async () => await _themeSelectorService.SetThemeAsync(variant));
     }
 
-    private void AutoStartToggled(object? sender, RoutedEventArgs e)
+    private void Calibration_OnClick(object? sender, RoutedEventArgs e)
     {
-        IsAutoStartEnabled = !IsAutoStartEnabled;
-    }
 
-    private void RiskySettingsToggled(object? sender, RoutedEventArgs e)
-    {
-        IsRiskySettingsEnabled = !IsRiskySettingsEnabled;
     }
 
     private void ReInit_OnClick(object? sender, RoutedEventArgs e)
     {
-
+        _mainService.Teardown();
+        _mainService.InitializeAsync();
     }
 
     private void Reset_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        // Create a file in the VRCFT folder called "reset"
+        // This will cause the app to reset on the next launch
+        File.Create(Path.Combine(VRCFaceTracking.Core.Utils.PersistentDataDirectory, "reset"));
     }
 }
 

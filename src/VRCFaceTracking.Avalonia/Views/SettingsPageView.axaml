@@ -15,7 +15,7 @@
       <TextBlock Margin="0 0 0 20">Select which app theme to display</TextBlock>
 
       <templates:ContentExample>
-        <ComboBox SelectedIndex="0" x:Name="ThemeCombo">
+        <ComboBox x:Name="ThemeCombo">
           <ComboBoxItem>
             System
           </ComboBoxItem>
@@ -78,9 +78,9 @@
           </StackPanel>
 
           <StackPanel Spacing="12">
-            <ToggleSwitch/>
-            <ToggleSwitch/>
-            <Button>Calibrate</Button>
+            <ToggleSwitch IsChecked="{Binding IsCalibrationEnabled}"/>
+            <ToggleSwitch IsChecked="{Binding IsContCalibrationEnabled}"/>
+            <Button Click="Calibration_OnClick">Calibrate</Button>
             <Slider Value="{Binding SliderValue}"
                     Width="330"
                     Maximum="100" />
@@ -91,17 +91,17 @@
       <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
       <TextBlock Margin="0 0 0 20 ">Auto Start when SteamVR is launched</TextBlock>
       <templates:ContentExample>
-        <ToggleSwitch Click="AutoStartToggled"/>
+        <ToggleSwitch IsChecked="{Binding IsAutoStartEnabled}"/>
       </templates:ContentExample>
 
-      <TextBlock Margin="0 20" FontSize="15" FontWeight="Bold">Risky Settings</TextBlock>
+      <TextBlock Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Risky Settings</TextBlock>
       <TextBlock Margin="0 0 0 0 ">Danger, danger. High voltage</TextBlock>
       <templates:ContentExample Margin="0 20">
-        <ToggleSwitch Click="RiskySettingsToggled"/>
+        <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}"/>
       </templates:ContentExample>
 
       <templates:ContentExample>
-        <StackPanel Orientation="Horizontal" Spacing="12">
+        <StackPanel Orientation="Horizontal" Spacing="12" IsEnabled="{Binding IsRiskySettingsEnabled}">
           <StackPanel Spacing="12" MinWidth="640">
             <StackPanel>
               <TextBlock VerticalAlignment="Center" FontWeight="Bold">Force Relevancy</TextBlock>
@@ -118,7 +118,7 @@
           </StackPanel>
 
           <StackPanel Spacing="12">
-            <ToggleSwitch/>
+            <ToggleSwitch IsChecked="{Binding AllRelevantDebug}"/>
             <Button Click="ReInit_OnClick">Re-Initialize</Button>
             <Button Click="Reset_OnClick">Reset</Button>
           </StackPanel>

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using VRCFaceTracking.Contracts.Services;
 using VRCFaceTracking.Core.Contracts.Services;
 
@@ -19,22 +20,21 @@ public class ThemeSelectorService : IThemeSelectorService
     public async Task InitializeAsync()
     {
         Theme = await LoadThemeFromSettingsAsync();
+        await SetRequestedThemeAsync();
         await Task.CompletedTask;
     }
 
     public async Task SetThemeAsync(ThemeVariant theme)
     {
         Theme = theme;
-
         await SetRequestedThemeAsync();
         await SaveThemeInSettingsAsync(Theme);
     }
 
-    public async Task SetRequestedThemeAsync()
+    public Task SetRequestedThemeAsync()
     {
-        Application.Current!.RequestedThemeVariant = Theme;
-
-        await Task.CompletedTask;
+        Dispatcher.UIThread.Invoke(() => Application.Current!.RequestedThemeVariant = Theme);
+        return Task.CompletedTask;
     }
 
     private async Task<ThemeVariant> LoadThemeFromSettingsAsync()

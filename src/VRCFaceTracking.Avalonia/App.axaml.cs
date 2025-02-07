@@ -145,6 +145,7 @@ public partial class App : Application
         // notif.Title = "Hello, World!";
         // notif.Body = "This is a test notification.";
         // SendNotification?.Invoke(notif);
+
         base.OnFrameworkInitializationCompleted();
     }
 
