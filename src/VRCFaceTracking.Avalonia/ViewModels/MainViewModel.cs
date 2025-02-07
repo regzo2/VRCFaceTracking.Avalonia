@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Jeek.Avalonia.Localization;
 using VRCFaceTracking.Avalonia.Models;
 using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
@@ -23,10 +24,10 @@ public partial class MainViewModel : ViewModelBase
 
     private readonly List<ListItemTemplate> _templates =
     [
-        new ListItemTemplate(typeof(HomePageViewModel), "HomeRegular", "Home"),
-        new ListItemTemplate(typeof(OutputPageViewModel), "TextFirstLineRegular", "Output"),
-        new ListItemTemplate(typeof(ModuleRegistryViewModel), "ArrowDownloadRegular", "Module Registry"),
-        new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular", "Settings"),
+        new ListItemTemplate(typeof(HomePageViewModel), "HomeRegular", Localizer.Get("Shell_Main.Content")),
+        new ListItemTemplate(typeof(OutputPageViewModel), "TextFirstLineRegular", Localizer.Get("Shell_Output.Content")),
+        new ListItemTemplate(typeof(ModuleRegistryViewModel), "ArrowDownloadRegular", Localizer.Get("Shell_ModuleRegistry.Content")),
+        new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular", Localizer.Get("Shell_TrackingSettings.Content")),
     ];
 
     public MainViewModel() : this(new WeakReferenceMessenger()) { }

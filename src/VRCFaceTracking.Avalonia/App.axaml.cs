@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Avalonia;
@@ -9,11 +10,13 @@ using Avalonia.Threading;
 using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
+using Jeek.Avalonia.Localization;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using VRCFaceTracking.Activation;
 using VRCFaceTracking.Avalonia.ViewModels;
 using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
@@ -59,6 +62,9 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Localizer.SetLocalizer(new JsonLocalizer());
+        Localizer.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
         var locator = new ViewLocator();
         DataTemplates.Add(locator);
 

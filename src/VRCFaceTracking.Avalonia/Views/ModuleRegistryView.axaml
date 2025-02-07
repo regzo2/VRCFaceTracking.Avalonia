@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:l="using:Jeek.Avalonia.Localization"
              xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
              xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
              xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
@@ -11,14 +12,12 @@
              x:DataType="vm:ModuleRegistryViewModel">
   <ScrollViewer>
     <StackPanel Margin="20" Spacing="12">
-      <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold">Module Registry</TextBlock>
+      <TextBlock Margin="0 20" Text="{l:Localize Shell_ModuleRegistry.Content}" FontSize="20" FontWeight="Bold"/>
 
       <templates:ContentExample>
         <StackPanel Orientation="Horizontal" Spacing="12">
             <Button Content="+" x:Name="BrowseLocal"/>
-            <TextBlock VerticalAlignment="Center" x:Name="BrowseLocalText">
-              Install a module from .zip
-            </TextBlock>
+            <TextBlock Text="{l:Localize OpenLocalStorageCard.Header}" VerticalAlignment="Center" x:Name="BrowseLocalText"/>
         </StackPanel>
       </templates:ContentExample>
 
@@ -53,31 +52,31 @@
             </Button>
 
             <TextBlock>
-              <Run Text="Author" FontWeight="Bold"/>
+              <Run Text="{l:Localize Author.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.AuthorName}"/>
             </TextBlock>
 
             <TextBlock>
-              <Run Text="Version" FontWeight="Bold"/>
+              <Run Text="{l:Localize Version.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.Version}"/>
             </TextBlock>
 
             <TextBlock>
-              <Run Text="Downloads" FontWeight="Bold"/>
+              <Run Text="{l:Localize Downloads.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.Downloads}"/>
             </TextBlock>
 
             <TextBlock>
-              <Run Text="Rating" FontWeight="Bold"/>
+              <Run Text="{l:Localize Rating}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.Rating, StringFormat='{}{0}/5' }"/>
             </TextBlock>
 
             <TextBlock>
-              <Run Text="Module Page" FontWeight="Bold"/>
+              <Run Text="{l:Localize ModulePage.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <controls:Hyperlink Alias="{Binding Module.ModulePageUrl}"
                                   Url="{Binding Module.ModulePageUrl}"
@@ -86,19 +85,19 @@
             </TextBlock>
 
             <TextBlock>
-              <Run Text="Last Updated" FontWeight="Bold"/>
+              <Run Text="{l:Localize LastUpdated.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.LastUpdated}"/>
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
-              <Run Text="Description" FontWeight="Bold"/>
+              <Run Text="{l:Localize Description.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.ModuleDescription}"/>
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
-              <Run Text="Usage Instructions" FontWeight="Bold"/>
+              <Run Text="{l:Localize UsageInstructions.Text}" FontWeight="Bold"/>
               <LineBreak/>
               <Run Text="{Binding Module.UsageInstructions}"/>
             </TextBlock>

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Jeek.Avalonia.Localization;
 using VRCFaceTracking.Avalonia.Views;
 using VRCFaceTracking.Core.Contracts;
 using VRCFaceTracking.Core.Contracts.Services;
@@ -29,6 +30,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     private List<GithubContributor> _contributors;
 
     [ObservableProperty]
+    [property: SavedSetting("AutoStartEnabled", false)]
     private bool _isAutoStartEnabled;
 
     [ObservableProperty]
@@ -41,9 +43,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     }
 
     public IOscTarget OscTarget { get; private set;}
-    public IMainService MainStandalone { get; private set;}
+    public ILibManager LibManager { get; private set;}
     public ILocalSettingsService SettingsService { get; private set;}
-    public SettingsPageView View { get; private set; }
     public GithubService GithubService { get; private set;}
     public ParameterSenderService ParameterSenderService { get; private set;}
 
@@ -52,12 +53,11 @@ public partial class SettingsPageViewModel : ViewModelBase
         // General/Calibration Settings
         OscTarget = Ioc.Default.GetService<IOscTarget>()!;
         GithubService = Ioc.Default.GetService<GithubService>()!;
-        View = Ioc.Default.GetService<SettingsPageView>()!;
+        LibManager = Ioc.Default.GetService<ILibManager>()!;
         SettingsService = Ioc.Default.GetService<ILocalSettingsService>()!;
         SettingsService.Load(this);
 
         // Risky Settings
-        MainStandalone = Ioc.Default.GetService<IMainService>()!;
         ParameterSenderService = Ioc.Default.GetService<ParameterSenderService>()!;
 
         PropertyChanged += (_, _) =>

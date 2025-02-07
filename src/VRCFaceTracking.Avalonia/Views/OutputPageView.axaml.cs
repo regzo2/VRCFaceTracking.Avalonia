@@ -6,32 +6,31 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 using VRCFaceTracking.Services;
 
 namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class OutputPageView : UserControl
 {
-    public ObservableCollection<string> FilteredLog => OutputPageLogger.FilteredLogs;
-    public ObservableCollection<string> AllLog => OutputPageLogger.AllLogs;
-
     private static readonly string[] _fileOptions = ["*.txt"];
-    private readonly Button _copyButton;
-    private readonly Button _saveButton;
-    private ScrollViewer _scrollViewer;
+
+    private readonly ScrollViewer _scrollViewer;
+    // private readonly Button _copyButton;
+    // private readonly Button _saveButton;
 
     public OutputPageView()
     {
         InitializeComponent();
 
-        _copyButton = this.FindControl<Button>("CopyButton")!;
-        _saveButton = this.FindControl<Button>("SaveButton")!;
+        // _copyButton = this.FindControl<Button>("CopyButton")!;
+        // _saveButton = this.FindControl<Button>("SaveButton")!;
         _scrollViewer = this.FindControl<ScrollViewer>("LogScroller")!;
 
         Loaded += OnLoaded;
     }
+
+    public ObservableCollection<string> FilteredLog => OutputPageLogger.FilteredLogs;
+    public ObservableCollection<string> AllLog => OutputPageLogger.AllLogs;
 
     private void CopyRequested(object? sender, RoutedEventArgs e)
     {
@@ -42,7 +41,7 @@ public partial class OutputPageView : UserControl
         {
             var logString = AllLog.Aggregate("", (current, log) => current + log + "\n");
             await clipboard.SetTextAsync(logString);
-            _copyButton.Content = "Copied to clipboard.";
+            // _copyButton.Content = "Copied to clipboard.";
         });
     }
 
@@ -70,12 +69,9 @@ public partial class OutputPageView : UserControl
                 await using var streamWriter = new StreamWriter(stream);
                 var logString = AllLog.Aggregate("", (current, log) => current + log + "\n");
                 await streamWriter.WriteLineAsync(logString);
-                _saveButton.Content = $"File {file.Name} was saved.";
+                // _saveButton.Content = $"File {file.Name} was saved.";
             }
-            else
-            {
-                _saveButton.Content = "Operation cancelled.";
-            }
+            // _saveButton.Content = "Operation cancelled.";
         });
     }
 

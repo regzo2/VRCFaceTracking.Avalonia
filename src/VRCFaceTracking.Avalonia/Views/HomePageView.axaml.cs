@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace VRCFaceTracking.Avalonia.Views;
 

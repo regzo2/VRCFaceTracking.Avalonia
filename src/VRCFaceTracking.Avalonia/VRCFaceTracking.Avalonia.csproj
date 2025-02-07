@@ -21,6 +21,7 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.3" />
         <PackageReference Include="CommunityToolkit.Labs.Extensions.DependencyInjection" Version="0.1.240305-build.1659" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Jeek.Avalonia.Localization" Version="1.3.1" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
@@ -35,5 +36,64 @@
 
     <ItemGroup>
       <Folder Include="Activation\" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Assets\Strings\convert_resw_to_resx.py" />
+      <UpToDateCheckInput Remove="Assets\Strings\en\Resources.resw" />
+      <UpToDateCheckInput Remove="Assets\Strings\en\Resources.resx" />
+      <UpToDateCheckInput Remove="Assets\Strings\es\Resources.resw" />
+      <UpToDateCheckInput Remove="Assets\Strings\es\Resources.resx" />
+      <UpToDateCheckInput Remove="Assets\Strings\ja\Resources.resw" />
+      <UpToDateCheckInput Remove="Assets\Strings\ja\Resources.resx" />
+      <UpToDateCheckInput Remove="Assets\Strings\pl\Resources.resw" />
+      <UpToDateCheckInput Remove="Assets\Strings\pl\Resources.resx" />
+      <UpToDateCheckInput Remove="Assets\Strings\zh-cn\Resources.resw" />
+      <UpToDateCheckInput Remove="Assets\Strings\zh-cn\Resources.resx" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <EmbeddedResource Update="Strings\en\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Strings\es\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <None Update="Langauges\zh-cn\Resources.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Langauges\pl\Resources.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Langauges\ja\Resources.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Langauges\es\Resources.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Langauges\en\Resources.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Languages\en.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Languages\es.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Languages\ja.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Languages\pl.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Languages\zh.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

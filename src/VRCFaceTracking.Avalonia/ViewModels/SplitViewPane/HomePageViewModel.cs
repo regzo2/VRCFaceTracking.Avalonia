@@ -1,23 +1,59 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Jeek.Avalonia.Localization;
+using Microsoft.Extensions.DependencyInjection;
 using VRCFaceTracking.Core.Contracts;
 using VRCFaceTracking.Core.Contracts.Services;
-using VRCFaceTracking.Core.Library;
-using VRCFaceTracking.Core.Services;
 
 namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class HomePageViewModel : ViewModelBase
 {
     public ILibManager LibManager { get; }
-    public OscQueryService ParameterOutputService { get; }
-    public OscRecvService OscRecvService { get; }
-    public OscSendService OscSendService { get; }
     public IOscTarget OscTarget { get; }
+    public IAvatarInfo AvatarInfo { get; }
 
-    [ObservableProperty] private int _messagesInPerSec;
+    public string AvatarName
+    {
+        get
+        {
+            if (AvatarInfo is null) return "Loading...";
+            return string.IsNullOrEmpty(AvatarInfo.Name) ? "Loading..." : AvatarInfo.Name;
+        }
+    }
 
-    [ObservableProperty] private int _messagesOutPerSec;
+    // Below: TODO!
+    [ObservableProperty] public bool _isLegacy;
+
+    [ObservableProperty] public int _legacyParametersCount;
+
+    public string AvatarID
+    {
+        get
+        {
+            if (AvatarInfo is null) return "Loading...";
+            return string.IsNullOrEmpty(AvatarInfo.Id) ? "Loading..." : AvatarInfo.Id;
+        }
+    }
+
+    public int AvatarParametersCount
+    {
+        get
+        {
+            if (AvatarInfo is null) return 0;
+            return AvatarInfo.Parameters.Length;
+        }
+    }
+
+
+    [ObservableProperty] private int _messagesInPerSecCount;
+
+    [ObservableProperty] private string _messagesInPerSec;
+
+    [ObservableProperty] private int _messagesOutPerSecCount;
+
+    [ObservableProperty] private string _messagesOutPerSec;
 
     [ObservableProperty] private bool _noModulesInstalled;
 
@@ -26,9 +62,10 @@ public partial class HomePageViewModel : ViewModelBase
     public HomePageViewModel()
     {
         LibManager = Ioc.Default.GetService<ILibManager>()!;
-        ParameterOutputService = Ioc.Default.GetService<OscQueryService>()!;
-        OscRecvService = Ioc.Default.GetService<OscRecvService>()!;
-        OscSendService = Ioc.Default.GetService<OscSendService>()!;
         OscTarget = Ioc.Default.GetService<IOscTarget>()!;
+        AvatarInfo = Ioc.Default.GetService<IAvatarInfo>()!;
+
+        _messagesInPerSec = Localizer.Get("msIncoming.Text");
+        _messagesOutPerSec = Localizer.Get("msOutgoing.Text");
     }
 }
