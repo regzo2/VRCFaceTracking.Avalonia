@@ -1,56 +1,68 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:l="using:Jeek.Avalonia.Localization"
-             xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
-             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VRCFaceTracking.Avalonia.Views.OutputPageView"
-             x:DataType="vm:OutputPageViewModel">
-  <ScrollViewer>
-    <StackPanel Margin="20" Spacing="20">
-      <TextBlock Text="{l:Localize Shell_Output.Content}" Margin="0 20 0 0" FontSize="20" FontWeight="Bold" />
-      <templates:ContentExample>
-        <StackPanel Orientation="Horizontal" Spacing="12">
-          <Button Click="CopyRequested" x:Name="CopyButton">
-            <Button.Content>
-              <StackPanel Orientation="Vertical">
-                <PathIcon Height="24" Data="{StaticResource DocumentCopyRegular}" />
-              </StackPanel>
-            </Button.Content>
-          </Button>
-          <Button Click="SaveRequested" x:Name="SaveButton">
-            <Button.Content>
-              <StackPanel Orientation="Vertical">
-                <PathIcon Height="24" Data="{StaticResource SaveRegular}" />
-              </StackPanel>
-            </Button.Content>
-          </Button>
-        </StackPanel>
-      </templates:ContentExample>
+<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="VRCFaceTracking.Avalonia.Views.OutputPageView"
+    x:DataType="vm:OutputPageViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:l="using:Jeek.Avalonia.Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="20">
+            <TextBlock
+                FontSize="20"
+                FontWeight="Bold"
+                Margin="0,20,0,0"
+                Text="{l:Localize Shell_Output.Content}" />
+            <templates:ContentExample>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Click="CopyRequested" x:Name="CopyButton">
+                        <Button.Content>
+                            <StackPanel Orientation="Vertical">
+                                <PathIcon Data="{StaticResource DocumentCopyRegular}" Height="24" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button Click="SaveRequested" x:Name="SaveButton">
+                        <Button.Content>
+                            <StackPanel Orientation="Vertical">
+                                <PathIcon Data="{StaticResource SaveRegular}" Height="24" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </templates:ContentExample>
 
-      <templates:ContentExample>
-        <StackPanel>
-          <ScrollViewer
-            x:Name="LogScroller"
-            IsTabStop="False"
-            VerticalScrollBarVisibility="Auto"
-            Height="475"
-            HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-              <ItemsControl ItemsSource="{Binding View.FilteredLog}" VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <TextBlock Text="{Binding}" />
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </StackPanel>
-          </ScrollViewer>
+            <templates:ContentExample>
+                <StackPanel>
+                    <ScrollViewer
+                        Height="475"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsTabStop="False"
+                        VerticalScrollBarVisibility="Auto"
+                        x:Name="LogScroller">
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical"
+                            VerticalAlignment="Stretch">
+                            <ItemsControl
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{Binding View.FilteredLog}"
+                                VerticalAlignment="Stretch">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </templates:ContentExample>
         </StackPanel>
-      </templates:ContentExample>
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>
