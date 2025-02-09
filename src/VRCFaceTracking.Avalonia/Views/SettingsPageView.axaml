@@ -1,205 +1,244 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:l="using:Jeek.Avalonia.Localization"
-             xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
-             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VRCFaceTracking.Avalonia.Views.SettingsPageView"
-             x:DataType="vm:SettingsPageViewModel">
-  <ScrollViewer>
-    <StackPanel Margin="20">
-      <TextBlock Text="{l:Localize Shell_TrackingSettings.Content}" Margin="0 20" FontSize="20" FontWeight="Bold"/>
+<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="VRCFaceTracking.Avalonia.Views.SettingsPageView"
+    x:DataType="vm:SettingsPageViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:l="using:Jeek.Avalonia.Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock
+                FontSize="20"
+                FontWeight="Bold"
+                Margin="0,20"
+                Text="{l:Localize Shell_TrackingSettings.Content}" />
 
-      <TextBlock Text="{l:Localize ThemeSettings.Header}" Margin="0 0 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Text="{l:Localize ThemeSettings.Description}" Margin="0 0 0 20"/>
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,0,0,0"
+                Text="{l:Localize ThemeSettings.Header}" />
+            <TextBlock Margin="0,0,0,20" Text="{l:Localize ThemeSettings.Description}" />
 
-      <templates:ContentExample>
-        <ComboBox x:Name="ThemeCombo">
-          <ComboBoxItem Content="{l:Localize Settings_Theme_Default.Content}"/>
-          <ComboBoxItem Content="{l:Localize Settings_Theme_Light.Content}"/>
-          <ComboBoxItem Content="{l:Localize Settings_Theme_Dark.Content}"/>
-        </ComboBox>
-      </templates:ContentExample>
+            <templates:ContentExample>
+                <ComboBox x:Name="ThemeCombo">
+                    <ComboBoxItem Content="{l:Localize Settings_Theme_Default.Content}" />
+                    <ComboBoxItem Content="{l:Localize Settings_Theme_Light.Content}" />
+                    <ComboBoxItem Content="{l:Localize Settings_Theme_Dark.Content}" />
+                </ComboBox>
+            </templates:ContentExample>
 
-      <TextBlock Text="{l:Localize OscSettings.Header}" Margin="0 20 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Text="{l:Localize OscSettings.Description}" Margin="0 0 0 20"/>
-      <templates:ContentExample>
-        <StackPanel Spacing="12" Orientation="Horizontal">
-          <StackPanel Spacing="12" MinWidth="150">
-              <TextBlock FontSize="15">Receive Port</TextBlock>
-              <TextBox
-                Text="{Binding OscTarget.InPort, Mode=TwoWay}"/>
-          </StackPanel>
-          <StackPanel Spacing="12" MinWidth="150">
-            <TextBlock FontSize="15">IP Address</TextBlock>
-            <TextBox
-              Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay}"/>
-          </StackPanel>
-          <StackPanel Spacing="12" MinWidth="150">
-            <TextBlock FontSize="15">Send Port</TextBlock>
-            <TextBox
-              Text="{Binding OscTarget.OutPort, Mode=TwoWay}"/>
-          </StackPanel>
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,20,0,0"
+                Text="{l:Localize OscSettings.Header}" />
+            <TextBlock Margin="0,0,0,20" Text="{l:Localize OscSettings.Description}" />
+            <templates:ContentExample>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <StackPanel MinWidth="150" Spacing="12">
+                        <TextBlock FontSize="15">Receive Port</TextBlock>
+                        <TextBox Text="{Binding OscTarget.InPort, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel MinWidth="150" Spacing="12">
+                        <TextBlock FontSize="15">IP Address</TextBlock>
+                        <TextBox Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel MinWidth="150" Spacing="12">
+                        <TextBlock FontSize="15">Send Port</TextBlock>
+                        <TextBox Text="{Binding OscTarget.OutPort, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </templates:ContentExample>
+
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,20,0,0"
+                Text="{l:Localize CalibrationSettings.Header}" />
+            <TextBlock Margin="0,0,0,20" Text="{l:Localize CalibrationSettings.Description}" />
+
+            <templates:ContentExample>
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Grid.Row="0"
+                        Margin="0,0,0,12">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock.Inlines>
+                                <Run FontWeight="Bold" Text="{l:Localize CalibrationEnabledToggle.Header}" />
+                                <LineBreak />
+                                <Run FontWeight="Normal" Text="{l:Localize CalibrationEnabledToggle.Description}" />
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsChecked="{Binding IsCalibrationEnabled}"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Grid.Row="1"
+                        Margin="0,0,0,12">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock.Inlines>
+                                <Run FontWeight="Bold" Text="{l:Localize ContCalibrationToggle.Header}" />
+                                <LineBreak />
+                                <Run FontWeight="Normal" Text="{l:Localize ContCalibrationToggle.Description}" />
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsChecked="{Binding IsContCalibrationEnabled}"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Grid.Row="2"
+                        Margin="0,0,0,12">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock.Inlines>
+                                <Run FontWeight="Bold" Text="{l:Localize TrackingCalibrateButton.Header}" />
+                                <LineBreak />
+                                <Run FontWeight="Normal" Text="{l:Localize TrackingCalibrateButton.Description}" />
+                            </TextBlock.Inlines>
+                        </TextBlock>
+
+                        <Button
+                            Click="Calibration_OnClick"
+                            Content="{l:Localize CalibrateButton.Content}"
+                            Grid.Column="1" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" Grid.Row="3">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock.Inlines>
+                                <Run FontWeight="Bold" Text="{l:Localize CalibrationInfluenceSlider.Header}" />
+                                <LineBreak />
+                                <Run FontWeight="Normal" Text="{l:Localize CalibrationInfluenceSlider.Description}" />
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <Slider
+                            Grid.Column="1"
+                            Maximum="100"
+                            MinWidth="200"
+                            Minimum="0"
+                            Value="{Binding SliderValue}" />
+                    </Grid>
+                </Grid>
+            </templates:ContentExample>
+
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,20,0,0"
+                Text="{l:Localize AutoStartSettings.Header}">
+                Auto Start
+            </TextBlock>
+            <TextBlock Margin="0,0,0,20" Text="{l:Localize AutoStartSettings.Description}" />
+            <templates:ContentExample>
+                <ToggleSwitch IsChecked="{Binding IsAutoStartEnabled}" />
+            </templates:ContentExample>
+
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,20,0,0"
+                Text="{l:Localize RiskySettings.Header}" />
+            <TextBlock Margin="0,0,0,0" Text="{l:Localize RiskySettings.Description}" />
+            <templates:ContentExample Margin="0,20">
+                <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}" />
+            </templates:ContentExample>
+
+            <templates:ContentExample>
+                <Grid IsEnabled="{Binding IsRiskySettingsEnabled}" RowDefinitions="Auto,Auto,Auto">
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Grid.Row="0"
+                        Margin="0,0,0,12">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock
+                                FontWeight="Bold"
+                                Text="{l:Localize ForceRelevancyToggle.Header}"
+                                VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsChecked="{Binding AllRelevantDebug}"
+                            VerticalAlignment="Top" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Grid.Row="1"
+                        Margin="0,0,0,12">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock
+                                FontWeight="Bold"
+                                Text="{l:Localize ForceReInitButton.Header}"
+                                VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Localize ForceReInitButton.Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Button
+                            Click="ReInit_OnClick"
+                            Content="{l:Localize ReInitButton.Content}"
+                            Grid.Column="1"
+                            VerticalAlignment="Top" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" Grid.Row="2">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock
+                                FontWeight="Bold"
+                                Text="{l:Localize ResetVRCFTButton.Header}"
+                                VerticalAlignment="Center" />
+                            <TextBlock Text="{l:Localize ResetVRCFTButton.Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Button
+                            Click="Reset_OnClick"
+                            Content="{l:Localize ResetButton.Content}"
+                            Grid.Column="1"
+                            VerticalAlignment="Top" />
+                    </Grid>
+                </Grid>
+            </templates:ContentExample>
+
+            <TextBlock
+                FontSize="15"
+                FontWeight="Bold"
+                Margin="0,30,0,0"
+                Text="{l:Localize HardwareDebug.Header}" />
+            <TextBlock Margin="0,0,0,20" Text="{l:Localize HardwareDebug.Description}" />
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Border
+                        ClipToBounds="True"
+                        IsEnabled="{Binding HasUpperImage}"
+                        Width="300">
+                        <Image MaxWidth="300" Source="{Binding UpperImageSource}" />
+                    </Border>
+
+                    <Border
+                        ClipToBounds="True"
+                        IsEnabled="{Binding HasLowerImage}"
+                        Width="300">
+                        <Image MaxWidth="300" Source="{Binding LowerImageSource}" />
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
         </StackPanel>
-      </templates:ContentExample>
-
-      <TextBlock Text="{l:Localize CalibrationSettings.Header}" Margin="0 20 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Text="{l:Localize CalibrationSettings.Description}" Margin="0 0 0 20"/>
-
-      <templates:ContentExample>
-       <Grid RowDefinitions="Auto,Auto,Auto,Auto">
-            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0 0 0 12">
-              <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock.Inlines>
-                  <Run Text="{l:Localize CalibrationEnabledToggle.Header}"
-                       FontWeight="Bold"/>
-                  <LineBreak/>
-                  <Run Text="{l:Localize CalibrationEnabledToggle.Description}"
-                       FontWeight="Normal"/>
-                </TextBlock.Inlines>
-              </TextBlock>
-              <ToggleSwitch Grid.Column="1"
-                         IsChecked="{Binding IsCalibrationEnabled}"
-                         VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0 0 0 12">
-              <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock.Inlines>
-                  <Run Text="{l:Localize ContCalibrationToggle.Header}"
-                       FontWeight="Bold"/>
-                  <LineBreak/>
-                  <Run Text="{l:Localize ContCalibrationToggle.Description}"
-                       FontWeight="Normal"/>
-                </TextBlock.Inlines>
-              </TextBlock>
-              <ToggleSwitch Grid.Column="1"
-                           IsChecked="{Binding IsContCalibrationEnabled}"
-                           VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0 0 0 12">
-              <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock.Inlines>
-                  <Run Text="{l:Localize TrackingCalibrateButton.Header}"
-                       FontWeight="Bold"/>
-                  <LineBreak/>
-                  <Run Text="{l:Localize TrackingCalibrateButton.Description}"
-                       FontWeight="Normal"/>
-                </TextBlock.Inlines>
-              </TextBlock>
-
-              <Button Grid.Column="1"
-                      Content="{l:Localize CalibrateButton.Content}"
-                      Click="Calibration_OnClick"/>
-            </Grid>
-
-            <Grid Grid.Row="3" ColumnDefinitions="*,Auto">
-              <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock.Inlines>
-                  <Run Text="{l:Localize CalibrationInfluenceSlider.Header}"
-                       FontWeight="Bold"/>
-                  <LineBreak/>
-                  <Run Text="{l:Localize CalibrationInfluenceSlider.Description}"
-                       FontWeight="Normal"/>
-                </TextBlock.Inlines>
-              </TextBlock>
-              <Slider Grid.Column="1"
-                     Value="{Binding SliderValue}"
-                     MinWidth="200"
-                     Minimum="0"
-                     Maximum="100"/>
-            </Grid>
-        </Grid>
-      </templates:ContentExample>
-
-      <TextBlock Text="{l:Localize AutoStartSettings.Header}" Margin="0 20 0 0" FontSize="15" FontWeight="Bold">Auto Start</TextBlock>
-      <TextBlock Text="{l:Localize AutoStartSettings.Description}" Margin="0 0 0 20 "/>
-      <templates:ContentExample>
-        <ToggleSwitch IsChecked="{Binding IsAutoStartEnabled}"/>
-      </templates:ContentExample>
-
-      <TextBlock Text="{l:Localize RiskySettings.Header}" Margin="0 20 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Text="{l:Localize RiskySettings.Description}" Margin="0 0 0 0 "/>
-      <templates:ContentExample Margin="0 20">
-        <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}"/>
-      </templates:ContentExample>
-
-      <templates:ContentExample>
-        <Grid RowDefinitions="Auto,Auto,Auto"
-              IsEnabled="{Binding IsRiskySettingsEnabled}">
-
-          <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0 0 0 12">
-            <StackPanel Grid.Column="0">
-              <TextBlock Text="{l:Localize ForceRelevancyToggle.Header}"
-                         VerticalAlignment="Center"
-                         FontWeight="Bold"/>
-              <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}"
-                         VerticalAlignment="Center"/>
-            </StackPanel>
-            <ToggleSwitch Grid.Column="1"
-                          IsChecked="{Binding AllRelevantDebug}"
-                          VerticalAlignment="Top"/>
-          </Grid>
-
-          <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0 0 0 12">
-            <StackPanel Grid.Column="0">
-              <TextBlock Text="{l:Localize ForceReInitButton.Header}"
-                         VerticalAlignment="Center"
-                         FontWeight="Bold"/>
-              <TextBlock Text="{l:Localize ForceReInitButton.Description}"
-                         VerticalAlignment="Center"/>
-            </StackPanel>
-            <Button Grid.Column="1"
-                    Content="{l:Localize ReInitButton.Content}"
-                    Click="ReInit_OnClick"
-                    VerticalAlignment="Top"/>
-          </Grid>
-
-          <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
-            <StackPanel Grid.Column="0">
-              <TextBlock Text="{l:Localize ResetVRCFTButton.Header}"
-                         VerticalAlignment="Center"
-                         FontWeight="Bold"/>
-              <TextBlock Text="{l:Localize ResetVRCFTButton.Description}"
-                         VerticalAlignment="Center"/>
-            </StackPanel>
-            <Button Grid.Column="1"
-                    Content="{l:Localize ResetButton.Content}"
-                    Click="Reset_OnClick"
-                    VerticalAlignment="Top"/>
-          </Grid>
-        </Grid>
-      </templates:ContentExample>
-
-      <TextBlock Text="{l:Localize HardwareDebug.Header}" Margin="0 30 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Text="{l:Localize HardwareDebug.Description}" Margin="0 0 0 20 "/>
-
-      <!-- TODO Get a module with eye/lip images and bind here -->
-      <StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="12">
-          <Border ClipToBounds="True" Width="300">
-            <Image Source="/Assets/Images/chocolate_sample.jpg"
-                   MaxWidth="300">
-            </Image>
-          </Border>
-
-          <Border ClipToBounds="True" Width="300">
-            <Image Source="/Assets/Images/chocolate_sample.jpg"
-                   MaxWidth="300">
-            </Image>
-          </Border>
-        </StackPanel>
-      </StackPanel>
-
-      <TextBlock Text="{l:Localize About.Text}" Margin="0 20 0 0" FontSize="15" FontWeight="Bold"/>
-      <TextBlock Margin="0 0 0 20">
-         Fill me in!
-      </TextBlock>
-
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>
 

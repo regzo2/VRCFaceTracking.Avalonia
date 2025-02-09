@@ -1,175 +1,249 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:l="using:Jeek.Avalonia.Localization"
-             xmlns:viewModels="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
-             xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
-             xmlns:models="clr-namespace:VRCFaceTracking;assembly=VRCFaceTracking.SDK"
-             xmlns:helpers="clr-namespace:VRCFaceTracking.Helpers"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VRCFaceTracking.Avalonia.Views.HomePageView"
-             x:DataType="viewModels:HomePageViewModel">
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="VRCFaceTracking.Avalonia.Views.HomePageView"
+    x:DataType="viewModels:HomePageViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:VRCFaceTracking.Helpers"
+    xmlns:l="using:Jeek.Avalonia.Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:VRCFaceTracking;assembly=VRCFaceTracking.SDK"
+    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:viewModels="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <UserControl.Resources>
-    <helpers:StreamToBitmapConverter x:Key="ImageConverter" />
-  </UserControl.Resources>
+    <UserControl.Resources>
+        <helpers:StreamToBitmapConverter x:Key="ImageConverter" />
+    </UserControl.Resources>
 
-  <ScrollViewer>
-    <StackPanel Margin="20" Spacing="20">
-      <TextBlock Margin="0 20" FontSize="20" FontWeight="Bold" Text="{l:Localize Shell_Main.Content}" />
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="20">
+            <TextBlock
+                FontSize="20"
+                FontWeight="Bold"
+                Margin="0,20"
+                Text="{l:Localize Shell_Main.Content}" />
 
-      <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">
-        <ItemsControl.ItemTemplate>
-          <DataTemplate x:DataType="models:ModuleMetadata">
-            <Border>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ItemsControl ItemsSource="{Binding StaticImages, Converter={StaticResource ImageConverter}}"
-                              Grid.Column="0">
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <Image
-                        Source="{Binding}"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        Margin="0 0 20 0"
-                        Height="150"
-                        Stretch="UniformToFill" />
+            <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:ModuleMetadata">
+                        <Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ItemsControl Grid.Column="0" ItemsSource="{Binding StaticImages, Converter={StaticResource ImageConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image
+                                                Height="150"
+                                                HorizontalAlignment="Stretch"
+                                                Margin="0,0,20,0"
+                                                Source="{Binding}"
+                                                Stretch="UniformToFill"
+                                                VerticalAlignment="Top" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <StackPanel
+                                    Grid.Column="2"
+                                    Orientation="Vertical"
+                                    Spacing="6"
+                                    VerticalAlignment="Center">
+                                    <TextBlock
+                                        FontSize="30"
+                                        FontWeight="Bold"
+                                        Text="{Binding Name, Mode=OneWay}" />
+                                    <TextBlock
+                                        IsVisible="{Binding UsingEye, Mode=OneWay}"
+                                        Text="{l:Localize EyeTrackingActive.Text}"
+                                        x:Name="EyeTrackingActive" />
+                                    <TextBlock
+                                        IsVisible="{Binding UsingExpression, Mode=OneWay}"
+                                        Text="{l:Localize FaceTrackingActive.Text}"
+                                        x:Name="FaceTrackingActive" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="3"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                                    <ToggleButton
+                                        Content="Toggle Tracking"
+                                        IsEnabled="{Binding Active, Mode=TwoWay}"
+                                        Padding="15"
+                                        x:Name="ToggleTracking" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <StackPanel Grid.Column="2" Orientation="Vertical" Spacing="6" VerticalAlignment="Center">
-                  <TextBlock FontSize="30" FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" />
-                  <TextBlock Text="{l:Localize EyeTrackingActive.Text}" IsVisible="{Binding UsingEye, Mode=OneWay}"
-                             x:Name="EyeTrackingActive" />
-                  <TextBlock Text="{l:Localize FaceTrackingActive.Text}"
-                             IsVisible="{Binding UsingExpression, Mode=OneWay}" x:Name="FaceTrackingActive" />
-                </StackPanel>
-                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
-                  <ToggleButton Padding="15"
-                                Content="Toggle Tracking"
-                                x:Name="ToggleTracking"
-                                IsEnabled="{Binding Active, Mode=TwoWay}" />
-                </StackPanel>
-              </Grid>
-            </Border>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-      <templates:ContentExample>
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Orientation="Horizontal" Grid.Column="0">
-            <StackPanel Orientation="Vertical" Spacing="6">
-              <TextBlock FontSize="15" x:Name="OscStatus" FontWeight="Bold">OSC Status</TextBlock>
-              <StackPanel Orientation="Horizontal" Spacing="5">
-                <TextBlock x:Name="ListeningOnPort" Text="{l:Localize Listening_on_Port.Text}" />
-                <TextBlock Text="{Binding OscTarget.InPort, Mode=OneWay}" />
-              </StackPanel>
-              <StackPanel Orientation="Horizontal" Spacing="5">
-                <TextBlock x:Name="SendingOnPort" Text="{l:Localize Sending_on_Port.Text}" />
-                <TextBlock Text="{Binding OscTarget.OutPort, Mode=OneWay}" />
-              </StackPanel>
-            </StackPanel>
-          </StackPanel>
+            <templates:ContentExample>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Spacing="6">
+                            <TextBlock
+                                FontSize="15"
+                                FontWeight="Bold"
+                                x:Name="OscStatus">
+                                OSC Status
+                            </TextBlock>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="{l:Localize Listening_on_Port.Text}" x:Name="ListeningOnPort" />
+                                <TextBlock Text="{Binding OscTarget.InPort, Mode=OneWay}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="{l:Localize Sending_on_Port.Text}" x:Name="SendingOnPort" />
+                                <TextBlock Text="{Binding OscTarget.OutPort, Mode=OneWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
 
-          <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" Spacing="6">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="3">
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                <TextBlock.Text>
-                  <MultiBinding StringFormat=" {0} {1}">
-                    <Binding Path="MessagesInPerSecCount" Mode="OneWay" />
-                    <Binding Path="MessagesInPerSec" Mode="OneWay" />
-                  </MultiBinding>
-                </TextBlock.Text>
-              </TextBlock>
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="MsIncoming" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="3">
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                <TextBlock.Text>
-                  <MultiBinding StringFormat=" {0} {1}">
-                    <Binding Path="MessagesOutPerSecCount" Mode="OneWay" />
-                    <Binding Path="MessagesOutPerSec" Mode="OneWay" />
-                  </MultiBinding>
-                </TextBlock.Text>
-              </TextBlock>
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="MsOutgoing" />
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-      </templates:ContentExample>
-
-      <templates:ContentExample>
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Orientation="Horizontal" Grid.Column="0">
-            <StackPanel Orientation="Vertical" Spacing="6">
-              <TextBlock FontSize="15" x:Name="AvatarStatus" FontWeight="Bold" Text="{l:Localize AvatarStatus.Text}" />
-              <TextBlock x:Name="AvatarName"
-                         Text="{Binding AvatarName}" />
-              <TextBlock x:Name="AvatarId"
-                         Text="{Binding AvatarID}" />
-              <StackPanel x:Name="LocalTestWarning"
-                          IsVisible="{Binding IsLegacy}"
-                          Orientation="Horizontal"
-                          VerticalAlignment="Center">
-                <TextBlock x:Name="LocalTestAvatar"
-                           Text="{l:Localize LocalTestAvatar.Text}"
-                           VerticalAlignment="Center" />
-                <Ellipse Width="10" Height="10" Fill="Red" Margin="5,0,0,0" VerticalAlignment="Center" />
-              </StackPanel>
-            </StackPanel>
-          </StackPanel>
-
-          <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="3">
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
-                         x:Name="CurrentParametersCount"
-                         Text="{Binding AvatarParametersCount}" />
-              <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
-                         x:Name="Parameters" />
-            </StackPanel>
-            <StackPanel x:Name="LegacyParamsWarning"
-                        Orientation="Horizontal"
-                        IsVisible="{Binding IsLegacy}"
-                        Margin="0,5,0,0"
+                    <StackPanel
+                        Grid.Column="2"
+                        Orientation="Vertical"
+                        Spacing="6"
                         VerticalAlignment="Center">
-              <Ellipse Width="10" Height="10" Fill="Orange" Margin="0,0,5,0" VerticalAlignment="Center" />
-              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="3" VerticalAlignment="Center">
-                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
-                           x:Name="LegacyParametersCount"
-                           Text="{Binding LegacyParametersCount}" />
-                <TextBlock HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Text="{l:Localize LegacyParameters.Text}"
-                           x:Name="LegacyParameters" />
-              </StackPanel>
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-      </templates:ContentExample>
+                        <StackPanel
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="3">
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat=" {0} {1}">
+                                        <Binding Mode="OneWay" Path="MessagesInPerSecCount" />
+                                        <Binding Mode="OneWay" Path="MessagesInPerSec" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                x:Name="MsIncoming" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="3">
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat=" {0} {1}">
+                                        <Binding Mode="OneWay" Path="MessagesOutPerSecCount" />
+                                        <Binding Mode="OneWay" Path="MessagesOutPerSec" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                x:Name="MsOutgoing" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </templates:ContentExample>
 
-    </StackPanel>
-  </ScrollViewer>
+            <templates:ContentExample>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Spacing="6">
+                            <TextBlock
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="{l:Localize AvatarStatus.Text}"
+                                x:Name="AvatarStatus" />
+                            <TextBlock Text="{Binding AvatarName}" x:Name="AvatarName" />
+                            <TextBlock Text="{Binding AvatarID}" x:Name="AvatarId" />
+                            <StackPanel
+                                IsVisible="{Binding IsLegacy}"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                x:Name="LocalTestWarning">
+                                <TextBlock
+                                    Text="{l:Localize LocalTestAvatar.Text}"
+                                    VerticalAlignment="Center"
+                                    x:Name="LocalTestAvatar" />
+                                <Ellipse
+                                    Fill="Red"
+                                    Height="10"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Width="10" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="2"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center">
+                        <StackPanel
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="3">
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                Text="{Binding AvatarParametersCount}"
+                                VerticalAlignment="Center"
+                                x:Name="CurrentParametersCount" />
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                x:Name="Parameters" />
+                        </StackPanel>
+                        <StackPanel
+                            IsVisible="{Binding IsLegacy}"
+                            Margin="0,5,0,0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            x:Name="LegacyParamsWarning">
+                            <Ellipse
+                                Fill="Orange"
+                                Height="10"
+                                Margin="0,0,5,0"
+                                VerticalAlignment="Center"
+                                Width="10" />
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal"
+                                Spacing="3"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    Text="{Binding LegacyParametersCount}"
+                                    VerticalAlignment="Center"
+                                    x:Name="LegacyParametersCount" />
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    Text="{l:Localize LegacyParameters.Text}"
+                                    VerticalAlignment="Center"
+                                    x:Name="LegacyParameters" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </templates:ContentExample>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
