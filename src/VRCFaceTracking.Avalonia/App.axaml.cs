@@ -7,7 +7,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using CommunityToolkit.Extensions.DependencyInjection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using Jeek.Avalonia.Localization;
@@ -76,8 +75,18 @@ public partial class App : Application
             logging.AddProvider(new OutputLogProvider(Dispatcher.UIThread));
             logging.AddProvider(new LogFileProvider());
         });
-        ConfigureViewModels(services);
-        ConfigureViews(services);
+        
+        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<MainWindow>();
+
+        services.AddTransient<OutputPageViewModel>();
+        services.AddTransient<ModuleRegistryViewModel>();
+        services.AddTransient<SettingsPageViewModel>();
+        services.AddTransient<HomePageViewModel>();
+        services.AddTransient<OutputPageView>();
+        services.AddTransient<ModuleRegistryView>();
+        services.AddTransient<SettingsPageView>();
+        services.AddTransient<HomePageView>();
 
         // Default Activation Handler
         services.AddTransient<ActivationHandler, DefaultActivationHandler>();
@@ -169,19 +178,4 @@ public partial class App : Application
             desktop.Shutdown();
         }
     }
-
-    [Singleton(typeof(MainViewModel))]
-    [Transient(typeof(OutputPageViewModel))]
-    [Transient(typeof(ModuleRegistryViewModel))]
-    [Transient(typeof(SettingsPageViewModel))]
-    [Transient(typeof(HomePageViewModel))]
-    [SuppressMessage("CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.InvalidServiceRegistrationAnalyzer", "TKEXDI0004:Duplicate service type registration")]
-    internal static partial void ConfigureViewModels(IServiceCollection services);
-
-    [Singleton(typeof(MainWindow))]
-    [Transient(typeof(OutputPageView))]
-    [Transient(typeof(ModuleRegistryView))]
-    [Transient(typeof(SettingsPageView))]
-    [Transient(typeof(HomePageView))]
-    internal static partial void ConfigureViews(IServiceCollection services);
 }
