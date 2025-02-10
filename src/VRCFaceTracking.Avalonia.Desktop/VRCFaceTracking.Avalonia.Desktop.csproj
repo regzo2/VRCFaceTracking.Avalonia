@@ -1,29 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
-        One for Windows with net8.0-windows TFM, one for MacOS with net8.0-macos and one with net8.0 TFM for Linux.-->
-        <TargetFramework>net8.0</TargetFramework>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <RootNamespace>AvaloniaMiaDev.Desktop</RootNamespace>
+        <TargetFrameworks>net8.0-windows10.0.17763.0;net8.0</TargetFrameworks>
+        <RootNamespace>AvaloniaMiaDev</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup>
+    <!-- Windows-Specific Settings -->
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.17763.0'">
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.3" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.Apple\DesktopNotifications.Apple.csproj" />
-        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.Avalonia\DesktopNotifications.Avalonia.csproj" />
-        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.FreeDesktop\DesktopNotifications.FreeDesktop.csproj" />
+    <!-- Platform-Specific Dependencies -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.17763.0'">
         <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.Windows\DesktopNotifications.Windows.csproj" />
-        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications\DesktopNotifications.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-macos'">
+        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.Apple\DesktopNotifications.Apple.csproj" />
+        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.FreeDesktop\DesktopNotifications.FreeDesktop.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DesktopNotifications\DesktopNotifications.Avalonia\DesktopNotifications.Avalonia.csproj" />
         <ProjectReference Include="..\VRCFaceTracking.Avalonia\VRCFaceTracking.Avalonia.csproj" />
     </ItemGroup>
 </Project>

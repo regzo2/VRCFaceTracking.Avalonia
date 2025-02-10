@@ -140,9 +140,7 @@
                 FontSize="15"
                 FontWeight="Bold"
                 Margin="0,20,0,0"
-                Text="{l:Localize AutoStartSettings.Header}">
-                Auto Start
-            </TextBlock>
+                Text="{l:Localize AutoStartSettings.Header}"/>
             <TextBlock Margin="0,0,0,20" Text="{l:Localize AutoStartSettings.Description}" />
             <templates:ContentExample>
                 <ToggleSwitch IsChecked="{Binding IsAutoStartEnabled}" />
