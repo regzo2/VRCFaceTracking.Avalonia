@@ -1,0 +1,225 @@
+<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="VRCFaceTracking.Avalonia.Views.MutatorPageView"
+    x:DataType="vm:MutatorPageViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:l="using:Jeek.Avalonia.Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rs="using:RangeSlider.Avalonia.Controls"
+    xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="2">
+            <TextBlock
+                FontSize="20"
+                FontWeight="Bold"
+                Margin="0,20"
+                Text="{l:Localize Shell_TrackingSettings.Content}" />
+
+            <Expander IsExpanded="{Binding IsCalibrationEnabled}" MinWidth="1012">
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <ToggleSwitch
+                            Grid.Column="0"
+                            IsChecked="{Binding IsCalibrationEnabled}"
+                            OffContent=""
+                            OnContent="" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Calibration"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </Expander.Header>
+                <StackPanel>
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="Calibration Deviation" VerticalAlignment="Center" />
+                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                Text="{Binding CalibrationDeviation, StringFormat={}{0:F2}}"
+                                VerticalAlignment="Center" />
+                            <Slider
+                                Grid.Column="1"
+                                Maximum="1"
+                                Minimum="0"
+                                Value="{Binding CalibrationDeviation}"
+                                Width="300" />
+                        </Grid>
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="Clamp Connected Expressions" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsClampConnectedExpressionsEnabled}" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="[DEBUG] Data Points" VerticalAlignment="Center" />
+                        <NumericUpDown
+                            Grid.Column="1"
+                            Height="30"
+                            Maximum="100"
+                            Minimum="0"
+                            Value="{Binding DebugDataPoints}" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="[DEBUG] Step Delta" VerticalAlignment="Center" />
+                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                Text="{Binding DebugStepDelta, StringFormat={}{0:F2}}"
+                                VerticalAlignment="Center" />
+                            <Slider
+                                Grid.Column="1"
+                                Maximum="1"
+                                Minimum="0"
+                                Value="{Binding DebugStepDelta}"
+                                Width="300" />
+                        </Grid>
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="[DEBUG] Calibration Delta" VerticalAlignment="Center" />
+                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                Text="{Binding DebugCalibrationDelta, StringFormat={}{0:F2}}"
+                                VerticalAlignment="Center" />
+                            <Slider
+                                Grid.Column="1"
+                                Maximum="1"
+                                Minimum="0"
+                                Value="{Binding DebugCalibrationDelta}"
+                                Width="300" />
+                        </Grid>
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="[DEBUG] Log Data" VerticalAlignment="Center" />
+                        <Button
+                            Click="LogDataCommand"
+                            Content="[DEBUG] Log Data"
+                            Grid.Column="1" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,5"
+                        MinHeight="50">
+                        <TextBlock Text="Clear Calibration" VerticalAlignment="Center" />
+                        <Button
+                            Click="ClearCalibrationCommand"
+                            Content="Clear Calibration"
+                            Grid.Column="1" />
+                    </Grid>
+
+                </StackPanel>
+            </Expander>
+
+            <Expander IsExpanded="{Binding IsParameterAdjustmentEnabled}" MinWidth="1012">
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <ToggleSwitch
+                            Grid.Column="0"
+                            IsChecked="{Binding IsParameterAdjustmentEnabled}"
+                            OffContent=""
+                            OnContent="" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Parameter Adjustment"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </Expander.Header>
+                <ListBox ItemsSource="{Binding TrackingParameters}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="0,2">
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Text="{Binding Name}"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="0,0,10,0"
+                                    Text="{Binding LowerValue, StringFormat={}{0:F2}}"
+                                    VerticalAlignment="Center" />
+                                <rs:RangeSlider
+                                    Grid.Column="2"
+                                    LowerSelectedValue="{Binding LowerValue}"
+                                    Maximum="1"
+                                    Minimum="0"
+                                    UpperSelectedValue="{Binding UpperValue}"
+                                    Width="300" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Margin="10,0,0,0"
+                                    Text="{Binding UpperValue, StringFormat={}{0:F2}}"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Expander>
+
+            <Expander IsExpanded="{Binding IsUnifiedCorrectorsEnabled}" MinWidth="1012">
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <ToggleSwitch
+                            Grid.Column="0"
+                            IsChecked="{Binding IsUnifiedCorrectorsEnabled}"
+                            OffContent=""
+                            OnContent="" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Unified Correctors"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </Expander.Header>
+            </Expander>
+
+            <Expander IsExpanded="{Binding IsDataFilterEnabled}" MinWidth="1012">
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <ToggleSwitch
+                            Grid.Column="0"
+                            IsChecked="{Binding IsDataFilterEnabled}"
+                            OffContent=""
+                            OnContent="" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="Data Filter"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </Expander.Header>
+            </Expander>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
+

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
@@ -75,7 +74,7 @@ public partial class App : Application
             logging.AddProvider(new OutputLogProvider(Dispatcher.UIThread));
             logging.AddProvider(new LogFileProvider());
         });
-        
+
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
 
@@ -83,10 +82,12 @@ public partial class App : Application
         services.AddTransient<ModuleRegistryViewModel>();
         services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<HomePageViewModel>();
+        services.AddTransient<MutatorPageViewModel>();
         services.AddTransient<OutputPageView>();
         services.AddTransient<ModuleRegistryView>();
         services.AddTransient<SettingsPageView>();
         services.AddTransient<HomePageView>();
+        services.AddTransient<MutatorPageView>();
 
         // Default Activation Handler
         services.AddTransient<ActivationHandler, DefaultActivationHandler>();

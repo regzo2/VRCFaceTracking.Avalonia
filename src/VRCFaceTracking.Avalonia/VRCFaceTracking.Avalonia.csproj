@@ -4,7 +4,6 @@
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <ApplicationIcon>./Assets/logo_big_no_bg.ico</ApplicationIcon>
-        <RootNamespace>AvaloniaMiaDev</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,6 +23,7 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
+        <PackageReference Include="RangeSlider.Avalonia" Version="2.1.0" />
         <PackageReference Include="SoundFlow" Version="1.0.1" />
     </ItemGroup>
 

@@ -3,7 +3,6 @@
         <OutputType>WinExe</OutputType>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <TargetFrameworks>net8.0-windows10.0.17763.0;net8.0</TargetFrameworks>
-        <RootNamespace>AvaloniaMiaDev</RootNamespace>
     </PropertyGroup>
 
     <!-- Windows-Specific Settings -->

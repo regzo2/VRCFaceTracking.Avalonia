@@ -27,7 +27,8 @@ public partial class MainViewModel : ViewModelBase
         new ListItemTemplate(typeof(HomePageViewModel), "HomeRegular", Localizer.Get("Shell_Main.Content")),
         new ListItemTemplate(typeof(OutputPageViewModel), "TextFirstLineRegular", Localizer.Get("Shell_Output.Content")),
         new ListItemTemplate(typeof(ModuleRegistryViewModel), "ArrowDownloadRegular", Localizer.Get("Shell_ModuleRegistry.Content")),
-        new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular", Localizer.Get("Shell_TrackingSettings.Content")),
+        new ListItemTemplate(typeof(SettingsPageViewModel), "SettingsRegular", "Settings"),
+        // new ListItemTemplate(typeof(MutatorPageViewModel), "EditRegular", Localizer.Get("Shell_TrackingSettings.Content")),
     ];
 
     public MainViewModel() : this(new WeakReferenceMessenger()) { }
