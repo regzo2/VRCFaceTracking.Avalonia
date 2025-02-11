@@ -94,9 +94,9 @@
                         </TextBlock>
 
                         <TextBlock>
-                            <Run FontWeight="Bold" Text="{l:Localize Rating}" />
+                            <Run FontWeight="Bold" Text="{l:Localize Rating.Text}" />
                             <LineBreak />
-                            <Run Text="{Binding Module.Rating, StringFormat='{}{0}/5'}" />
+                            <Run Text="{Binding Module.Rating, StringFormat='{}{0:F2}/5'}" />
                         </TextBlock>
 
                         <TextBlock>
