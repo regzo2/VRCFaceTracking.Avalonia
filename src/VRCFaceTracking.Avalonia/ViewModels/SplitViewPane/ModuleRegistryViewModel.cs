@@ -17,7 +17,7 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 public partial class ModuleRegistryViewModel : ViewModelBase
 {
     [ObservableProperty] public InstallableTrackingModule module;
-    public InstallableTrackingModule[] ModuleInfos { get; private set; } = [];
+    public ObservableCollection<InstallableTrackingModule> ModuleInfos { get; private set; } = [];
     private ModuleRegistryView _moduleRegistryView { get; }
     private IModuleDataService _moduleDataService { get; }
     private ModuleInstaller _moduleInstaller { get; }
@@ -30,8 +30,14 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         _moduleInstaller = Ioc.Default.GetService<ModuleInstaller>()!;
         _libManager = Ioc.Default.GetService<ILibManager>()!;
         ModuleRegistryView.ModuleSelected += ModuleSelected;
-        ModuleRegistryView.ModuleDownloaded += ModuleDownloaded;
-        ModuleInfos = _moduleRegistryView.GetModules();
+        ModuleRegistryView.LocalModuleInstalled += LocalModuleInstalled;
+        ModuleRegistryView.RemoteModuleInstalled += RemoteModuleInstalled;
+
+        ModuleInfos.Clear();
+        foreach (var module in _moduleRegistryView.GetModules())
+        {
+            ModuleInfos.Add(module);
+        }
     }
 
     private void ModuleSelected(InstallableTrackingModule module)
@@ -39,7 +45,16 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         Module = module;
     }
 
-    private async void ModuleDownloaded(InstallableTrackingModule module)
+    private void LocalModuleInstalled()
+    {
+        ModuleInfos.Clear();
+        foreach (var module in _moduleRegistryView.GetModules())
+        {
+            ModuleInfos.Add(module);
+        }
+    }
+
+    private async void RemoteModuleInstalled(InstallableTrackingModule module)
     {
         switch (module.InstallationState)
         {

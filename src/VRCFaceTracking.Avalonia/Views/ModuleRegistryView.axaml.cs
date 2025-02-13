@@ -17,7 +17,8 @@ namespace VRCFaceTracking.Avalonia.Views;
 public partial class ModuleRegistryView : UserControl
 {
     public static event Action<InstallableTrackingModule>? ModuleSelected;
-    public static event Action<InstallableTrackingModule>? ModuleDownloaded;
+    public static event Action? LocalModuleInstalled;
+    public static event Action<InstallableTrackingModule>? RemoteModuleInstalled;
     private ModuleInstaller ModuleInstaller { get; }
     private IModuleDataService ModuleDataService { get; }
     private ILibManager LibManager { get; set; }
@@ -61,6 +62,7 @@ public partial class ModuleRegistryView : UserControl
                 if (path != null)
                 {
                     BrowseLocalText.Text = "Successfully installed module.";
+                    LocalModuleInstalled?.Invoke();
                     LibManager.Initialize();
                 }
                 else
@@ -80,7 +82,7 @@ public partial class ModuleRegistryView : UserControl
 
         InstallButton.Content = "Please Restart VRCFT";
         InstallButton.IsEnabled = false;
-        ModuleDownloaded?.Invoke(module);
+        RemoteModuleInstalled?.Invoke(module);
     }
 
     private void OnModuleSelected(object? sender, SelectionChangedEventArgs e)

@@ -57,6 +57,8 @@ public partial class HomePageViewModel : ViewModelBase
         NoModulesInstalled = !installedNewModules.Any() && installedLegacyModules == 0;
 
         // Message Timer
+        MessagesInPerSecCount = "0";
+        MessagesOutPerSecCount = "0";
         OscRecvService.OnMessageReceived += MessageReceived;
         OscSendService.OnMessagesDispatched += MessageDispatched;
         msgCounterTimer = new DispatcherTimer
