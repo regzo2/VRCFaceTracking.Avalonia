@@ -5,10 +5,5 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public class OutputPageViewModel : ViewModelBase
 {
-    public OutputPageView View { get; }
-
-    public OutputPageViewModel()
-    {
-        View = Ioc.Default.GetService<OutputPageView>();
-    }
+    public OutputPageView View { get; } = Ioc.Default.GetService<OutputPageView>();
 }

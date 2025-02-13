@@ -17,14 +17,12 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 public partial class HomePageViewModel : ViewModelBase
 {
     public ILibManager LibManager { get; }
-    public IModuleDataService ModuleDataService { get; }
-    public OscRecvService OscRecvService { get; }
-    public OscSendService OscSendService { get; }
     public IOscTarget OscTarget { get; }
+    private IModuleDataService ModuleDataService { get; }
+    private OscRecvService OscRecvService { get; }
+    private OscSendService OscSendService { get; }
 
-    [ObservableProperty] private bool _noModulesInstalled;
-
-    [ObservableProperty] private bool _oscWasDisabled;
+    [ObservableProperty] private OscQueryService parameterOutputService;
 
     private int _messagesRecvd;
     [ObservableProperty] private string _messagesInPerSecCount;
@@ -32,14 +30,19 @@ public partial class HomePageViewModel : ViewModelBase
     private int _messagesSent;
     [ObservableProperty] private string _messagesOutPerSecCount;
 
-    [ObservableProperty] private OscQueryService parameterOutputService;
+    [ObservableProperty] private bool _noModulesInstalled;
 
-    public int CurrentParametersCount => ParameterOutputService.AvatarParameters?.Count ?? 0;
-    public int LegacyParametersCount => ParameterOutputService.AvatarParameters?.Count(p => p.Deprecated) ?? 0;
-    public bool IsLegacyAvatar => LegacyParametersCount > 0;
-    public bool IsTestAvatar => ParameterOutputService.AvatarInfo?.Id.StartsWith("local:") ?? false;
+    [ObservableProperty] private bool _oscWasDisabled;
 
-    private DispatcherTimer msgCounterTimer;
+    [ObservableProperty] private int _currentParametersCount;
+
+    [ObservableProperty] private int _legacyParametersCount;
+
+    [ObservableProperty] private bool _isLegacyAvatar;
+
+    [ObservableProperty] private bool _isTestAvatar;
+
+    private readonly DispatcherTimer _msgCounterTimer;
 
     public HomePageViewModel()
     {
@@ -61,27 +64,24 @@ public partial class HomePageViewModel : ViewModelBase
         MessagesOutPerSecCount = "0";
         OscRecvService.OnMessageReceived += MessageReceived;
         OscSendService.OnMessagesDispatched += MessageDispatched;
-        msgCounterTimer = new DispatcherTimer
+        _msgCounterTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1)
         };
-        msgCounterTimer.Tick += (_, _) =>
+        _msgCounterTimer.Tick += (_, _) =>
         {
             MessagesInPerSecCount = _messagesRecvd.ToString();
             _messagesRecvd = 0;
 
             MessagesOutPerSecCount = _messagesSent.ToString();
             _messagesSent = 0;
-        };
-        msgCounterTimer.Start();
-    }
 
-    partial void OnParameterOutputServiceChanged(OscQueryService value)
-    {
-        OnPropertyChanged(nameof(IsTestAvatar));
-        OnPropertyChanged(nameof(CurrentParametersCount));
-        OnPropertyChanged(nameof(LegacyParametersCount));
-        OnPropertyChanged(nameof(IsLegacyAvatar));
+            CurrentParametersCount = ParameterOutputService.AvatarParameters?.Count ?? 0;
+            LegacyParametersCount = ParameterOutputService.AvatarParameters?.Count(p => p.Deprecated) ?? 0;
+            IsLegacyAvatar = LegacyParametersCount > 0;
+            IsTestAvatar = ParameterOutputService.AvatarInfo?.Id.StartsWith("local:") ?? false;
+        };
+        _msgCounterTimer.Start();
     }
 
     private void MessageReceived(OscMessage msg) => _messagesRecvd++;
@@ -92,6 +92,6 @@ public partial class HomePageViewModel : ViewModelBase
         OscRecvService.OnMessageReceived -= MessageReceived;
         OscSendService.OnMessagesDispatched -= MessageDispatched;
 
-        msgCounterTimer.Stop();
+        _msgCounterTimer.Stop();
     }
 }

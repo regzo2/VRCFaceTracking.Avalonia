@@ -6,45 +6,40 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 public partial class MutatorPageViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private bool _isCalibrationEnabled = false;
+    private bool _isCalibrationEnabled;
 
     [ObservableProperty]
-    private bool _isParameterAdjustmentEnabled = false;
+    private bool _isParameterAdjustmentEnabled;
 
     [ObservableProperty]
-    private bool _isUnifiedCorrectorsEnabled = false;
+    private bool _isUnifiedCorrectorsEnabled;
 
     [ObservableProperty]
-    private bool _isDataFilterEnabled = false;
+    private bool _isDataFilterEnabled;
 
     [ObservableProperty]
-    private float _calibrationDeviation = 0f;
+    private float _calibrationDeviation;
 
-    [ObservableProperty] private bool _isClampConnectedExpressionsEnabled = false;
+    [ObservableProperty] private bool _isClampConnectedExpressionsEnabled;
 
-    [ObservableProperty] private int _debugDataPoints = 0;
+    [ObservableProperty] private int _debugDataPoints;
 
-    [ObservableProperty] private float _debugStepDelta = 0f;
+    [ObservableProperty] private float _debugStepDelta;
 
-    [ObservableProperty] private float _debugCalibrationDelta = 0f;
+    [ObservableProperty] private float _debugCalibrationDelta;
 
-    public ObservableCollection<TrackingParameter> TrackingParameters { get; private set; }
-
-    public MutatorPageViewModel()
+    public ObservableCollection<TrackingParameter> TrackingParameters { get; private set; } = new()
     {
-        TrackingParameters = new ObservableCollection<TrackingParameter>
-        {
-            new TrackingParameter("Eyebrow Raiser"),
-            new TrackingParameter("Eyebrow Lowerer"),
-            new TrackingParameter("Eye Squint"),
-            new TrackingParameter("Eye Wide"),
-            new TrackingParameter("Cheek"),
-            new TrackingParameter("Cheek Squint"),
-            new TrackingParameter("Jaw"),
-            new TrackingParameter("Mouth Closed"),
-            new TrackingParameter("Jaw Sideways")
-        };
-    }
+        new TrackingParameter("Eyebrow Raiser"),
+        new TrackingParameter("Eyebrow Lowerer"),
+        new TrackingParameter("Eye Squint"),
+        new TrackingParameter("Eye Wide"),
+        new TrackingParameter("Cheek"),
+        new TrackingParameter("Cheek Squint"),
+        new TrackingParameter("Jaw"),
+        new TrackingParameter("Mouth Closed"),
+        new TrackingParameter("Jaw Sideways")
+    };
 }
 
 public partial class TrackingParameter : ObservableObject

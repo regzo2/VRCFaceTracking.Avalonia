@@ -16,8 +16,8 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class ModuleRegistryViewModel : ViewModelBase
 {
-    [ObservableProperty] public InstallableTrackingModule module;
-    public ObservableCollection<InstallableTrackingModule> ModuleInfos { get; private set; } = [];
+    [ObservableProperty] public InstallableTrackingModule _module;
+    public ObservableCollection<InstallableTrackingModule> ModuleInfos { get; } = [];
     private ModuleRegistryView _moduleRegistryView { get; }
     private IModuleDataService _moduleDataService { get; }
     private ModuleInstaller _moduleInstaller { get; }
@@ -83,7 +83,7 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
     public void OpenModuleUrl()
     {
-        OpenUrl(module.ModulePageUrl);
+        OpenUrl(_module.ModulePageUrl);
     }
 
     private void OpenUrl(string URL)
