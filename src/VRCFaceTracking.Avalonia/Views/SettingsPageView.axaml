@@ -97,6 +97,7 @@
                         <ToggleSwitch
                             Grid.Column="1"
                             IsChecked="{Binding IsContCalibrationEnabled}"
+                            IsEnabled="{Binding IsCalibrationEnabled}"
                             VerticalAlignment="Center" />
                     </Grid>
 
@@ -115,7 +116,8 @@
                         <Button
                             Click="Calibration_OnClick"
                             Content="{l:Localize CalibrateButton.Content}"
-                            Grid.Column="1" />
+                            Grid.Column="1"
+                            IsEnabled="{Binding IsCalibrationEnabled}" />
                     </Grid>
 
                     <Grid ColumnDefinitions="*,Auto" Grid.Row="3">
@@ -128,6 +130,7 @@
                         </TextBlock>
                         <Slider
                             Grid.Column="1"
+                            IsEnabled="{Binding IsCalibrationEnabled}"
                             Maximum="100"
                             MinWidth="200"
                             Minimum="0"
@@ -153,7 +156,7 @@
                 Text="{l:Localize RiskySettings.Header}" />
             <TextBlock Margin="0,0,0,0" Text="{l:Localize RiskySettings.Description}" />
             <templates:ContentExample Margin="0,20">
-                <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}" />
+                <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}" OnContent="Gremlin Mode" />
             </templates:ContentExample>
 
             <templates:ContentExample>

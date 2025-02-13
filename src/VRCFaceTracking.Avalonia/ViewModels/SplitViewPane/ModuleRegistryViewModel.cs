@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,8 +17,12 @@ namespace VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 
 public partial class ModuleRegistryViewModel : ViewModelBase
 {
-    [ObservableProperty] public InstallableTrackingModule _module;
-    public ObservableCollection<InstallableTrackingModule> ModuleInfos { get; } = [];
+    [ObservableProperty] private InstallableTrackingModule _module;
+
+    [ObservableProperty] private string _searchText;
+    public ObservableCollection<InstallableTrackingModule> FilteredModuleInfos { get; private set; } = [];
+
+    private InstallableTrackingModule[] _moduleInfos = [];
     private ModuleRegistryView _moduleRegistryView { get; }
     private IModuleDataService _moduleDataService { get; }
     private ModuleInstaller _moduleInstaller { get; }
@@ -33,10 +38,32 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         ModuleRegistryView.LocalModuleInstalled += LocalModuleInstalled;
         ModuleRegistryView.RemoteModuleInstalled += RemoteModuleInstalled;
 
-        ModuleInfos.Clear();
-        foreach (var module in _moduleRegistryView.GetModules())
+        _moduleInfos = _moduleRegistryView.GetModules();
+        foreach (var module in _moduleInfos)
         {
-            ModuleInfos.Add(module);
+            FilteredModuleInfos.Add(module);
+        }
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        UpdateFilteredModules();
+    }
+
+    private void UpdateFilteredModules()
+    {
+        var filtered = string.IsNullOrWhiteSpace(SearchText)
+            ? _moduleInfos
+            : _moduleInfos.Where(m =>
+                m.ModuleName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
+                m.DllFileName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
+                m.AuthorName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
+                m.ModuleDescription.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase));
+
+        FilteredModuleInfos.Clear();
+        foreach (var module in filtered)
+        {
+            FilteredModuleInfos.Add(module);
         }
     }
 
@@ -47,11 +74,7 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
     private void LocalModuleInstalled()
     {
-        ModuleInfos.Clear();
-        foreach (var module in _moduleRegistryView.GetModules())
-        {
-            ModuleInfos.Add(module);
-        }
+        _moduleInfos = _moduleRegistryView.GetModules();
     }
 
     private async void RemoteModuleInstalled(InstallableTrackingModule module)

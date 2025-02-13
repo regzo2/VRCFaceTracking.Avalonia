@@ -42,13 +42,19 @@
                     Height="475"
                     Orientation="Horizontal"
                     Spacing="20">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Width="250">
+                    <ScrollViewer
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto"
+                        Width="250">
                         <StackPanel>
+                            <TextBox
+                                Margin="0,0,18,8"
+                                Text="{Binding SearchText}"
+                                Watermark="Search modules..."
+                                x:Name="SearchBox" />
                             <ListBox
-                                Height="475"
-                                ItemsSource="{Binding ModuleInfos}"
+                                ItemsSource="{Binding FilteredModuleInfos}"
                                 SelectionChanged="OnModuleSelected"
-                                Width="250"
                                 x:Name="ModuleList">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate x:DataType="models:InstallableTrackingModule">
