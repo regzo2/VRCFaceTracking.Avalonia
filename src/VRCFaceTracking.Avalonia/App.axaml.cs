@@ -13,6 +13,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VRCFaceTracking.Activation;
 using VRCFaceTracking.Avalonia.ViewModels;
@@ -36,6 +37,9 @@ namespace VRCFaceTracking.Avalonia;
 public partial class App : Application
 {
     public static event Action<NotificationModel> SendNotification;
+
+    private IHost? _host;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -65,84 +69,85 @@ public partial class App : Application
         var locator = new ViewLocator();
         DataTemplates.Add(locator);
 
-        var services = new ServiceCollection();
-        services.AddLogging(logging =>
-        {
-            logging.ClearProviders();
-            logging.AddDebug();
-            logging.AddConsole();
-            logging.AddProvider(new OutputLogProvider(Dispatcher.UIThread));
-            logging.AddProvider(new LogFileProvider());
-        });
+        var hostBuilder = Host.CreateDefaultBuilder().
+            ConfigureServices((context, services) =>
+            {
+                services.AddLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddDebug();
+                    logging.AddConsole();
+                    logging.AddProvider(new OutputLogProvider(Dispatcher.UIThread));
+                    logging.AddProvider(new LogFileProvider());
+                });
 
-        services.AddSingleton<MainViewModel>();
-        services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<MainWindow>();
 
-        services.AddTransient<OutputPageViewModel>();
-        services.AddTransient<ModuleRegistryViewModel>();
-        services.AddTransient<SettingsPageViewModel>();
-        services.AddTransient<HomePageViewModel>();
-        services.AddTransient<MutatorPageViewModel>();
-        services.AddTransient<OutputPageView>();
-        services.AddTransient<ModuleRegistryView>();
-        services.AddTransient<SettingsPageView>();
-        services.AddTransient<HomePageView>();
-        services.AddTransient<MutatorPageView>();
+                services.AddTransient<OutputPageViewModel>();
+                services.AddTransient<ModuleRegistryViewModel>();
+                services.AddTransient<SettingsPageViewModel>();
+                services.AddTransient<HomePageViewModel>();
+                services.AddTransient<MutatorPageViewModel>();
+                services.AddTransient<OutputPageView>();
+                services.AddTransient<ModuleRegistryView>();
+                services.AddTransient<SettingsPageView>();
+                services.AddTransient<HomePageView>();
+                services.AddTransient<MutatorPageView>();
 
-        // Default Activation Handler
-        services.AddTransient<ActivationHandler, DefaultActivationHandler>();
-        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+                // Default Activation Handler
+                services.AddTransient<ActivationHandler, DefaultActivationHandler>();
+                services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
-        services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
-        services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
+                services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+                services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
 
-        services.AddSingleton<IActivationService, ActivationService>();
-        services.AddSingleton<IDispatcherService, DispatcherService>();
+                services.AddSingleton<IActivationService, ActivationService>();
+                services.AddSingleton<IDispatcherService, DispatcherService>();
 
-        // Core Services
-        services.AddTransient<IIdentityService, IdentityService>();
-        services.AddSingleton<ModuleInstaller>();
-        services.AddSingleton<IModuleDataService, ModuleDataService>();
-        services.AddTransient<IFileService, FileService>();
-        services.AddSingleton<OscQueryService>();
-        services.AddSingleton<MulticastDnsService>();
-        services.AddSingleton<IMainService, MainStandalone>();
-        services.AddTransient<AvatarConfigParser>();
-        services.AddTransient<OscQueryConfigParser>();
-        services.AddSingleton<UnifiedTracking>();
-        services.AddSingleton<ILibManager, UnifiedLibManager>();
-        services.AddSingleton<IOscTarget, OscTarget>();
-        services.AddSingleton<HttpHandler>();
-        services.AddSingleton<OscSendService>();
-        services.AddSingleton<OscRecvService>();
-        services.AddSingleton<ParameterSenderService>();
-        services.AddSingleton<UnifiedTrackingMutator>();
-        services.AddTransient<GithubService>();
+                // Core Services
+                services.AddTransient<IIdentityService, IdentityService>();
+                services.AddSingleton<ModuleInstaller>();
+                services.AddSingleton<IModuleDataService, ModuleDataService>();
+                services.AddTransient<IFileService, FileService>();
+                services.AddSingleton<OscQueryService>();
+                services.AddSingleton<MulticastDnsService>();
+                services.AddSingleton<IMainService, MainStandalone>();
+                services.AddTransient<AvatarConfigParser>();
+                services.AddTransient<OscQueryConfigParser>();
+                services.AddSingleton<UnifiedTracking>();
+                services.AddSingleton<ILibManager, UnifiedLibManager>();
+                services.AddSingleton<IOscTarget, OscTarget>();
+                services.AddSingleton<HttpHandler>();
+                services.AddSingleton<OscSendService>();
+                services.AddSingleton<OscRecvService>();
+                services.AddSingleton<ParameterSenderService>();
+                services.AddSingleton<UnifiedTrackingMutator>();
+                services.AddTransient<GithubService>();
 
-        services.AddHostedService<ParameterSenderService>(provider => provider.GetService<ParameterSenderService>()!);
-        services.AddHostedService<OscRecvService>(provider => provider.GetService<OscRecvService>()!);
+                services.AddHostedService(provider => provider.GetService<ParameterSenderService>()!);
+                services.AddHostedService(provider => provider.GetService<OscRecvService>()!);
 
+                // Configuration
+                IConfiguration config = new ConfigurationBuilder()
+                    .AddJsonFile(LocalSettingsService.DefaultLocalSettingsFile)
+                    .Build();
+                services.Configure<LocalSettingsOptions>(config);
+            });
+
+        _host = hostBuilder.Build();
+        Task.Run(async () => await _host.StartAsync());
+        
         if (!File.Exists(LocalSettingsService.DefaultLocalSettingsFile))
         {
             // Create the file if it doesn't exist
             File.Create(LocalSettingsService.DefaultLocalSettingsFile).Dispose();
         }
 
-        // Configuration
-        IConfiguration config = new ConfigurationBuilder()
-            .AddJsonFile(LocalSettingsService.DefaultLocalSettingsFile)
-            .Build();
-        services.Configure<LocalSettingsOptions>(config);
-
-        var provider = services.BuildServiceProvider();
-
-        Ioc.Default.ConfigureServices(provider);
+        Ioc.Default.ConfigureServices(_host.Services);
 
         var activation = Ioc.Default.GetRequiredService<IActivationService>();
-        Task.Run(() => activation.ActivateAsync(null));
-
-        var vrcft = Ioc.Default.GetRequiredService<IMainService>();
-        Task.Run(() => vrcft.InitializeAsync());
+        Task.Run(async () => await activation.ActivateAsync(null));
 
         var vm = Ioc.Default.GetRequiredService<MainViewModel>();
         switch (ApplicationLifetime)
@@ -169,7 +174,7 @@ public partial class App : Application
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
 
         var vrcft = Ioc.Default.GetRequiredService<IMainService>();
-        Task.Run(() => vrcft.Teardown());
+        Task.Run(vrcft.Teardown);
     }
 
     private void OnTrayShutdownClicked(object? sender, EventArgs e)

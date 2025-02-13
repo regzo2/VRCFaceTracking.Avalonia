@@ -127,12 +127,8 @@
                             Orientation="Horizontal"
                             Spacing="3">
                             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat=" {0} {1}">
-                                        <Binding Mode="OneWay" Path="MessagesInPerSecCount" />
-                                        <Binding Mode="OneWay" Path="MessagesInPerSec" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
+                                <Run Text="{Binding MessagesInPerSecCount, Mode=OneWay}"></Run>
+                                <Run Text="{l:Localize msIncoming.Text}"/>
                             </TextBlock>
                             <TextBlock
                                 HorizontalAlignment="Right"
@@ -143,14 +139,10 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="3">
-                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat=" {0} {1}">
-                                        <Binding Mode="OneWay" Path="MessagesOutPerSecCount" />
-                                        <Binding Mode="OneWay" Path="MessagesOutPerSec" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
+                          <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Run Text="{Binding MessagesOutPerSecCount, Mode=OneWay}"></Run>
+                            <Run Text="{l:Localize msOutgoing.Text}"/>
+                          </TextBlock>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
@@ -174,10 +166,10 @@
                                 FontWeight="Bold"
                                 Text="{l:Localize AvatarStatus.Text}"
                                 x:Name="AvatarStatus" />
-                            <TextBlock Text="{Binding AvatarName}" x:Name="AvatarName" />
-                            <TextBlock Text="{Binding AvatarID}" x:Name="AvatarId" />
+                            <TextBlock Text="{Binding ParameterOutputService.AvatarInfo.Name}" x:Name="AvatarName" />
+                            <TextBlock Text="{Binding ParameterOutputService.AvatarInfo.Id}" x:Name="AvatarId" />
                             <StackPanel
-                                IsVisible="{Binding IsLegacy}"
+                                IsVisible="{Binding IsTestAvatar}"
                                 Orientation="Horizontal"
                                 VerticalAlignment="Center"
                                 x:Name="LocalTestWarning">
@@ -203,18 +195,16 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="3">
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                Text="{Binding AvatarParametersCount}"
-                                VerticalAlignment="Center"
-                                x:Name="CurrentParametersCount" />
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                x:Name="Parameters" />
+                          <TextBlock
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              x:Name="CurrentParametersCount">
+                            <Run Text="{Binding CurrentParametersCount}"/>
+                            <Run>Parameters</Run>
+                          </TextBlock>
                         </StackPanel>
                         <StackPanel
-                            IsVisible="{Binding IsLegacy}"
+                            IsVisible="{Binding IsLegacyAvatar}"
                             Margin="0,5,0,0"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
@@ -230,16 +220,13 @@
                                 Orientation="Horizontal"
                                 Spacing="3"
                                 VerticalAlignment="Center">
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    Text="{Binding LegacyParametersCount}"
-                                    VerticalAlignment="Center"
-                                    x:Name="LegacyParametersCount" />
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    Text="{l:Localize LegacyParameters.Text}"
-                                    VerticalAlignment="Center"
-                                    x:Name="LegacyParameters" />
+                              <TextBlock
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  x:Name="LegacyParametersCount">
+                                <Run Text="{Binding LegacyParametersCount}"/>
+                                <Run Text="{l:Localize LegacyParameters.Text}"/>
+                              </TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
