@@ -11,6 +11,7 @@
         <avaloniaMiaDev:ViewLocator />
     </Application.DataTemplates>
 
+    <!--  Made using https://theme.xaml.live/  -->
     <Application.Styles>
         <themes:RangeSliderTheme />
         <avalonia:HyperLinkStyle />
