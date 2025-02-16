@@ -80,8 +80,9 @@
               <ColumnDefinition Width="1*" MinWidth="90"/>
               <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Value}" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Margin="20,0,20,0"/>
+            <TextBlock Text="{Binding Value, StringFormat='{}{0:N2}'}" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Margin="20,0,20,0"/>
             <Slider Minimum="{Binding Min}"
+                    IsSnapToTickEnabled="true"
                     TickPlacement="None"
                     TickFrequency="0.01"
                     Maximum="{Binding Max}"
@@ -128,14 +129,14 @@
               <ColumnDefinition Width="5*"/>
               <ColumnDefinition Width="Auto" MinWidth="40"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Item1}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,20,0" HorizontalAlignment="Right"/>
+            <TextBlock Text="{Binding Item1, StringFormat='{}{0:N2}'}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,20,0" HorizontalAlignment="Right"/>
             <rs:RangeSlider Minimum="0"
                             Maximum="1"
                             LowerSelectedValue="{Binding Item1, Mode=TwoWay}"
                             UpperSelectedValue="{Binding Item2, Mode=TwoWay}"
                             TickFrequency="0.01"
                             Grid.Column="1"/>
-            <TextBlock Text="{Binding Item2}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="20,0,0,0" Grid.Column="2"/>
+            <TextBlock Text="{Binding Item2, StringFormat='{}{0:N2}'}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="20,0,0,0" Grid.Column="2"/>
           </Grid>
         </Grid>
       </Border>
