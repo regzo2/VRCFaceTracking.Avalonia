@@ -6,14 +6,17 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using VRCFaceTracking.Contracts.Services;
 using VRCFaceTracking.Core.Contracts.Services;
+using VRCFaceTracking.Services;
 
 namespace VRCFaceTracking.Avalonia.Views;
 
 public partial class SettingsPageView : UserControl
 {
     private readonly IThemeSelectorService _themeSelectorService;
+    private readonly ILanguageSelectorService _languageSelectorService;
     private readonly IMainService _mainService;
     private readonly ComboBox _themeComboBox;
+    private readonly ComboBox _langComboBox;
 
     public SettingsPageView()
     {
@@ -22,6 +25,11 @@ public partial class SettingsPageView : UserControl
         _themeSelectorService = Ioc.Default.GetService<IThemeSelectorService>()!;
         _themeComboBox = this.Find<ComboBox>("ThemeCombo")!;
         _themeComboBox.SelectionChanged += ThemeComboBox_SelectionChanged;
+
+        _languageSelectorService = Ioc.Default.GetService<ILanguageSelectorService>()!;
+        _langComboBox = this.Find<ComboBox>("LangCombo")!;
+        _langComboBox.SelectionChanged += LangComboBox_SelectionChanged;
+
         _mainService = Ioc.Default.GetService<IMainService>()!;
 
         if (_themeSelectorService.Theme is null)
@@ -30,21 +38,32 @@ public partial class SettingsPageView : UserControl
             return;
         }
 
-        int index = 0;
-        switch (_themeSelectorService.Theme.ToString())
+        if (string.IsNullOrEmpty(_languageSelectorService.Language))
         {
-            case "Default":
-                index = 0;
-                break;
-            case "Light":
-                index = 1;
-                break;
-            case "Dark":
-                index = 2;
-                break;
+            _languageSelectorService.SetLanguageAsync(LanguageSelectorService.DefaultLanguage);
+            return;
         }
 
+        int index = _themeSelectorService.Theme.ToString() switch
+        {
+            "DefaultTheme" => 0,
+            "Light" => 1,
+            "Dark" => 2,
+            _ => 0
+        };
         _themeComboBox.SelectedIndex = index;
+
+        index = _languageSelectorService.Language switch
+        {
+            "DefaultLanguage" => 0,
+            "en" => 1,
+            "es" => 2,
+            "ja" => 3,
+            "pl" => 4,
+            "zh" => 5,
+            _ => 0
+        };
+        _langComboBox.SelectedIndex = index;
     }
 
     ~SettingsPageView()
@@ -56,19 +75,20 @@ public partial class SettingsPageView : UserControl
     {
         ThemeVariant variant = ThemeVariant.Default;
         var item = _themeComboBox.SelectedItem as ComboBoxItem;
-        switch (item!.Content)
+        variant = item!.Name switch
         {
-            case "Default":
-                variant = ThemeVariant.Default;
-                break;
-            case "Light":
-                variant = ThemeVariant.Light;
-                break;
-            case "Dark":
-                variant = ThemeVariant.Dark;
-                break;
-        }
+            "DefaultTheme" => ThemeVariant.Default,
+            "Light" => ThemeVariant.Light,
+            "Dark" => ThemeVariant.Dark,
+            _ => variant
+        };
         Dispatcher.UIThread.InvokeAsync(async () => await _themeSelectorService.SetThemeAsync(variant));
+    }
+
+    private void LangComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var item = _langComboBox.SelectedItem as ComboBoxItem;
+        Dispatcher.UIThread.InvokeAsync(async () => await _languageSelectorService.SetLanguageAsync(item!.Name));
     }
 
     private void Calibration_OnClick(object? sender, RoutedEventArgs e)

@@ -64,7 +64,6 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         Localizer.SetLocalizer(new JsonLocalizer());
-        Localizer.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
         var locator = new ViewLocator();
         DataTemplates.Add(locator);
@@ -101,6 +100,7 @@ public partial class App : Application
 
                 services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
                 services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
+                services.AddSingleton<ILanguageSelectorService, LanguageSelectorService>();
 
                 services.AddSingleton<IActivationService, ActivationService>();
                 services.AddSingleton<IDispatcherService, DispatcherService>();
@@ -137,7 +137,7 @@ public partial class App : Application
 
         _host = hostBuilder.Build();
         Task.Run(async () => await _host.StartAsync());
-        
+
         if (!File.Exists(LocalSettingsService.DefaultLocalSettingsFile))
         {
             // Create the file if it doesn't exist
