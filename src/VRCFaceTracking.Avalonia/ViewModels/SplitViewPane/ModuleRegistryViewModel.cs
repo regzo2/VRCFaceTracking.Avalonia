@@ -20,9 +20,13 @@ public partial class ModuleRegistryViewModel : ViewModelBase
     [ObservableProperty] private InstallableTrackingModule _module;
 
     [ObservableProperty] private string _searchText;
-    public ObservableCollection<InstallableTrackingModule> FilteredModuleInfos { get; private set; } = [];
 
-    private InstallableTrackingModule[] _moduleInfos = [];
+    [ObservableProperty] private bool _noRemoteModulesDetected;
+
+    [ObservableProperty] private bool _modulesDetected;
+    public ObservableCollection<InstallableTrackingModule> FilteredModuleInfos { get; } = [];
+
+    private InstallableTrackingModule[] _moduleInfos;
     private ModuleRegistryView _moduleRegistryView { get; }
     private IModuleDataService _moduleDataService { get; }
     private ModuleInstaller _moduleInstaller { get; }
@@ -38,7 +42,12 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         ModuleRegistryView.LocalModuleInstalled += LocalModuleInstalled;
         ModuleRegistryView.RemoteModuleInstalled += RemoteModuleInstalled;
 
-        _moduleInfos = _moduleRegistryView.GetModules();
+        _moduleInfos = _moduleRegistryView.GetModules(out var moduleCounts);
+        _noRemoteModulesDetected = moduleCounts.remoteCount == 0;
+
+        // Hide UI if the user has no remote modules (IE not internet connection) and no local modules
+        _modulesDetected = moduleCounts.remoteCount > 0 || moduleCounts.localCount > 0;
+
         foreach (var module in _moduleInfos)
         {
             FilteredModuleInfos.Add(module);
@@ -74,7 +83,15 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
     private void LocalModuleInstalled()
     {
-        _moduleInfos = _moduleRegistryView.GetModules();
+        _moduleInfos = _moduleRegistryView.GetModules(out _);
+
+        FilteredModuleInfos.Clear();
+        foreach (var module in _moduleInfos)
+        {
+            FilteredModuleInfos.Add(module);
+        }
+
+        ModulesDetected = true;
     }
 
     private async void RemoteModuleInstalled(InstallableTrackingModule module)
@@ -117,24 +134,17 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         }
         catch
         {
-            // hack because of this: https://github.com/dotnet/corefx/issues/10361
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var url = URL.Replace("&", "^&");
-                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", URL);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("open", URL);
-            }
-            else
-            {
-                throw;
-            }
+
+#if WINDOWS_DEBUG || WINDOWS_RELEASE
+            var url = URL.Replace("&", "^&");
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+#elif MACOS_DEBUG || MACOS_RELEASE
+            Process.Start("open", URL);
+#elif LINUX_DEBUG || LINUX_RELEASE
+            Process.Start("xdg-open", URL);
+#else
+            #error
+#endif
         }
     }
 
