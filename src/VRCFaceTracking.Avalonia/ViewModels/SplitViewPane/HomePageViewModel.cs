@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Jeek.Avalonia.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using VRCFaceTracking.Avalonia.Views;
 using VRCFaceTracking.Core.Contracts;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Core.OSC;
@@ -21,6 +22,7 @@ public partial class HomePageViewModel : ViewModelBase
     private IModuleDataService ModuleDataService { get; }
     private OscRecvService OscRecvService { get; }
     private OscSendService OscSendService { get; }
+    private MainViewModel MainViewModel { get; }
 
     [ObservableProperty] private OscQueryService parameterOutputService;
 
@@ -53,6 +55,7 @@ public partial class HomePageViewModel : ViewModelBase
         OscTarget = Ioc.Default.GetService<IOscTarget>()!;
         OscRecvService = Ioc.Default.GetService<OscRecvService>()!;
         OscSendService = Ioc.Default.GetService<OscSendService>()!;
+        MainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         // Modules
         var installedNewModules = ModuleDataService.GetInstalledModules();
@@ -86,6 +89,11 @@ public partial class HomePageViewModel : ViewModelBase
 
     private void MessageReceived(OscMessage msg) => _messagesRecvd++;
     private void MessageDispatched(int msgCount) => _messagesSent += msgCount;
+
+    public void GoToModulesPage()
+    {
+        MainViewModel.CurrentPage = Ioc.Default.GetService<ModuleRegistryViewModel>()!;
+    }
 
     ~HomePageViewModel()
     {

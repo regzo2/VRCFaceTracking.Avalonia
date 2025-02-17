@@ -5,6 +5,7 @@
     x:Class="VRCFaceTracking.Avalonia.Views.HomePageView"
     x:DataType="viewModels:HomePageViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:VRCFaceTracking.Helpers"
     xmlns:l="using:Jeek.Avalonia.Localization"
@@ -40,20 +41,20 @@
                                 <ItemsControl Grid.Column="0" ItemsSource="{Binding StaticImages, Converter={StaticResource ImageConverter}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
+                                            <StackPanel Orientation="Horizontal" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                          <Border Margin="0,10,0,0">
-                                            <Image
-                                                Height="150"
-                                                HorizontalAlignment="Stretch"
-                                                Margin="0,0,20,0"
-                                                Source="{Binding}"
-                                                Stretch="UniformToFill"
-                                                VerticalAlignment="Top" />
-                                          </Border>
+                                            <Border Margin="0,10,0,0">
+                                                <Image
+                                                    Height="150"
+                                                    HorizontalAlignment="Stretch"
+                                                    Margin="0,0,20,0"
+                                                    Source="{Binding}"
+                                                    Stretch="UniformToFill"
+                                                    VerticalAlignment="Top" />
+                                            </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -92,6 +93,27 @@
             </ItemsControl>
 
             <templates:ContentExample>
+                <StackPanel Orientation="Vertical" Spacing="6">
+                    <TextBlock
+                        FontSize="15"
+                        FontWeight="Bold"
+                        x:Name="One">
+                        OSC Status
+                    </TextBlock>
+                    <TextBlock FontSize="15" x:Name="Two">
+                        <Run FontWeight="Bold" Text="{l:Localize ModulePage.Text}" />
+                        <LineBreak />
+                        <controls:Hyperlink
+                            Alias="Words"
+                            Command="{Binding GoToModulesPage}"
+                            Url="Words" />
+                    </TextBlock>
+
+                </StackPanel>
+            </templates:ContentExample>
+
+
+            <templates:ContentExample>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -127,8 +149,8 @@
                             Orientation="Horizontal"
                             Spacing="3">
                             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <Run Text="{Binding MessagesInPerSecCount, Mode=OneWay}"></Run>
-                                <Run Text="{l:Localize msIncoming.Text}"/>
+                                <Run Text="{Binding MessagesInPerSecCount, Mode=OneWay}" />
+                                <Run Text="{l:Localize msIncoming.Text}" />
                             </TextBlock>
                             <TextBlock
                                 HorizontalAlignment="Right"
@@ -139,10 +161,10 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="3">
-                          <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <Run Text="{Binding MessagesOutPerSecCount, Mode=OneWay}"></Run>
-                            <Run Text="{l:Localize msOutgoing.Text}"/>
-                          </TextBlock>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Run Text="{Binding MessagesOutPerSecCount, Mode=OneWay}" />
+                                <Run Text="{l:Localize msOutgoing.Text}" />
+                            </TextBlock>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
@@ -195,13 +217,13 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="3">
-                          <TextBlock
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Center"
-                              x:Name="CurrentParametersCount">
-                            <Run Text="{Binding CurrentParametersCount}"/>
-                            <Run>Parameters</Run>
-                          </TextBlock>
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                x:Name="CurrentParametersCount">
+                                <Run Text="{Binding CurrentParametersCount}" />
+                                <Run>Parameters</Run>
+                            </TextBlock>
                         </StackPanel>
                         <StackPanel
                             IsVisible="{Binding IsLegacyAvatar}"
@@ -220,13 +242,13 @@
                                 Orientation="Horizontal"
                                 Spacing="3"
                                 VerticalAlignment="Center">
-                              <TextBlock
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  x:Name="LegacyParametersCount">
-                                <Run Text="{Binding LegacyParametersCount}"/>
-                                <Run Text="{l:Localize LegacyParameters.Text}"/>
-                              </TextBlock>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    x:Name="LegacyParametersCount">
+                                    <Run Text="{Binding LegacyParametersCount}" />
+                                    <Run Text="{l:Localize LegacyParameters.Text}" />
+                                </TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

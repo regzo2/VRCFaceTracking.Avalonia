@@ -112,7 +112,6 @@
                                 Alias="{Binding Module.ModulePageUrl}"
                                 Command="{Binding OpenModuleUrl}"
                                 Url="{Binding Module.ModulePageUrl}" />
-
                         </TextBlock>
 
                         <TextBlock>
