@@ -19,7 +19,7 @@
     </UserControl.Resources>
 
     <ScrollViewer>
-        <StackPanel Margin="0" Spacing="20">
+        <StackPanel Classes="Page">
             <TextBlock
                 Classes="Header"
                 Text="{l:Localize Shell_Main.Content}" />

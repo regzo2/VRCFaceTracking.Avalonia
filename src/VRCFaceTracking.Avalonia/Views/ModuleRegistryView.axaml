@@ -14,7 +14,7 @@
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer>
-        <StackPanel Margin="0" Spacing="12">
+        <StackPanel Classes="Page">
             <TextBlock Classes="Header"
                        Text="{l:Localize Shell_ModuleRegistry.Content}" />
 

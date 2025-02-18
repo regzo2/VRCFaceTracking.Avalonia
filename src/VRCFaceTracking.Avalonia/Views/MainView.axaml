@@ -57,7 +57,7 @@
     </SplitView.Pane>
 
     <SplitView.Content>
-      <Border CornerRadius="16 0 0 0" Padding="30" Background="{DynamicResource SystemChromeMediumColor}">
+      <Border CornerRadius="16 0 0 0" Padding="5" Background="{DynamicResource SystemChromeMediumColor}">
         <TransitioningContentControl Content="{Binding CurrentPage}" />
       </Border>
     </SplitView.Content>
