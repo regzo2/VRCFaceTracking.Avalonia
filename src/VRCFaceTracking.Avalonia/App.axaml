@@ -99,6 +99,34 @@
         <Setter Property="Height" Value="30"/>
       </Style>
       
+      <Style Selector="Expander">
+        <Setter Property="BorderThickness" Value="6"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Margin" Value="2"/>
+      </Style>
+
+      <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
+        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+      </Style>
+
+      <Style Selector="Expander:expanded /template/ ToggleButton#ExpanderHeader">
+        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+      </Style>
+
+      <Style Selector="Expander:down /template/ Border#ExpanderContent">
+        <Setter Property="BorderThickness" Value="0"/>
+      </Style>
+      
+      <Style Selector="Expander /template/ ToggleButton:pointerover /template/ Border#ToggleButtonBackground">
+        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+      </Style>
+      
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
 
