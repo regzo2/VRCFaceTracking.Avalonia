@@ -153,44 +153,49 @@
   <!-- Main Content -->
   <Grid>
     <ScrollViewer>
-      <ItemsRepeater x:Name="MutationsListView" ItemsSource="{Binding Mutations}" Margin="10">
-        <ItemsRepeater.ItemTemplate>
-          <DataTemplate x:DataType="mutator:TrackingMutation">
-            <Expander IsExpanded="False"
-                  VerticalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch"
-                  HorizontalAlignment="Stretch">
-              <Expander.Header>
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="Auto"/>
-                  </Grid.ColumnDefinitions>
-                  <ToggleSwitch IsChecked="{Binding IsActive, Mode=TwoWay}"
-                            OffContent=""
-                            OnContent=""
-                            Padding="0"
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            Grid.Column="0"/>
-                  <Grid Margin="20,20,20,20" Grid.Column="1" VerticalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="Auto"/>
-                      <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0"/>
-                    <TextBlock Text="{Binding Description}" Foreground="LightGray" Margin="0" TextWrapping="Wrap" Grid.Row="1"/>
+      <StackPanel Classes="Page">
+        <TextBlock Classes="Header"
+                   Text="{l:Localize Shell_TrackingSettings.Content}" />
+
+        <ItemsRepeater x:Name="MutationsListView" ItemsSource="{Binding Mutations}" Margin="0">
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="mutator:TrackingMutation">
+              <Expander IsExpanded="False"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+                <Expander.Header>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="60"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch IsChecked="{Binding IsActive, Mode=TwoWay}"
+                              OffContent=""
+                              OnContent=""
+                              Padding="0"
+                              Margin="10,0,0,0"
+                              HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Left"
+                              Grid.Column="0"/>
+                    <Grid Margin="20,20,20,20" Grid.Column="1" VerticalAlignment="Stretch">
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                      </Grid.RowDefinitions>
+                      <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0"/>
+                      <TextBlock Text="{Binding Description}" Foreground="{DynamicResource SystemChromeGrayColor}" Margin="0" TextWrapping="Wrap" Grid.Row="1"/>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Expander.Header>
-              <ItemsControl ItemsSource="{Binding Components}"
-                            ItemTemplate="{StaticResource MutationPropertyTemplateSelector}">
-              </ItemsControl>
-            </Expander>
-          </DataTemplate>
-        </ItemsRepeater.ItemTemplate>
-      </ItemsRepeater>
+                </Expander.Header>
+                <ItemsControl ItemsSource="{Binding Components}"
+                              ItemTemplate="{StaticResource MutationPropertyTemplateSelector}">
+                </ItemsControl>
+              </Expander>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </StackPanel>
     </ScrollViewer>
   </Grid>
 </UserControl>

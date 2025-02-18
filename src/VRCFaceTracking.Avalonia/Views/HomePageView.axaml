@@ -19,11 +19,9 @@
     </UserControl.Resources>
 
     <ScrollViewer>
-        <StackPanel Margin="20" Spacing="20">
+        <StackPanel Classes="Page">
             <TextBlock
-                FontSize="20"
-                FontWeight="Bold"
-                Margin="0,20"
+                Classes="Header"
                 Text="{l:Localize Shell_Main.Content}" />
 
             <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">

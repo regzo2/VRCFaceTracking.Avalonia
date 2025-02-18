@@ -12,12 +12,9 @@
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer>
-        <StackPanel Margin="20" Spacing="20">
-            <TextBlock
-                FontSize="20"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="{l:Localize Shell_Output.Content}" />
+        <StackPanel Classes="Page">
+            <TextBlock Classes="Header"
+                       Text="{l:Localize Shell_Output.Content}" />
             <templates:ContentExample>
                 <StackPanel Orientation="Horizontal" Spacing="12">
                     <Button Click="CopyRequested" x:Name="CopyButton">
