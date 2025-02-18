@@ -37,15 +37,15 @@
                 <StackPanel Orientation="Horizontal" Spacing="12">
                     <StackPanel MinWidth="150" Spacing="12">
                         <TextBlock FontSize="15">Receive Port</TextBlock>
-                        <TextBox Text="{Binding OscTarget.InPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox Text="{Binding OscTarget.InPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the receive port..." />
                     </StackPanel>
                     <StackPanel MinWidth="150" Spacing="12">
                         <TextBlock FontSize="15">IP Address</TextBlock>
-                        <TextBox Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the target IP..." />
                     </StackPanel>
                     <StackPanel MinWidth="150" Spacing="12">
                         <TextBlock FontSize="15">Send Port</TextBlock>
-                        <TextBox Text="{Binding OscTarget.OutPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox Text="{Binding OscTarget.OutPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the send port..." />
                     </StackPanel>
                 </StackPanel>
             </templates:ContentExample>
