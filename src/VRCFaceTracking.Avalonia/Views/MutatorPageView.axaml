@@ -10,216 +10,188 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rs="using:RangeSlider.Avalonia.Controls"
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:helpers="using:VRCFaceTracking.Helpers"
+    xmlns:mutator="using:VRCFaceTracking.Core.Params.Data.Mutation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+  <UserControl.Resources>
+
+    <!-- Data Templates -->
+    <DataTemplate x:Key="CheckboxTemplate" DataType="{x:Type mutator:MutationProperty}">
+      <Border Background="#08ffffff"
+              CornerRadius="2"
+              Padding="20,10,20,10"
+              Margin="0,1,0,1">
+
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <!-- Automatically fills available space -->
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <CheckBox IsChecked="{Binding Value, Mode=TwoWay}"
+                    Margin="10,0,-98,0"
+                    Grid.Column="2"
+                    Padding="0,0,0,0"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Center"/>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TextInputTemplate" DataType="{x:Type mutator:MutationProperty}">
+      <Border Background="#08ffffff"
+              CornerRadius="2"
+              Padding="20,10,20,10"
+              Margin="0,1,0,1">
+
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="6*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <TextBox Text="{Binding Value, Mode=TwoWay}"
+                   Grid.Column="2"
+                   HorizontalAlignment="Right"
+                   Margin="0,0,0,0"/>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SliderTemplate" DataType="{x:Type mutator:MutationProperty}">
+      <Border Background="#08ffffff"
+              CornerRadius="2"
+              Padding="20,10,20,10"
+              Margin="0,1,0,1">
+
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="6*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" MinWidth="90"/>
+              <ColumnDefinition Width="6*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Value, StringFormat='{}{0:N2}'}" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Margin="20,0,20,0"/>
+            <Slider Minimum="{Binding Min}"
+                    IsSnapToTickEnabled="true"
+                    TickPlacement="None"
+                    TickFrequency="0.01"
+                    Maximum="{Binding Max}"
+                    Value="{Binding Value, Mode=TwoWay}"
+                    Grid.Column="2"
+                    HorizontalAlignment="Stretch"/>
+          </Grid>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonTemplate" DataType="{x:Type mutator:MutationAction}">
+      <Border Background="#08ffffff"
+              CornerRadius="2"
+              Padding="20,10,20,10"
+              Margin="0,1,0,1">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="6*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <Button Content="{Binding Name}" MinWidth="0" Command="{Binding}" Margin="0" HorizontalAlignment="Right" Grid.Column="2"/>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RangeTemplate" DataType="{x:Type mutator:MutationRangeProperty}">
+      <Border Background="#08ffffff"
+              CornerRadius="2"
+              Padding="20,10,20,10"
+              Margin="0,1,0,1">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="6*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="2*" MinWidth="40"/>
+              <ColumnDefinition Width="5*"/>
+              <ColumnDefinition Width="Auto" MinWidth="40"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Item1, StringFormat='{}{0:N2}'}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,20,0" HorizontalAlignment="Right"/>
+            <rs:RangeSlider Minimum="0"
+                            Maximum="1"
+                            LowerSelectedValue="{Binding Item1, Mode=TwoWay}"
+                            UpperSelectedValue="{Binding Item2, Mode=TwoWay}"
+                            TickFrequency="0.01"
+                            Grid.Column="1"/>
+            <TextBlock Text="{Binding Item2, StringFormat='{}{0:N2}'}" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="20,0,0,0" Grid.Column="2"/>
+          </Grid>
+        </Grid>
+      </Border>
+    </DataTemplate>
+
+    <helpers:ComponentTemplateSelector x:Key="MutationPropertyTemplateSelector"
+                                      CheckboxTemplate="{StaticResource CheckboxTemplate}"
+                                      TextInputTemplate="{StaticResource TextInputTemplate}"
+                                      ButtonTemplate="{StaticResource ButtonTemplate}"
+                                      RangeTemplate="{StaticResource RangeTemplate}"
+                                      SliderTemplate="{StaticResource SliderTemplate}"/>
+  </UserControl.Resources>
+
+  <!-- Main Content -->
+  <Grid>
     <ScrollViewer>
-        <StackPanel Margin="20" Spacing="2">
-            <TextBlock
-                FontSize="20"
-                FontWeight="Bold"
-                Margin="0,20"
-                Text="{l:Localize Shell_TrackingSettings.Content}" />
-
-            <Expander IsExpanded="{Binding IsCalibrationEnabled}" MinWidth="1012">
-                <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*">
-                        <ToggleSwitch
-                            Grid.Column="0"
-                            IsChecked="{Binding IsCalibrationEnabled}"
+      <ItemsRepeater x:Name="MutationsListView" ItemsSource="{Binding Mutations}" Margin="10">
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate x:DataType="mutator:TrackingMutation">
+            <Expander IsExpanded="False"
+                  VerticalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  HorizontalAlignment="Stretch">
+              <Expander.Header>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <ToggleSwitch IsChecked="{Binding IsActive, Mode=TwoWay}"
                             OffContent=""
-                            OnContent="" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="Calibration"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </Expander.Header>
-                <StackPanel>
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="Calibration Deviation" VerticalAlignment="Center" />
-                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,10,0"
-                                Text="{Binding CalibrationDeviation, StringFormat={}{0:F2}}"
-                                VerticalAlignment="Center" />
-                            <Slider
-                                Grid.Column="1"
-                                Maximum="1"
-                                Minimum="0"
-                                Value="{Binding CalibrationDeviation}"
-                                Width="300" />
-                        </Grid>
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="Clamp Connected Expressions" VerticalAlignment="Center" />
-                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsClampConnectedExpressionsEnabled}" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="[DEBUG] Data Points" VerticalAlignment="Center" />
-                        <NumericUpDown
-                            Grid.Column="1"
-                            Height="30"
-                            Maximum="100"
-                            Minimum="0"
-                            Value="{Binding DebugDataPoints}" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="[DEBUG] Step Delta" VerticalAlignment="Center" />
-                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,10,0"
-                                Text="{Binding DebugStepDelta, StringFormat={}{0:F2}}"
-                                VerticalAlignment="Center" />
-                            <Slider
-                                Grid.Column="1"
-                                Maximum="1"
-                                Minimum="0"
-                                Value="{Binding DebugStepDelta}"
-                                Width="300" />
-                        </Grid>
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="[DEBUG] Calibration Delta" VerticalAlignment="Center" />
-                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="1">
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,10,0"
-                                Text="{Binding DebugCalibrationDelta, StringFormat={}{0:F2}}"
-                                VerticalAlignment="Center" />
-                            <Slider
-                                Grid.Column="1"
-                                Maximum="1"
-                                Minimum="0"
-                                Value="{Binding DebugCalibrationDelta}"
-                                Width="300" />
-                        </Grid>
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="[DEBUG] Log Data" VerticalAlignment="Center" />
-                        <Button
-                            Click="LogDataCommand"
-                            Content="[DEBUG] Log Data"
-                            Grid.Column="1" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Margin="0,5"
-                        MinHeight="50">
-                        <TextBlock Text="Clear Calibration" VerticalAlignment="Center" />
-                        <Button
-                            Click="ClearCalibrationCommand"
-                            Content="Clear Calibration"
-                            Grid.Column="1" />
-                    </Grid>
-
-                </StackPanel>
+                            OnContent=""
+                            Padding="0"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            Grid.Column="0"/>
+                  <Grid Margin="20,20,20,20" Grid.Column="1" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto"/>
+                      <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0"/>
+                    <TextBlock Text="{Binding Description}" Foreground="LightGray" Margin="0" TextWrapping="Wrap" Grid.Row="1"/>
+                  </Grid>
+                </Grid>
+              </Expander.Header>
+              <ItemsControl ItemsSource="{Binding Components}"
+                            ItemTemplate="{StaticResource MutationPropertyTemplateSelector}">
+              </ItemsControl>
             </Expander>
-
-            <Expander IsExpanded="{Binding IsParameterAdjustmentEnabled}" MinWidth="1012">
-                <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*">
-                        <ToggleSwitch
-                            Grid.Column="0"
-                            IsChecked="{Binding IsParameterAdjustmentEnabled}"
-                            OffContent=""
-                            OnContent="" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="Parameter Adjustment"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </Expander.Header>
-                <ListBox ItemsSource="{Binding TrackingParameters}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="0,2">
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Text="{Binding Name}"
-                                    VerticalAlignment="Center" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="0,0,10,0"
-                                    Text="{Binding LowerValue, StringFormat={}{0:F2}}"
-                                    VerticalAlignment="Center" />
-                                <rs:RangeSlider
-                                    Grid.Column="2"
-                                    LowerSelectedValue="{Binding LowerValue}"
-                                    Maximum="1"
-                                    Minimum="0"
-                                    UpperSelectedValue="{Binding UpperValue}"
-                                    Width="300" />
-                                <TextBlock
-                                    Grid.Column="3"
-                                    Margin="10,0,0,0"
-                                    Text="{Binding UpperValue, StringFormat={}{0:F2}}"
-                                    VerticalAlignment="Center" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Expander>
-
-            <Expander IsExpanded="{Binding IsUnifiedCorrectorsEnabled}" MinWidth="1012">
-                <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*">
-                        <ToggleSwitch
-                            Grid.Column="0"
-                            IsChecked="{Binding IsUnifiedCorrectorsEnabled}"
-                            OffContent=""
-                            OnContent="" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="Unified Correctors"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </Expander.Header>
-            </Expander>
-
-            <Expander IsExpanded="{Binding IsDataFilterEnabled}" MinWidth="1012">
-                <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*">
-                        <ToggleSwitch
-                            Grid.Column="0"
-                            IsChecked="{Binding IsDataFilterEnabled}"
-                            OffContent=""
-                            OnContent="" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="Data Filter"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </Expander.Header>
-            </Expander>
-
-        </StackPanel>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
     </ScrollViewer>
-
+  </Grid>
 </UserControl>
 
