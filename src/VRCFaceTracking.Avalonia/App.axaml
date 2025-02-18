@@ -78,6 +78,27 @@
             </FluentTheme.Palettes>
         </FluentTheme>
 
+      <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+      </Style>
+
+      <Style Selector="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="30"/>
+      </Style>
+      
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
 
