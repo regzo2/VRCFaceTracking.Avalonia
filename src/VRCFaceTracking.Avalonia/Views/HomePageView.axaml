@@ -13,6 +13,7 @@
     xmlns:models="clr-namespace:VRCFaceTracking;assembly=VRCFaceTracking.SDK"
     xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
     xmlns:viewModels="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
+    xmlns:views="clr-namespace:VRCFaceTracking.Avalonia.Views"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <UserControl.Resources>
@@ -92,26 +93,48 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <templates:ContentExample>
-                <StackPanel Orientation="Vertical" Spacing="6">
-                    <TextBlock
-                        FontSize="15"
-                        FontWeight="Bold"
-                        x:Name="One">
-                        OSC Status
-                    </TextBlock>
-                    <TextBlock FontSize="15" x:Name="Two">
-                        <Run FontWeight="Bold" Text="{l:Localize ModulePage.Text}" />
-                        <LineBreak />
+            <templates:ContentExample IsVisible="{Binding NoModulesInstalled}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <PathIcon
+                        Data="{StaticResource InfoRegular}"
+                        Grid.Column="0"
+                        Height="30"
+                        Margin="0,4,16,0"
+                        VerticalAlignment="Center"
+                        Width="30" />
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Spacing="6">
+                        <TextBlock
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{l:Localize no_modules_installed_warning.Title}" />
+                        <TextBlock FontSize="15" Text="{l:Localize no_modules_installed_warning.Description}" />
                         <controls:Hyperlink
-                            Alias="Words"
-                            Command="{Binding GoToModulesPage}"
-                            Url="Words" />
-                    </TextBlock>
+                            Alias="{l:Localize no_modules_installed_warning.ButtonText}"
+                            Click="GoToModulesPage"
+                            FontSize="15"
+                            Url="{l:Localize no_modules_installed_warning.ButtonText}" />
+                    </StackPanel>
 
-                </StackPanel>
+                    <Button
+                        Click="DismissModuleWarning"
+                        Content="Dismiss"
+                        Grid.Column="2"
+                        Height="48"
+                        HorizontalContentAlignment="Center"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Width="80" />
+                </Grid>
             </templates:ContentExample>
-
 
             <templates:ContentExample>
                 <Grid>
