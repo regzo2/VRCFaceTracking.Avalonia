@@ -19,6 +19,12 @@
     <x:String x:Key="PaneCloseRegular">PaneCloseRegular</x:String>
     <x:String x:Key="SquareEmpty">SquareEmpty</x:String>
   </Window.Resources>
+
+  <Window.Styles>
+    <Style Selector="Border.TitleBar">
+      <Setter Property="Background" Value="{DynamicResource SystemChromeLowColor}"/>
+    </Style>
+  </Window.Styles>
   
   <Grid>
     <Grid.RowDefinitions>

@@ -15,7 +15,8 @@
   <SplitView IsPaneOpen="{Binding IsPaneOpen}"
              CompactPaneLength="45"
              DisplayMode="CompactInline"
-             OpenPaneLength="300">
+             OpenPaneLength="300"
+             Background="{DynamicResource SystemChromeLowColor}">
     <SplitView.Pane>
       <StackPanel Orientation="Vertical"
                   Spacing="5"
@@ -32,9 +33,11 @@
         <ListBox Margin="0 0 -100 0" Padding="0" ItemsSource="{Binding Items}"
                  SelectedItem="{Binding SelectedListItem}">
           <ListBox.Styles>
+            <Style Selector="ListBox">
+              <Setter Property="Background" Value="#00000000" />
+            </Style>
             <Style Selector="ListBoxItem">
               <Setter Property="Padding" Value="12 8" />
-              <Setter Property="Background" Value="#00000000" />
             </Style>
           </ListBox.Styles>
           <ListBox.ItemTemplate>
@@ -45,7 +48,7 @@
                           VerticalAlignment="Center"
                           Width="16"
                           Margin="3,0,0,0"/>
-                <TextBlock Text="{Binding Label}" />
+                <TextBlock Text="{Binding Label}" Background="#00ffffff"/>
               </StackPanel>
             </DataTemplate>
           </ListBox.ItemTemplate>
@@ -54,7 +57,7 @@
     </SplitView.Pane>
 
     <SplitView.Content>
-      <Border CornerRadius="12 0 0 0">
+      <Border CornerRadius="16 0 0 0" Background="{DynamicResource SystemChromeMediumColor}">
         <TransitioningContentControl Content="{Binding CurrentPage}" />
       </Border>
     </SplitView.Content>
