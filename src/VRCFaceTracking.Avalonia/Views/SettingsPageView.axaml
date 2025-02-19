@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:l="using:Jeek.Avalonia.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer>
@@ -16,222 +16,120 @@
             <TextBlock Classes="Header"
                        Text="Settings" />
 
-          <TextBlock Classes="Header" Text="{l:Localize ThemeSettings.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize ThemeSettings.Description}" />
-
-            <templates:ContentExample>
-                <ComboBox x:Name="ThemeCombo">
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Default.Content}" />
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Light.Content}" />
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Dark.Content}" />
+            <controls:SettingsBlock Title="{l:Localize ThemeSettings.Header}"
+                                    Description="{l:Localize ThemeSettings.Description}">
+              <controls:SettingsBlock.SettingsContent>
+                <ComboBox x:Name="ThemeCombo" VerticalAlignment="Center">
+                  <ComboBoxItem Content="{l:Localize Settings_Theme_Default.Content}" />
+                  <ComboBoxItem Content="{l:Localize Settings_Theme_Light.Content}" />
+                  <ComboBoxItem Content="{l:Localize Settings_Theme_Dark.Content}" />
                 </ComboBox>
-            </templates:ContentExample>
+              </controls:SettingsBlock.SettingsContent>
+            </controls:SettingsBlock>
 
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="{l:Localize OscSettings.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize OscSettings.Description}" />
-            <templates:ContentExample>
-                <StackPanel Orientation="Horizontal" Spacing="12">
+            <controls:SettingsBlock Title="{l:Localize OscSettings.Header}"
+                                    Description="{l:Localize OscSettings.Description}">
+              <controls:SettingsBlock.SettingsContent>
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
                     <StackPanel MinWidth="150" Spacing="12">
                         <TextBlock FontSize="15">Receive Port</TextBlock>
                         <TextBox Text="{Binding OscTarget.InPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the receive port..." />
                     </StackPanel>
-                    <StackPanel MinWidth="150" Spacing="12">
+                    <StackPanel MinWidth="150" Spacing="12" VerticalAlignment="Center">
                         <TextBlock FontSize="15">IP Address</TextBlock>
                         <TextBox Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the target IP..." />
                     </StackPanel>
-                    <StackPanel MinWidth="150" Spacing="12">
+                    <StackPanel MinWidth="150" Spacing="12" VerticalAlignment="Center">
                         <TextBlock FontSize="15">Send Port</TextBlock>
                         <TextBox Text="{Binding OscTarget.OutPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Watermark="Input the send port..." />
                     </StackPanel>
                 </StackPanel>
-            </templates:ContentExample>
+              </controls:SettingsBlock.SettingsContent>
+            </controls:SettingsBlock>
 
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="{l:Localize CalibrationSettings.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize CalibrationSettings.Description}" />
+            <controls:SettingsToggle Title="{l:Localize AutoStartSettings.Header}"
+                                     Description="{l:Localize AutoStartSettings.Description}"
+                                     SettingToggled="{Binding IsAutoStartEnabled, Mode=TwoWay}"/>
 
-            <templates:ContentExample>
-                <Grid RowDefinitions="Auto,Auto,Auto,Auto">
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Grid.Row="0"
-                        Margin="0,0,0,12">
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock.Inlines>
-                                <Run FontWeight="Bold" Text="{l:Localize CalibrationEnabledToggle.Header}" />
-                                <LineBreak />
-                                <Run FontWeight="Normal" Text="{l:Localize CalibrationEnabledToggle.Description}" />
-                            </TextBlock.Inlines>
-                        </TextBlock>
-                        <ToggleSwitch
-                            Grid.Column="1"
-                            IsChecked="{Binding IsCalibrationEnabled}"
-                            VerticalAlignment="Center" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Grid.Row="1"
-                        Margin="0,0,0,12">
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock.Inlines>
-                                <Run FontWeight="Bold" Text="{l:Localize ContCalibrationToggle.Header}" />
-                                <LineBreak />
-                                <Run FontWeight="Normal" Text="{l:Localize ContCalibrationToggle.Description}" />
-                            </TextBlock.Inlines>
-                        </TextBlock>
-                        <ToggleSwitch
-                            Grid.Column="1"
-                            IsChecked="{Binding IsContCalibrationEnabled}"
-                            IsEnabled="{Binding IsCalibrationEnabled}"
-                            VerticalAlignment="Center" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Grid.Row="2"
-                        Margin="0,0,0,12">
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock.Inlines>
-                                <Run FontWeight="Bold" Text="{l:Localize TrackingCalibrateButton.Header}" />
-                                <LineBreak />
-                                <Run FontWeight="Normal" Text="{l:Localize TrackingCalibrateButton.Description}" />
-                            </TextBlock.Inlines>
-                        </TextBlock>
-
-                        <Button
-                            Click="Calibration_OnClick"
-                            Content="{l:Localize CalibrateButton.Content}"
-                            Grid.Column="1"
-                            IsEnabled="{Binding IsCalibrationEnabled}" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions="*,Auto" Grid.Row="3">
-                        <TextBlock Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock.Inlines>
-                                <Run FontWeight="Bold" Text="{l:Localize CalibrationInfluenceSlider.Header}" />
-                                <LineBreak />
-                                <Run FontWeight="Normal" Text="{l:Localize CalibrationInfluenceSlider.Description}" />
-                            </TextBlock.Inlines>
-                        </TextBlock>
-                        <Slider
-                            Grid.Column="1"
-                            IsEnabled="{Binding IsCalibrationEnabled}"
-                            Maximum="100"
-                            MinWidth="200"
-                            Minimum="0"
-                            Value="{Binding SliderValue}" />
-                    </Grid>
+          <controls:SettingsExpanderToggle Title="{l:Localize RiskySettings.Header}"
+                                           Description="{l:Localize RiskySettings.Description}"
+                                           ExpanderContentToggle="{Binding IsRiskySettingsEnabled, Mode=TwoWay}">
+            <controls:SettingsExpanderToggle.ExpanderContent>
+              <StackPanel>
+                <Grid ColumnDefinitions="*,Auto"
+                      Grid.Row="0"
+                      Margin="0,0,0,12">
+                  <StackPanel Grid.Column="0">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{l:Localize ForceRelevancyToggle.Header}"
+                        VerticalAlignment="Center" />
+                    <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <ToggleSwitch
+                      Grid.Column="1"
+                      IsChecked="{Binding AllRelevantDebug}"
+                      VerticalAlignment="Top" />
                 </Grid>
-            </templates:ContentExample>
 
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="{l:Localize AutoStartSettings.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize AutoStartSettings.Description}" />
-            <templates:ContentExample>
-                <ToggleSwitch IsChecked="{Binding IsAutoStartEnabled}" />
-            </templates:ContentExample>
-
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="{l:Localize RiskySettings.Header}" />
-            <TextBlock Margin="0,0,0,0" Text="{l:Localize RiskySettings.Description}" />
-            <templates:ContentExample Margin="0,20">
-                <ToggleSwitch IsChecked="{Binding IsRiskySettingsEnabled, Mode=TwoWay}" OnContent="Gremlin Mode" />
-            </templates:ContentExample>
-
-            <templates:ContentExample>
-                <Grid IsEnabled="{Binding IsRiskySettingsEnabled}" RowDefinitions="Auto,Auto,Auto">
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Grid.Row="0"
-                        Margin="0,0,0,12">
-                        <StackPanel Grid.Column="0">
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="{l:Localize ForceRelevancyToggle.Header}"
-                                VerticalAlignment="Center" />
-                            <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <ToggleSwitch
-                            Grid.Column="1"
-                            IsChecked="{Binding AllRelevantDebug}"
-                            VerticalAlignment="Top" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        Grid.Row="1"
-                        Margin="0,0,0,12">
-                        <StackPanel Grid.Column="0">
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="{l:Localize ForceReInitButton.Header}"
-                                VerticalAlignment="Center" />
-                            <TextBlock Text="{l:Localize ForceReInitButton.Description}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <Button
-                            Click="ReInit_OnClick"
-                            Content="{l:Localize ReInitButton.Content}"
-                            Grid.Column="1"
-                            VerticalAlignment="Top" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions="*,Auto" Grid.Row="2">
-                        <StackPanel Grid.Column="0">
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="{l:Localize ResetVRCFTButton.Header}"
-                                VerticalAlignment="Center" />
-                            <TextBlock Text="{l:Localize ResetVRCFTButton.Description}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <Button
-                            Click="Reset_OnClick"
-                            Content="{l:Localize ResetButton.Content}"
-                            Grid.Column="1"
-                            VerticalAlignment="Top" />
-                    </Grid>
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    Grid.Row="1"
+                    Margin="0,0,0,12">
+                  <StackPanel Grid.Column="0">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{l:Localize ForceReInitButton.Header}"
+                        VerticalAlignment="Center" />
+                    <TextBlock Text="{l:Localize ForceReInitButton.Description}" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <Button
+                      Click="ReInit_OnClick"
+                      Content="{l:Localize ReInitButton.Content}"
+                      Grid.Column="1"
+                      VerticalAlignment="Top" />
                 </Grid>
-            </templates:ContentExample>
 
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,30,0,0"
-                Text="{l:Localize HardwareDebug.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize HardwareDebug.Description}" />
+                <Grid ColumnDefinitions="*,Auto" Grid.Row="2">
+                  <StackPanel Grid.Column="0">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{l:Localize ResetVRCFTButton.Header}"
+                        VerticalAlignment="Center" />
+                    <TextBlock Text="{l:Localize ResetVRCFTButton.Description}" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <Button
+                      Click="Reset_OnClick"
+                      Content="{l:Localize ResetButton.Content}"
+                      Grid.Column="1"
+                      VerticalAlignment="Top" />
+                </Grid>
+              </StackPanel>
+            </controls:SettingsExpanderToggle.ExpanderContent>
+          </controls:SettingsExpanderToggle>
 
-            <StackPanel>
+          <controls:SettingsExpander Title="{l:Localize HardwareDebug.Header}"
+                                           Description="{l:Localize HardwareDebug.Description}">
+            <controls:SettingsExpander.ExpanderContent>
+              <StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Border
-                        ClipToBounds="True"
-                        IsEnabled="{Binding HasUpperImage}"
-                        Width="300">
-                        <Image MaxWidth="300" Source="{Binding UpperImageSource}" />
-                    </Border>
+                  <Border
+                      ClipToBounds="True"
+                      IsEnabled="{Binding HasUpperImage}"
+                      Width="300">
+                    <Image MaxWidth="300" Source="{Binding UpperImageSource}" />
+                  </Border>
 
-                    <Border
-                        ClipToBounds="True"
-                        IsEnabled="{Binding HasLowerImage}"
-                        Width="300">
-                        <Image MaxWidth="300" Source="{Binding LowerImageSource}" />
-                    </Border>
+                  <Border
+                      ClipToBounds="True"
+                      IsEnabled="{Binding HasLowerImage}"
+                      Width="300">
+                    <Image MaxWidth="300" Source="{Binding LowerImageSource}" />
+                  </Border>
                 </StackPanel>
-            </StackPanel>
-
+              </StackPanel>
+            </controls:SettingsExpander.ExpanderContent>
+          </controls:SettingsExpander>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
