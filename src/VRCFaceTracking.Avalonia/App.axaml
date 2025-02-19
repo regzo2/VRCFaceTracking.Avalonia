@@ -40,7 +40,7 @@
                     ChromeGray="#ff737373"
                     ChromeHigh="#ffcccccc"
                     ChromeLow="#ffececec"
-                    ChromeMedium="#ffdbdbdb"
+                    ChromeMedium="White"
                     ChromeMediumLow="#ffececec"
                     ChromeWhite="White"
                     ListLow="#ffe6e6e6"
