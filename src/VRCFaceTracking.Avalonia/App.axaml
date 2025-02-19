@@ -3,7 +3,6 @@
     x:Class="VRCFaceTracking.Avalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:avalonia="clr-namespace:HyperText.Avalonia;assembly=HyperText.Avalonia"
-    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:themes="using:RangeSlider.Avalonia.Themes.Fluent"
     xmlns:vrcft="clr-namespace:VRCFaceTracking.Avalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
