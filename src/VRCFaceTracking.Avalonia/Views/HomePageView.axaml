@@ -10,7 +10,7 @@
     xmlns:l="using:Jeek.Avalonia.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:VRCFaceTracking;assembly=VRCFaceTracking.SDK"
-    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:viewModels="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:views="clr-namespace:VRCFaceTracking.Avalonia.Views"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -20,11 +20,9 @@
     </UserControl.Resources>
 
     <ScrollViewer>
-        <StackPanel Margin="20" Spacing="20">
+        <StackPanel Classes="Page">
             <TextBlock
-                FontSize="20"
-                FontWeight="Bold"
-                Margin="0,20"
+                Classes="Header"
                 Text="{l:Localize Shell_Main.Content}" />
 
             <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">
@@ -92,16 +90,16 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <templates:ContentExample IsVisible="{Binding NoModulesInstalled}">
-                <templates:WarningBlock
+            <controls:ContentExample IsVisible="{Binding NoModulesInstalled}">
+                <controls:WarningBlock
                     Caption="{l:Localize no_modules_installed_warning.ButtonText}"
                     DismissCommand="{Binding DismissWarningCommand}"
                     Header="{l:Localize no_modules_installed_warning.Title}"
                     NavigateCommand="{Binding NavigateToModulesCommand}"
                     Subheader="{l:Localize no_modules_installed_warning.Description}" />
-            </templates:ContentExample>
+            </controls:ContentExample>
 
-            <templates:ContentExample>
+            <controls:ContentExample>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -160,9 +158,9 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-            </templates:ContentExample>
+            </controls:ContentExample>
 
-            <templates:ContentExample>
+            <controls:ContentExample>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -241,7 +239,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-            </templates:ContentExample>
+            </controls:ContentExample>
 
         </StackPanel>
     </ScrollViewer>

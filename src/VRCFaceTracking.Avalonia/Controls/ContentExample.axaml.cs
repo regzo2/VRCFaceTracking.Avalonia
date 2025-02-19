@@ -4,7 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 
-namespace VRCFaceTracking.Avalonia.Templates;
+namespace VRCFaceTracking.Avalonia.Controls;
 
 public class ContentExample : TemplatedControl
 {

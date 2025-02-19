@@ -3,12 +3,12 @@
     x:Class="VRCFaceTracking.Avalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:avalonia="clr-namespace:HyperText.Avalonia;assembly=HyperText.Avalonia"
-    xmlns:avaloniaMiaDev="clr-namespace:VRCFaceTracking.Avalonia"
     xmlns:themes="using:RangeSlider.Avalonia.Themes.Fluent"
+    xmlns:vrcft="clr-namespace:VRCFaceTracking.Avalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.DataTemplates>
-        <avaloniaMiaDev:ViewLocator />
+        <vrcft:ViewLocator />
     </Application.DataTemplates>
 
     <!--  Made using https://theme.xaml.live/  -->
@@ -39,7 +39,7 @@
                     ChromeGray="#ff737373"
                     ChromeHigh="#ffcccccc"
                     ChromeLow="#ffececec"
-                    ChromeMedium="#ffe6e6e6"
+                    ChromeMedium="White"
                     ChromeMediumLow="#ffececec"
                     ChromeWhite="White"
                     ListLow="#ffe6e6e6"
@@ -54,7 +54,7 @@
                     AltMediumHigh="Black"
                     AltMediumLow="Black"
                     BaseHigh="White"
-                    BaseLow="#ff393939"
+                    BaseLow="#ff343434"
                     BaseMedium="#ff9d9d9d"
                     BaseMediumHigh="#ffb6b6b6"
                     BaseMediumLow="#ff6b6b6b"
@@ -63,29 +63,89 @@
                     ChromeBlackLow="#ffb6b6b6"
                     ChromeBlackMedium="Black"
                     ChromeBlackMediumLow="Black"
-                    ChromeDisabledHigh="#ff393939"
+                    ChromeDisabledHigh="#ff343434"
                     ChromeDisabledLow="#ff9d9d9d"
                     ChromeGray="#ff848484"
                     ChromeHigh="#ff848484"
                     ChromeLow="#ff181818"
                     ChromeMedium="#ff202020"
-                    ChromeMediumLow="#ff313131"
+                    ChromeMediumLow="#ff292929"
                     ChromeWhite="White"
-                    ListLow="#ff202020"
-                    ListMedium="#ff393939"
+                    ListLow="#ff292929"
+                    ListMedium="#ff343434"
                     RegionColor="#ff1e1e1e"
                     x:Key="Dark" />
             </FluentTheme.Palettes>
         </FluentTheme>
 
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="30" />
+        </Style>
+
+        <Style Selector="Expander">
+            <Setter Property="BorderThickness" Value="6" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="Expander:expanded /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="Expander:down /template/ Border#ExpanderContent">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="Expander /template/ ToggleButton:pointerover /template/ Border#ToggleButtonBackground">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="TextBlock.Header">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0 10 0 10" />
+        </Style>
+
+        <Style Selector="StackPanel.Page">
+            <Setter Property="Margin" Value="25" />
+            <Setter Property="Spacing" Value="15" />
+        </Style>
+
         <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
-        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
+        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Controls/ContentExample.axaml" />
 
     </Application.Styles>
 
     <TrayIcon.Icons>
         <TrayIcons>
-            <TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Right click to see VRCFaceTracking options">
+            <TrayIcon Icon="/Assets/WindowIcon.ico" ToolTipText="Right click to see VRCFaceTracking options">
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem Click="OnTrayShutdownClicked" Header="Exit" />
