@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <LangVersion>latest</LangVersion>
@@ -6,6 +6,24 @@
         <ApplicationIcon>./Assets/logo_big_no_bg.ico</ApplicationIcon>
         <Configurations>Linux Debug;Windows Release;MacOS Debug;Windows Debug;MacOS Release;Linux Release</Configurations>
         <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows Release|AnyCPU'">
+      <DefineConstants>$(DefineConstants);WINDOWS;OS_DESKTOP</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Linux Debug|AnyCPU'">
+      <DefineConstants>$(DefineConstants);LINUX;OS_DESKTOP</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Windows Debug|AnyCPU'">
+      <DefineConstants>$(DefineConstants);WINDOWS;OS_DESKTOP</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MacOS Release|AnyCPU'">
+      <DefineConstants>$(DefineConstants);MACOS;OS_DESKTOP</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Linux Release|AnyCPU'">
+      <DefineConstants>$(DefineConstants);LINUX;OS_DESKTOP</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MacOS Debug|AnyCPU'">
+      <DefineConstants>$(DefineConstants);MACOS;OS_DESKTOP</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>

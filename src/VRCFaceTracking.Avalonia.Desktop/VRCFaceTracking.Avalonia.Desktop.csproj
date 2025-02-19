@@ -13,24 +13,24 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Linux Debug' ">
-      <DefineConstants>TRACE; LINUX;</DefineConstants>
+      <DefineConstants>TRACE; LINUX; OS_DESKTOP</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Linux Release' ">
-      <DefineConstants>TRACE; LINUX;</DefineConstants>
+      <DefineConstants>TRACE; LINUX; OS_DESKTOP</DefineConstants>
       <Optimize>true</Optimize>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'MacOS Debug' ">
-      <DefineConstants>TRACE; MACOS;</DefineConstants>
+      <DefineConstants>TRACE; MACOS; OS_DESKTOP</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'MacOS Release' ">
-      <DefineConstants>TRACE; MACOS;</DefineConstants>
+      <DefineConstants>TRACE; MACOS; OS_DESKTOP</DefineConstants>
       <Optimize>true</Optimize>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Windows Debug' ">
-      <DefineConstants>TRACE; WINDOWS;</DefineConstants>
+      <DefineConstants>TRACE; WINDOWS; OS_DESKTOP</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Windows Release' ">
-      <DefineConstants>TRACE; WINDOWS;</DefineConstants>
+      <DefineConstants>TRACE; WINDOWS; OS_DESKTOP</DefineConstants>
       <Optimize>true</Optimize>
     </PropertyGroup>
 
