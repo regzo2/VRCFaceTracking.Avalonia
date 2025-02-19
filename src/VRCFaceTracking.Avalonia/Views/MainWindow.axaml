@@ -32,11 +32,28 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
-    <Border Grid.Row="0" Height="40" Classes="TitleBar" Name="ApplicationTitleBar" IsHitTestVisible="False">
+    <Border Grid.Row="0"
+            Height="40"
+            Classes="TitleBar"
+            x:Name="ApplicationTitleBar"
+            IsHitTestVisible="False"
+            IsVisible="False">
       <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0" IsHitTestVisible="False">
-          <Image Source="/Assets/VRCFT-logo-24.png" VerticalAlignment="Center" Margin="1,1,1,1" MinWidth="24" MaxWidth="24" MinHeight="24" MaxHeight="24"/>
-          <TextBlock FontSize="12" Text="VRCFaceTracking" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsHitTestVisible="False"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0"
+                    IsHitTestVisible="False"
+                    x:Name="TitleBarContent">
+          <Image Source="/Assets/VRCFT-logo-24.png"
+                 VerticalAlignment="Center"
+                 MinWidth="24" MaxWidth="24"
+                 MinHeight="24" MaxHeight="24"/>
+          <TextBlock FontSize="12"
+                     Text="VRCFaceTracking"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Left"
+                     Margin="10,0,0,0"
+                     IsHitTestVisible="False"/>
         </StackPanel>
       </Grid>
     </Border>
