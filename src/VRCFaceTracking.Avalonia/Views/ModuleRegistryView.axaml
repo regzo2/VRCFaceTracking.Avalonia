@@ -5,40 +5,82 @@
     x:Class="VRCFaceTracking.Avalonia.Views.ModuleRegistryView"
     x:DataType="vm:ModuleRegistryViewModel"
     xmlns="https://github.com/avaloniaui"
-    xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
+    xmlns:htControls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:l="using:Jeek.Avalonia.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:VRCFaceTracking.Core.Models;assembly=VRCFaceTracking.Core"
-    xmlns:templates="clr-namespace:VRCFaceTracking.Avalonia.Templates"
+    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer>
-        <Grid>
-            <StackPanel Margin="20" Spacing="12">
-                <TextBlock
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Margin="0,20">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{l:Localize Shell_ModuleRegistry.Content}" />
-                        <StackPanel
-                            IsVisible="{Binding NoRemoteModulesDetected}"
-                            Margin="20,0,0,0"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                            <PathIcon
-                                Data="{StaticResource WarningRegular}"
-                                Foreground="#FF8C00"
-                                Height="16"
-                                Margin="0,0,8,0"
-                                Width="16" />
-                            <TextBlock
-                                FontSize="14"
-                                FontWeight="Normal"
-                                Foreground="#FF8C00"
-                                Text="No internet connection"
-                                VerticalAlignment="Center" />
+        <StackPanel Classes="Page">
+          <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{l:Localize Shell_ModuleRegistry.Content}" />
+              <StackPanel
+                  IsVisible="{Binding NoRemoteModulesDetected}"
+                  Margin="20,0,0,0"
+                  Orientation="Horizontal"
+                  VerticalAlignment="Center">
+                  <PathIcon
+                      Data="{StaticResource WarningRegular}"
+                      Foreground="#FF8C00"
+                      Height="16"
+                      Margin="0,0,8,0"
+                      Width="16" />
+                  <TextBlock
+                      FontSize="14"
+                      FontWeight="Normal"
+                      Foreground="#FF8C00"
+                      Text="No internet connection"
+                      VerticalAlignment="Center" />
+            <StackPanel/>
+
+            <controls:ContentExample>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button x:Name="BrowseLocal">
+                        <Button.Content>
+                            <StackPanel Orientation="Vertical">
+                                <PathIcon Data="{StaticResource AddRegular}" Height="24" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock
+                        Text="{l:Localize OpenLocalStorageCard.Header}"
+                        VerticalAlignment="Center"
+                        x:Name="BrowseLocalText" />
+                </StackPanel>
+            </controls:ContentExample>
+
+            <controls:ContentExample>
+                <StackPanel
+                    Height="475"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <ScrollViewer
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto"
+                        Width="250">
+                        <StackPanel>
+                            <TextBox
+                                Margin="0,0,18,8"
+                                Text="{Binding SearchText}"
+                                Watermark="Search modules..."
+                                x:Name="SearchBox" />
+                            <ListBox
+                                ItemsSource="{Binding FilteredModuleInfos}"
+                                SelectionChanged="OnModuleSelected"
+                                x:Name="ModuleList">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:InstallableTrackingModule">
+                                        <TextBlock>
+                                            <Run FontWeight="Bold" Text="{Binding ModuleName}" />
+                                            <LineBreak />
+                                            <Run Text="{Binding AuthorName}" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
                     </StackPanel>
                 </TextBlock>
@@ -123,7 +165,7 @@
                                 <LineBreak />
                                 <Run Text="{Binding Module.Downloads}" />
                             </TextBlock>
-
+                          
                             <TextBlock>
                                 <Run FontWeight="Bold" Text="{l:Localize Rating.Text}" />
                                 <LineBreak />
@@ -137,7 +179,6 @@
                                     Alias="{Binding Module.ModulePageUrl}"
                                     Command="{Binding OpenModuleUrl}"
                                     Url="{Binding Module.ModulePageUrl}" />
-
                             </TextBlock>
 
                             <TextBlock>
@@ -159,7 +200,8 @@
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>
-                </templates:ContentExample>
+                </StackPanel>
+            </controls:ContentExample>
 
             </StackPanel>
         </Grid>

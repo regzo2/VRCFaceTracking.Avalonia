@@ -7,15 +7,11 @@ using VRCFaceTracking.Core.Contracts.Services;
 
 namespace VRCFaceTracking.Services;
 
-public class ThemeSelectorService : IThemeSelectorService
+public class ThemeSelectorService(ILocalSettingsService localSettingsService) : IThemeSelectorService
 {
     private const string SettingsKey = "AppBackgroundRequestedTheme";
 
     public ThemeVariant Theme { get; set; } = ThemeVariant.Default;
-
-    private readonly ILocalSettingsService _localSettingsService;
-
-    public ThemeSelectorService(ILocalSettingsService localSettingsService) =>_localSettingsService = localSettingsService;
 
     public async Task InitializeAsync()
     {
@@ -39,11 +35,11 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ThemeVariant> LoadThemeFromSettingsAsync()
     {
-        return await _localSettingsService.ReadSettingAsync<ThemeVariant>(SettingsKey);;
+        return await localSettingsService.ReadSettingAsync<ThemeVariant>(SettingsKey);;
     }
 
     private async Task SaveThemeInSettingsAsync(ThemeVariant theme)
     {
-        await _localSettingsService.SaveSettingAsync(SettingsKey, theme.ToString());
+        await localSettingsService.SaveSettingAsync(SettingsKey, theme.ToString());
     }
 }

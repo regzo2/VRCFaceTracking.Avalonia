@@ -64,7 +64,6 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         Localizer.SetLocalizer(new JsonLocalizer());
-        Localizer.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
         var locator = new ViewLocator();
         DataTemplates.Add(locator);
@@ -81,6 +80,37 @@ public partial class App : Application
                     logging.AddProvider(new LogFileProvider());
                 });
 
+                // Default Activation Handler
+                services.AddTransient<ActivationHandler, DefaultActivationHandler>();
+                services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
+                services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+                services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
+                services.AddSingleton<ILanguageSelectorService, LanguageSelectorService>();
+
+                services.AddSingleton<IActivationService, ActivationService>();
+                services.AddSingleton<IDispatcherService, DispatcherService>();
+
+                // Core Services
+                services.AddTransient<IIdentityService, IdentityService>();
+                services.AddSingleton<ModuleInstaller>();
+                services.AddSingleton<IModuleDataService, ModuleDataService>();
+                services.AddTransient<IFileService, FileService>();
+                services.AddSingleton<OscQueryService>();
+                services.AddSingleton<MulticastDnsService>();
+                services.AddTransient<AvatarConfigParser>();
+                services.AddTransient<OscQueryConfigParser>();
+                services.AddSingleton<ILibManager, UnifiedLibManager>();
+                services.AddSingleton<IOscTarget, OscTarget>();
+                services.AddSingleton<HttpHandler>();
+                services.AddSingleton<OscRecvService>();
+                services.AddSingleton<OscSendService>();
+                services.AddSingleton<ParameterSenderService>();
+                services.AddSingleton<UnifiedTrackingMutator>();
+                services.AddSingleton<UnifiedTracking>();
+                services.AddTransient<GithubService>();
+                services.AddSingleton<IMainService, MainStandalone>();
+
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<MainWindow>();
 
@@ -95,38 +125,8 @@ public partial class App : Application
                 services.AddTransient<HomePageView>();
                 services.AddTransient<MutatorPageView>();
 
-                // Default Activation Handler
-                services.AddTransient<ActivationHandler, DefaultActivationHandler>();
-                services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
-
-                services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
-                services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
-
-                services.AddSingleton<IActivationService, ActivationService>();
-                services.AddSingleton<IDispatcherService, DispatcherService>();
-
-                // Core Services
-                services.AddTransient<IIdentityService, IdentityService>();
-                services.AddSingleton<ModuleInstaller>();
-                services.AddSingleton<IModuleDataService, ModuleDataService>();
-                services.AddTransient<IFileService, FileService>();
-                services.AddSingleton<OscQueryService>();
-                services.AddSingleton<MulticastDnsService>();
-                services.AddSingleton<IMainService, MainStandalone>();
-                services.AddTransient<AvatarConfigParser>();
-                services.AddTransient<OscQueryConfigParser>();
-                services.AddSingleton<UnifiedTracking>();
-                services.AddSingleton<ILibManager, UnifiedLibManager>();
-                services.AddSingleton<IOscTarget, OscTarget>();
-                services.AddSingleton<HttpHandler>();
-                services.AddSingleton<OscSendService>();
-                services.AddSingleton<OscRecvService>();
-                services.AddSingleton<ParameterSenderService>();
-                services.AddSingleton<UnifiedTrackingMutator>();
-                services.AddTransient<GithubService>();
-
-                services.AddHostedService(provider => provider.GetService<ParameterSenderService>()!);
                 services.AddHostedService(provider => provider.GetService<OscRecvService>()!);
+                services.AddHostedService(provider => provider.GetService<ParameterSenderService>()!);
 
                 // Configuration
                 IConfiguration config = new ConfigurationBuilder()
@@ -135,16 +135,16 @@ public partial class App : Application
                 services.Configure<LocalSettingsOptions>(config);
             });
 
-        _host = hostBuilder.Build();
-        Task.Run(async () => await _host.StartAsync());
-        
         if (!File.Exists(LocalSettingsService.DefaultLocalSettingsFile))
         {
             // Create the file if it doesn't exist
             File.Create(LocalSettingsService.DefaultLocalSettingsFile).Dispose();
         }
 
+        _host = hostBuilder.Build();
         Ioc.Default.ConfigureServices(_host.Services);
+
+        Task.Run(async () => await _host.StartAsync());
 
         var activation = Ioc.Default.GetRequiredService<IActivationService>();
         Task.Run(async () => await activation.ActivateAsync(null));

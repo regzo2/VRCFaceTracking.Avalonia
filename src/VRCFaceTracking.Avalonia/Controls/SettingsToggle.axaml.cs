@@ -1,0 +1,41 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using VRCFaceTracking.Avalonia.Controls;
+
+namespace VRCFaceTracking.Avalonia.Controls;
+
+public partial class SettingsToggle : UserControl
+{
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(Title));
+
+    public string Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public static readonly StyledProperty<string> DescriptionProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(Description));
+
+    public string Description
+    {
+        get => GetValue(DescriptionProperty);
+        set => SetValue(DescriptionProperty, value);
+    }
+
+    public static readonly StyledProperty<bool> SettingToggledProperty =
+            AvaloniaProperty.Register<SettingsExpander, bool>(nameof(SettingToggled));
+
+    public object SettingToggled
+    {
+        get => GetValue(SettingToggledProperty);
+        set => SetValue(SettingToggledProperty, value);
+    }
+
+    public SettingsToggle()
+    {
+        InitializeComponent();
+    }
+}

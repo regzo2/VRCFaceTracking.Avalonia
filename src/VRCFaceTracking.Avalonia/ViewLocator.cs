@@ -20,8 +20,8 @@ public class ViewLocator : IDataTemplate
         RegisterViewFactory<HomePageViewModel, HomePageView>();
         RegisterViewFactory<OutputPageViewModel, OutputPageView>();
         RegisterViewFactory<ModuleRegistryViewModel, ModuleRegistryView>();
-        RegisterViewFactory<SettingsPageViewModel, SettingsPageView>();
         RegisterViewFactory<MutatorPageViewModel, MutatorPageView>();
+        RegisterViewFactory<SettingsPageViewModel, SettingsPageView>();
     }
 
     public Control Build(object? data)
