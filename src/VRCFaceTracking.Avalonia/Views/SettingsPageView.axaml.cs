@@ -1,9 +1,11 @@
+using System;
 using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Jeek.Avalonia.Localization;
 using VRCFaceTracking.Contracts.Services;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Services;
@@ -29,6 +31,8 @@ public partial class SettingsPageView : UserControl
         _languageSelectorService = Ioc.Default.GetService<ILanguageSelectorService>()!;
         _langComboBox = this.Find<ComboBox>("LangCombo")!;
         _langComboBox.SelectionChanged += LangComboBox_SelectionChanged;
+
+        UpdateThemes();
 
         _mainService = Ioc.Default.GetService<IMainService>()!;
 
@@ -73,9 +77,11 @@ public partial class SettingsPageView : UserControl
 
     private void ThemeComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
+        if (_themeComboBox.SelectedItem is not ComboBoxItem comboBoxItem)
+            return;
+
         ThemeVariant variant = ThemeVariant.Default;
-        var item = _themeComboBox.SelectedItem as ComboBoxItem;
-        variant = item!.Name switch
+        variant = comboBoxItem!.Name switch
         {
             "DefaultTheme" => ThemeVariant.Default,
             "Light" => ThemeVariant.Light,
@@ -88,7 +94,22 @@ public partial class SettingsPageView : UserControl
     private void LangComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var item = _langComboBox.SelectedItem as ComboBoxItem;
-        Dispatcher.UIThread.InvokeAsync(async () => await _languageSelectorService.SetLanguageAsync(item!.Name));
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            await _languageSelectorService.SetLanguageAsync(item!.Name);
+            UpdateThemes();
+        });
+    }
+
+    // Workaround for https://github.com/AvaloniaUI/Avalonia/issues/4460
+    private void UpdateThemes()
+    {
+        var selectedIndex = _themeComboBox.SelectedIndex;
+        _themeComboBox.Items.Clear();
+        _themeComboBox.Items.Add(new ComboBoxItem { Content=Localizer.Get("Settings_Theme_Default.Content"), Name="DefaultTheme" });
+        _themeComboBox.Items.Add(new ComboBoxItem { Content=Localizer.Get("Settings_Theme_Light.Content"), Name="Light" });
+        _themeComboBox.Items.Add(new ComboBoxItem { Content=Localizer.Get("Settings_Theme_Dark.Content"), Name="Dark" });
+        _themeComboBox.SelectedIndex = selectedIndex;
     }
 
     private void Calibration_OnClick(object? sender, RoutedEventArgs e)

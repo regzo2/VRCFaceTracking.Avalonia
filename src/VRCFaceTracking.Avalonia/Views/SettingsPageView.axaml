@@ -27,11 +27,7 @@
             <TextBlock Margin="0,0,0,20" Text="{l:Localize ThemeSettings.Description}" />
 
             <templates:ContentExample>
-                <ComboBox x:Name="ThemeCombo">
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Default.Content}" x:Name="DefaultTheme" />
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Light.Content}" x:Name="Light" />
-                    <ComboBoxItem Content="{l:Localize Settings_Theme_Dark.Content}" x:Name="Dark" />
-                </ComboBox>
+                <ComboBox x:Name="ThemeCombo" />
             </templates:ContentExample>
 
             <TextBlock
