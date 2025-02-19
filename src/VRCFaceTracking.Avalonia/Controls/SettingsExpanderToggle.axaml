@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
+             x:Class="VRCFaceTracking.Avalonia.Controls.SettingsExpanderToggle">
+  
+  <Expander IsExpanded="False"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+    <Expander.Header>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+      <StackPanel HorizontalAlignment="Stretch" Margin="0,10,0,10" Grid.Column="0">
+        <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}, FallbackValue='Setting'}"
+               FontSize="16"
+               FontWeight="SemiBold"
+               Margin="5"/>
+        <TextBlock Text="{Binding Description, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}, FallbackValue='Setting Description'}"
+                   FontSize="14"
+                   Foreground="{DynamicResource SystemChromeGrayColor}"
+                   Margin="5"/>
+      </StackPanel>
+        <ToggleSwitch Grid.Column="2" IsChecked="{Binding ExpanderContentToggle, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}, Mode=TwoWay}"/>
+      </Grid>
+    </Expander.Header>
+    <Grid IsEnabled="{Binding ExpanderContentToggle, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}}">
+      <ContentPresenter Content="{Binding ExpanderContent, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}}"/>
+    </Grid>
+  </Expander>
+  
+</UserControl>

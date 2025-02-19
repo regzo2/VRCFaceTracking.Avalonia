@@ -139,7 +139,7 @@
       </Style>
       
       <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
-      <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Templates/ContentExample.axaml" />
+      <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Controls/ContentExample.axaml" />
 
     </Application.Styles>
 
