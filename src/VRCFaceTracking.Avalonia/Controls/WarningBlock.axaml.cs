@@ -2,7 +2,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace VRCFaceTracking.Avalonia.Templates;
+namespace VRCFaceTracking.Avalonia.Controls;
 
 public partial class WarningBlock : UserControl
 {
