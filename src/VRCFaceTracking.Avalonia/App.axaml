@@ -39,7 +39,7 @@
                     ChromeGray="#ff737373"
                     ChromeHigh="#ffcccccc"
                     ChromeLow="#ffececec"
-                    ChromeMedium="#ffe6e6e6"
+                    ChromeMedium="#ffdbdbdb"
                     ChromeMediumLow="#ffececec"
                     ChromeWhite="White"
                     ListLow="#ffe6e6e6"
@@ -135,7 +135,7 @@
 
       <Style Selector="StackPanel.Page">
         <Setter Property="Margin" Value="25"/>
-        <Setter Property="Spacing" Value="20"/>
+        <Setter Property="Spacing" Value="15"/>
       </Style>
       
       <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
