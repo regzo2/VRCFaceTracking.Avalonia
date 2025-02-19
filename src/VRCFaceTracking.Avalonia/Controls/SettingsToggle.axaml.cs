@@ -25,6 +25,24 @@ public partial class SettingsToggle : UserControl
         set => SetValue(DescriptionProperty, value);
     }
 
+    public static readonly StyledProperty<string> OnContentProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(OnContent));
+
+    public string OnContent
+    {
+        get => GetValue(OnContentProperty);
+        set => SetValue(OnContentProperty, value);
+    }
+
+    public static readonly StyledProperty<string> OffContentProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(OffContent));
+
+    public string OffContent
+    {
+        get => GetValue(OffContentProperty);
+        set => SetValue(OffContentProperty, value);
+    }
+
     public static readonly StyledProperty<bool> SettingToggledProperty =
             AvaloniaProperty.Register<SettingsExpander, bool>(nameof(SettingToggled));
 
@@ -37,5 +55,7 @@ public partial class SettingsToggle : UserControl
     public SettingsToggle()
     {
         InitializeComponent();
+        OffContent = "Off";
+        OnContent = "On";
     }
 }

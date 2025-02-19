@@ -42,9 +42,29 @@ public partial class SettingsExpanderToggle : UserControl
         set => SetValue(ExpanderContentToggleProperty, value);
     }
 
+    public static readonly StyledProperty<string> OnContentProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(OnContent));
+
+    public string OnContent
+    {
+        get => GetValue(OnContentProperty);
+        set => SetValue(OnContentProperty, value);
+    }
+
+    public static readonly StyledProperty<string> OffContentProperty =
+        AvaloniaProperty.Register<SettingsExpander, string>(nameof(OffContent));
+
+    public string OffContent
+    {
+        get => GetValue(OffContentProperty);
+        set => SetValue(OffContentProperty, value);
+    }
+
     public SettingsExpanderToggle()
     {
         InitializeComponent();
+        OffContent = "Off";
+        OnContent = "On";
         DataContext = this;
     }
 }
