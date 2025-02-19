@@ -11,7 +11,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:VRCFaceTracking;assembly=VRCFaceTracking.SDK"
     xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
-    xmlns:converters="clr-namespace:VRCFaceTracking.Avalonia.Converters"
     xmlns:viewModels="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:views="clr-namespace:VRCFaceTracking.Avalonia.Views"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -66,18 +65,15 @@
                                         FontSize="30"
                                         FontWeight="Bold"
                                         Text="{Binding Name, Mode=OneWay}" />
-                                    <StackPanel
-                                      Orientation="Horizontal">
-                                        <PathIcon Data="{StaticResource EyeTrackingRegular}"
+                                  <TextBlock
                                                   IsVisible="{Binding UsingEye, Mode=OneWay}"
-                                                  Width="20"
-                                                  Margin="5,8,5,8"/>
-                                        <PathIcon Data="{StaticResource EmojiRegular}"
+                                      Text="{l:Localize EyeTrackingActive.Text}"
+                                      x:Name="EyeTrackingActive" />
+                                  <TextBlock
                                                   IsVisible="{Binding UsingExpression, Mode=OneWay}"
-                                                  Width="20"
-                                                  Margin="5,8,5,8"/>
+                                      Text="{l:Localize FaceTrackingActive.Text}"
+                                      x:Name="FaceTrackingActive" />
                                     </StackPanel>
-                                </StackPanel>
                                 <StackPanel
                                     Grid.Column="3"
                                     Orientation="Horizontal"
