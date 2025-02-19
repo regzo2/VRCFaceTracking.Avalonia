@@ -5,7 +5,6 @@
     x:Class="VRCFaceTracking.Avalonia.Views.HomePageView"
     x:DataType="viewModels:HomePageViewModel"
     xmlns="https://github.com/avaloniaui"
-    xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:VRCFaceTracking.Helpers"
     xmlns:l="using:Jeek.Avalonia.Localization"
@@ -94,46 +93,12 @@
             </ItemsControl>
 
             <templates:ContentExample IsVisible="{Binding NoModulesInstalled}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <PathIcon
-                        Data="{StaticResource InfoRegular}"
-                        Grid.Column="0"
-                        Height="30"
-                        Margin="0,4,16,0"
-                        VerticalAlignment="Center"
-                        Width="30" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical"
-                        Spacing="6">
-                        <TextBlock
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Text="{l:Localize no_modules_installed_warning.Title}" />
-                        <TextBlock FontSize="15" Text="{l:Localize no_modules_installed_warning.Description}" />
-                        <controls:Hyperlink
-                            Alias="{l:Localize no_modules_installed_warning.ButtonText}"
-                            Click="GoToModulesPage"
-                            FontSize="15"
-                            Url="{l:Localize no_modules_installed_warning.ButtonText}" />
-                    </StackPanel>
-
-                    <Button
-                        Click="DismissModuleWarning"
-                        Content="Dismiss"
-                        Grid.Column="2"
-                        Height="48"
-                        HorizontalContentAlignment="Center"
-                        VerticalAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Width="80" />
-                </Grid>
+                <templates:WarningBlock
+                    Caption="{l:Localize no_modules_installed_warning.ButtonText}"
+                    DismissCommand="{Binding DismissWarningCommand}"
+                    Header="{l:Localize no_modules_installed_warning.Title}"
+                    NavigateCommand="{Binding NavigateToModulesCommand}"
+                    Subheader="{l:Localize no_modules_installed_warning.Description}" />
             </templates:ContentExample>
 
             <templates:ContentExample>

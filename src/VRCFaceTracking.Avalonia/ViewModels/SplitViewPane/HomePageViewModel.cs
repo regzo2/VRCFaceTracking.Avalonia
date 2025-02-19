@@ -4,6 +4,7 @@ using System.Linq;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Jeek.Avalonia.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using VRCFaceTracking.Avalonia.Views;
@@ -45,8 +46,15 @@ public partial class HomePageViewModel : ViewModelBase
 
     private readonly DispatcherTimer _msgCounterTimer;
 
+    public IRelayCommand NavigateToModulesCommand { get; }
+    public IRelayCommand DismissWarningCommand { get; }
+
     public HomePageViewModel()
     {
+        // Commands
+        NavigateToModulesCommand = new RelayCommand(ExecuteNavigateToModules);
+        DismissWarningCommand = new RelayCommand(ExecuteDismissWarning);
+
         // Services
         LibManager = Ioc.Default.GetService<ILibManager>()!;
         ParameterOutputService = Ioc.Default.GetService<OscQueryService>()!;
@@ -94,5 +102,17 @@ public partial class HomePageViewModel : ViewModelBase
         OscSendService.OnMessagesDispatched -= MessageDispatched;
 
         _msgCounterTimer.Stop();
+    }
+
+    private void ExecuteNavigateToModules()
+    {
+        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>()!;
+        mainViewModel.SelectedListItem = mainViewModel.Items[2]; // Module Page
+    }
+
+    private void ExecuteDismissWarning()
+    {
+        // Maybe make this show only once, as opposed to everytime you open this page?
+        NoModulesInstalled = false;
     }
 }
