@@ -80,20 +80,6 @@ public partial class App : Application
                     logging.AddProvider(new LogFileProvider());
                 });
 
-                services.AddSingleton<MainViewModel>();
-                services.AddSingleton<MainWindow>();
-
-                services.AddTransient<OutputPageViewModel>();
-                services.AddTransient<ModuleRegistryViewModel>();
-                services.AddTransient<SettingsPageViewModel>();
-                services.AddTransient<HomePageViewModel>();
-                services.AddTransient<MutatorPageViewModel>();
-                services.AddTransient<OutputPageView>();
-                services.AddTransient<ModuleRegistryView>();
-                services.AddTransient<SettingsPageView>();
-                services.AddTransient<HomePageView>();
-                services.AddTransient<MutatorPageView>();
-
                 // Default Activation Handler
                 services.AddTransient<ActivationHandler, DefaultActivationHandler>();
                 services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
@@ -112,21 +98,35 @@ public partial class App : Application
                 services.AddTransient<IFileService, FileService>();
                 services.AddSingleton<OscQueryService>();
                 services.AddSingleton<MulticastDnsService>();
-                services.AddSingleton<IMainService, MainStandalone>();
                 services.AddTransient<AvatarConfigParser>();
                 services.AddTransient<OscQueryConfigParser>();
-                services.AddSingleton<UnifiedTracking>();
                 services.AddSingleton<ILibManager, UnifiedLibManager>();
                 services.AddSingleton<IOscTarget, OscTarget>();
                 services.AddSingleton<HttpHandler>();
-                services.AddSingleton<OscSendService>();
                 services.AddSingleton<OscRecvService>();
+                services.AddSingleton<OscSendService>();
                 services.AddSingleton<ParameterSenderService>();
                 services.AddSingleton<UnifiedTrackingMutator>();
+                services.AddSingleton<UnifiedTracking>();
                 services.AddTransient<GithubService>();
+                services.AddSingleton<IMainService, MainStandalone>();
 
-                services.AddHostedService(provider => provider.GetService<ParameterSenderService>()!);
+                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<MainWindow>();
+
+                services.AddTransient<OutputPageViewModel>();
+                services.AddTransient<ModuleRegistryViewModel>();
+                services.AddTransient<SettingsPageViewModel>();
+                services.AddTransient<HomePageViewModel>();
+                services.AddTransient<MutatorPageViewModel>();
+                services.AddTransient<OutputPageView>();
+                services.AddTransient<ModuleRegistryView>();
+                services.AddTransient<SettingsPageView>();
+                services.AddTransient<HomePageView>();
+                services.AddTransient<MutatorPageView>();
+
                 services.AddHostedService(provider => provider.GetService<OscRecvService>()!);
+                services.AddHostedService(provider => provider.GetService<ParameterSenderService>()!);
 
                 // Configuration
                 IConfiguration config = new ConfigurationBuilder()
@@ -135,16 +135,16 @@ public partial class App : Application
                 services.Configure<LocalSettingsOptions>(config);
             });
 
-        _host = hostBuilder.Build();
-        Task.Run(async () => await _host.StartAsync());
-
         if (!File.Exists(LocalSettingsService.DefaultLocalSettingsFile))
         {
             // Create the file if it doesn't exist
             File.Create(LocalSettingsService.DefaultLocalSettingsFile).Dispose();
         }
 
+        _host = hostBuilder.Build();
         Ioc.Default.ConfigureServices(_host.Services);
+
+        Task.Run(async () => await _host.StartAsync());
 
         var activation = Ioc.Default.GetRequiredService<IActivationService>();
         Task.Run(async () => await activation.ActivateAsync(null));
