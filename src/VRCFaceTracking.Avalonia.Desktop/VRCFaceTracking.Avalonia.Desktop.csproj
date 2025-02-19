@@ -3,7 +3,7 @@
         <OutputType>WinExe</OutputType>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <TargetFrameworks>net8.0-windows10.0.17763.0;net8.0</TargetFrameworks>
-        <Configurations>Linux Debug;Windows Release;MacOS Debug;Windows Debug;MacOS Release;Linux Release</Configurations>
+        <Configurations>Linux Debug;Windows Release;MacOS Debug;Windows Debug;MacOS Release;Linux Release;Debug</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
