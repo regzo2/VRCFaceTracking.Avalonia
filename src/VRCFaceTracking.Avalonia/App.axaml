@@ -3,15 +3,15 @@
     x:Class="VRCFaceTracking.Avalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:avalonia="clr-namespace:HyperText.Avalonia;assembly=HyperText.Avalonia"
-    xmlns:vrcft="clr-namespace:VRCFaceTracking.Avalonia"
     xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:themes="using:RangeSlider.Avalonia.Themes.Fluent"
+    xmlns:vrcft="clr-namespace:VRCFaceTracking.Avalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.DataTemplates>
         <vrcft:ViewLocator />
     </Application.DataTemplates>
-  
+
     <!--  Made using https://theme.xaml.live/  -->
     <Application.Styles>
         <themes:RangeSliderTheme />
@@ -79,68 +79,68 @@
             </FluentTheme.Palettes>
         </FluentTheme>
 
-      <Style Selector="TextBox">
-        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="4"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="6,4"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-      </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
 
-      <Style Selector="ComboBox">
-        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="4"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="6,4"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="30"/>
-      </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumColor}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="30" />
+        </Style>
 
-      <Style Selector="Expander">
-        <Setter Property="BorderThickness" Value="6"/>
-        <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="Margin" Value="2"/>
-      </Style>
+        <Style Selector="Expander">
+            <Setter Property="BorderThickness" Value="6" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
 
-      <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
-        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-      </Style>
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
 
-      <Style Selector="Expander:expanded /template/ ToggleButton#ExpanderHeader">
-        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-      </Style>
+        <Style Selector="Expander:expanded /template/ ToggleButton#ExpanderHeader">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
 
-      <Style Selector="Expander:down /template/ Border#ExpanderContent">
-        <Setter Property="BorderThickness" Value="0"/>
-      </Style>
-      
-      <Style Selector="Expander /template/ ToggleButton:pointerover /template/ Border#ToggleButtonBackground">
-        <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-      </Style>
+        <Style Selector="Expander:down /template/ Border#ExpanderContent">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
 
-      <Style Selector="TextBlock.Header">
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Margin" Value="0 10 0 10"/>
-      </Style>
+        <Style Selector="Expander /template/ ToggleButton:pointerover /template/ Border#ToggleButtonBackground">
+            <Setter Property="Background" Value="{DynamicResource SystemChromeMediumLowColor}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
 
-      <Style Selector="StackPanel.Page">
-        <Setter Property="Margin" Value="25"/>
-        <Setter Property="Spacing" Value="15"/>
-      </Style>
-      
-      <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
-      <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Controls/ContentExample.axaml" />
+        <Style Selector="TextBlock.Header">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0 10 0 10" />
+        </Style>
+
+        <Style Selector="StackPanel.Page">
+            <Setter Property="Margin" Value="25" />
+            <Setter Property="Spacing" Value="15" />
+        </Style>
+
+        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
+        <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Controls/ContentExample.axaml" />
 
     </Application.Styles>
 
