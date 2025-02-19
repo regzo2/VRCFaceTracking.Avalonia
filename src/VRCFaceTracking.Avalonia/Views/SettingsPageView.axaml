@@ -5,153 +5,157 @@
     x:Class="VRCFaceTracking.Avalonia.Views.SettingsPageView"
     x:DataType="vm:SettingsPageViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:l="using:Jeek.Avalonia.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer>
-        <StackPanel Margin="20">
-            <TextBlock
-                FontSize="20"
-                FontWeight="Bold"
-                Margin="0,20"
-                Text="Settings" />
+        <StackPanel Classes="Page">
+            <TextBlock Classes="Header" Text="Settings" />
 
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,0,0,0"
-                Text="{l:Localize ThemeSettings.Header}" />
-            <TextBlock Margin="0,0,0,20" Text="{l:Localize ThemeSettings.Description}" />
-
-            <templates:ContentExample>
-                <ComboBox x:Name="ThemeCombo" />
-            </templates:ContentExample>
-
-            <TextBlock
-                FontSize="15"
-                FontWeight="Bold"
-                Margin="0,20,0,0"
-                Text="Language" />
-            <TextBlock Margin="0,0,0,20" Text="Set the app's language." />
-
-            <templates:ContentExample>
-                <ComboBox x:Name="LangCombo">
-                    <ComboBoxItem Content="Default" x:Name="DefaultLanguage" />
-                    <ComboBoxItem Content="English" x:Name="en" />
-                    <ComboBoxItem Content="Español" x:Name="es" />
-                    <ComboBoxItem Content="日本語" x:Name="ja" />
-                    <ComboBoxItem Content="Polski" x:Name="pl" />
-                    <ComboBoxItem Content="中文" x:Name="zh" />
-                </ComboBox>
-              </controls:SettingsBlock.SettingsContent>
+            <controls:SettingsBlock Description="{l:Localize ThemeSettings.Description}" Title="{l:Localize ThemeSettings.Header}">
+                <controls:SettingsBlock.SettingsContent>
+                    <ComboBox VerticalAlignment="Center" x:Name="ThemeCombo" />
+                </controls:SettingsBlock.SettingsContent>
             </controls:SettingsBlock>
 
-            <controls:SettingsBlock Title="{l:Localize OscSettings.Header}"
-                                    Description="{l:Localize OscSettings.Description}">
-              <controls:SettingsBlock.SettingsContent>
-                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                    <StackPanel MinWidth="150" Spacing="12">
-                        <TextBlock FontSize="15">Receive Port</TextBlock>
-                      <TextBox x:Name="OscTargetInPort" Text="{Binding OscTarget.InPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='9001'}" Watermark="Input the receive port..."/>
-                    </StackPanel>
-                    <StackPanel MinWidth="150" Spacing="12" VerticalAlignment="Center">
-                        <TextBlock FontSize="15">IP Address</TextBlock>
-                        <TextBox x:Name="OscTargetIpAddress" Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='127.0.0.1'}" Watermark="Input the target IP..." />
-                    </StackPanel>
-                    <StackPanel MinWidth="150" Spacing="12" VerticalAlignment="Center">
-                        <TextBlock FontSize="15">Send Port</TextBlock>
-                        <TextBox x:Name="OscTargetOutPort" Text="{Binding OscTarget.OutPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='9000'}" Watermark="Input the send port..." />
-                    </StackPanel>
-                </StackPanel>
-              </controls:SettingsBlock.SettingsContent>
+            <controls:SettingsBlock Description="Set the app's language." Title="Language">
+                <controls:SettingsBlock.SettingsContent>
+                    <ComboBox VerticalAlignment="Center" x:Name="LangCombo">
+                        <ComboBoxItem Content="Default" x:Name="DefaultLanguage" />
+                        <ComboBoxItem Content="English" x:Name="en" />
+                        <ComboBoxItem Content="Español" x:Name="es" />
+                        <ComboBoxItem Content="日本語" x:Name="ja" />
+                        <ComboBoxItem Content="Polski" x:Name="pl" />
+                        <ComboBoxItem Content="中文" x:Name="zh" />
+                    </ComboBox>
+                </controls:SettingsBlock.SettingsContent>
             </controls:SettingsBlock>
-          
-            <controls:SettingsToggle Title="{l:Localize AutoStartSettings.Header}"
-                                     Description="{l:Localize AutoStartSettings.Description}"
-                                     SettingToggled="{Binding IsAutoStartEnabled, Mode=TwoWay}"/>
 
-          <controls:SettingsExpanderToggle Title="{l:Localize RiskySettings.Header}"
-                                           Description="{l:Localize RiskySettings.Description}"
-                                           ExpanderContentToggle="{Binding IsRiskySettingsEnabled, Mode=TwoWay}">
-            <controls:SettingsExpanderToggle.ExpanderContent>
-              <StackPanel>
-                <Grid ColumnDefinitions="*,Auto"
-                      Grid.Row="0"
-                      Margin="0,0,0,12">
-                  <StackPanel Grid.Column="0">
-                    <TextBlock
-                        FontWeight="Bold"
-                        Text="{l:Localize ForceRelevancyToggle.Header}"
-                        VerticalAlignment="Center" />
-                    <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}" VerticalAlignment="Center" />
-                  </StackPanel>
-                  <ToggleSwitch
-                      Grid.Column="1"
-                      IsChecked="{Binding AllRelevantDebug}"
-                      VerticalAlignment="Top" />
-                </Grid>
+            <controls:SettingsBlock Description="{l:Localize OscSettings.Description}" Title="{l:Localize OscSettings.Header}">
+                <controls:SettingsBlock.SettingsContent>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="12"
+                        VerticalAlignment="Center">
+                        <StackPanel MinWidth="150" Spacing="12">
+                            <TextBlock FontSize="15">Receive Port</TextBlock>
+                            <TextBox
+                                Text="{Binding OscTarget.InPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='9001'}"
+                                Watermark="Input the receive port..."
+                                x:Name="OscTargetInPort" />
+                        </StackPanel>
+                        <StackPanel
+                            MinWidth="150"
+                            Spacing="12"
+                            VerticalAlignment="Center">
+                            <TextBlock FontSize="15">IP Address</TextBlock>
+                            <TextBox
+                                Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='127.0.0.1'}"
+                                Watermark="Input the target IP..."
+                                x:Name="OscTargetIpAddress" />
+                        </StackPanel>
+                        <StackPanel
+                            MinWidth="150"
+                            Spacing="12"
+                            VerticalAlignment="Center">
+                            <TextBlock FontSize="15">Send Port</TextBlock>
+                            <TextBox
+                                Text="{Binding OscTarget.OutPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue='9000'}"
+                                Watermark="Input the send port..."
+                                x:Name="OscTargetOutPort" />
+                        </StackPanel>
+                    </StackPanel>
+                </controls:SettingsBlock.SettingsContent>
+            </controls:SettingsBlock>
 
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    Grid.Row="1"
-                    Margin="0,0,0,12">
-                  <StackPanel Grid.Column="0">
-                    <TextBlock
-                        FontWeight="Bold"
-                        Text="{l:Localize ForceReInitButton.Header}"
-                        VerticalAlignment="Center" />
-                    <TextBlock Text="{l:Localize ForceReInitButton.Description}" VerticalAlignment="Center" />
-                  </StackPanel>
-                  <Button
-                      Click="ReInit_OnClick"
-                      Content="{l:Localize ReInitButton.Content}"
-                      Grid.Column="1"
-                      VerticalAlignment="Top" />
-                </Grid>
+            <controls:SettingsToggle
+                Description="{l:Localize AutoStartSettings.Description}"
+                SettingToggled="{Binding IsAutoStartEnabled, Mode=TwoWay}"
+                Title="{l:Localize AutoStartSettings.Header}" />
 
-                <Grid ColumnDefinitions="*,Auto" Grid.Row="2">
-                  <StackPanel Grid.Column="0">
-                    <TextBlock
-                        FontWeight="Bold"
-                        Text="{l:Localize ResetVRCFTButton.Header}"
-                        VerticalAlignment="Center" />
-                    <TextBlock Text="{l:Localize ResetVRCFTButton.Description}" VerticalAlignment="Center" />
-                  </StackPanel>
-                  <Button
-                      Click="Reset_OnClick"
-                      Content="{l:Localize ResetButton.Content}"
-                      Grid.Column="1"
-                      VerticalAlignment="Top" />
-                </Grid>
-              </StackPanel>
-            </controls:SettingsExpanderToggle.ExpanderContent>
-          </controls:SettingsExpanderToggle>
+            <controls:SettingsExpanderToggle
+                Description="{l:Localize RiskySettings.Description}"
+                ExpanderContentToggle="{Binding IsRiskySettingsEnabled, Mode=TwoWay}"
+                Title="{l:Localize RiskySettings.Header}">
+                <controls:SettingsExpanderToggle.ExpanderContent>
+                    <StackPanel>
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            Grid.Row="0"
+                            Margin="0,0,0,12">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Text="{l:Localize ForceRelevancyToggle.Header}"
+                                    VerticalAlignment="Center" />
+                                <TextBlock Text="{l:Localize ForceRelevancyToggle.Description}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsChecked="{Binding AllRelevantDebug}"
+                                VerticalAlignment="Top" />
+                        </Grid>
 
-          <controls:SettingsExpander Title="{l:Localize HardwareDebug.Header}"
-                                           Description="{l:Localize HardwareDebug.Description}">
-            <controls:SettingsExpander.ExpanderContent>
-              <StackPanel>
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                  <Border
-                      ClipToBounds="True"
-                      IsEnabled="{Binding HasUpperImage}"
-                      Width="300">
-                    <Image MaxWidth="300" Source="{Binding UpperImageSource}" />
-                  </Border>
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            Grid.Row="1"
+                            Margin="0,0,0,12">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Text="{l:Localize ForceReInitButton.Header}"
+                                    VerticalAlignment="Center" />
+                                <TextBlock Text="{l:Localize ForceReInitButton.Description}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <Button
+                                Click="ReInit_OnClick"
+                                Content="{l:Localize ReInitButton.Content}"
+                                Grid.Column="1"
+                                VerticalAlignment="Top" />
+                        </Grid>
 
-                  <Border
-                      ClipToBounds="True"
-                      IsEnabled="{Binding HasLowerImage}"
-                      Width="300">
-                    <Image MaxWidth="300" Source="{Binding LowerImageSource}" />
-                  </Border>
-                </StackPanel>
-              </StackPanel>
-            </controls:SettingsExpander.ExpanderContent>
-          </controls:SettingsExpander>
+                        <Grid ColumnDefinitions="*,Auto" Grid.Row="2">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Text="{l:Localize ResetVRCFTButton.Header}"
+                                    VerticalAlignment="Center" />
+                                <TextBlock Text="{l:Localize ResetVRCFTButton.Description}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <Button
+                                Click="Reset_OnClick"
+                                Content="{l:Localize ResetButton.Content}"
+                                Grid.Column="1"
+                                VerticalAlignment="Top" />
+                        </Grid>
+                    </StackPanel>
+                </controls:SettingsExpanderToggle.ExpanderContent>
+            </controls:SettingsExpanderToggle>
+
+            <controls:SettingsExpander Description="{l:Localize HardwareDebug.Description}" Title="{l:Localize HardwareDebug.Header}">
+                <controls:SettingsExpander.ExpanderContent>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Border
+                                ClipToBounds="True"
+                                IsEnabled="{Binding HasUpperImage}"
+                                Width="300">
+                                <Image MaxWidth="300" Source="{Binding UpperImageSource}" />
+                            </Border>
+
+                            <Border
+                                ClipToBounds="True"
+                                IsEnabled="{Binding HasLowerImage}"
+                                Width="300">
+                                <Image MaxWidth="300" Source="{Binding LowerImageSource}" />
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </controls:SettingsExpander.ExpanderContent>
+            </controls:SettingsExpander>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
