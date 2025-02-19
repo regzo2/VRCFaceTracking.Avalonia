@@ -3,12 +3,13 @@
     x:Class="VRCFaceTracking.Avalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:avalonia="clr-namespace:HyperText.Avalonia;assembly=HyperText.Avalonia"
-    xmlns:avaloniaMiaDev="clr-namespace:VRCFaceTracking.Avalonia"
+    xmlns:vrcft="clr-namespace:VRCFaceTracking.Avalonia"
+    xmlns:controls="clr-namespace:VRCFaceTracking.Avalonia.Controls"
     xmlns:themes="using:RangeSlider.Avalonia.Themes.Fluent"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.DataTemplates>
-        <avaloniaMiaDev:ViewLocator />
+        <vrcft:ViewLocator />
     </Application.DataTemplates>
   
     <!--  Made using https://theme.xaml.live/  -->
@@ -39,7 +40,7 @@
                     ChromeGray="#ff737373"
                     ChromeHigh="#ffcccccc"
                     ChromeLow="#ffececec"
-                    ChromeMedium="#ffe6e6e6"
+                    ChromeMedium="White"
                     ChromeMediumLow="#ffececec"
                     ChromeWhite="White"
                     ListLow="#ffe6e6e6"
@@ -135,7 +136,7 @@
 
       <Style Selector="StackPanel.Page">
         <Setter Property="Margin" Value="25"/>
-        <Setter Property="Spacing" Value="20"/>
+        <Setter Property="Spacing" Value="15"/>
       </Style>
       
       <StyleInclude Source="avares://VRCFaceTracking.Avalonia/Assets/Icons.axaml" />
