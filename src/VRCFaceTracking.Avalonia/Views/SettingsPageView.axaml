@@ -87,7 +87,7 @@
                 Description="{l:Localize RiskySettings.Description}"
                 ExpanderContentToggle="{Binding IsRiskySettingsEnabled, Mode=TwoWay}"
                 Title="{l:Localize RiskySettings.Header}"
-                IconPath="PowerRegular">
+                IconPath="WarningRegular">
                 <controls:SettingsExpanderToggle.ExpanderContent>
                     <StackPanel>
                         <Grid
