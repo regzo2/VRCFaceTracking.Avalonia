@@ -1,12 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using VRCFaceTracking.Avalonia.Models;
 using VRCFaceTracking.Avalonia.Views;
 using VRCFaceTracking.Core.Contracts.Services;
@@ -25,12 +34,44 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
     [ObservableProperty] private bool _modulesDetected;
     public ObservableCollection<InstallableTrackingModule> FilteredModuleInfos { get; } = [];
+    public ObservableCollection<InstallableTrackingModule> InstalledModules { get; set; } = [];
 
-    private InstallableTrackingModule[] _moduleInfos;
+    private InstallableTrackingModule[] _registryInfos;
     private ModuleRegistryView _moduleRegistryView { get; }
     private IModuleDataService _moduleDataService { get; }
     private ModuleInstaller _moduleInstaller { get; }
     private ILibManager _libManager { get; }
+
+    private bool _requestReinit;
+    public bool RequestReinit
+    {
+        get => _requestReinit;
+        set
+        {
+            if (_requestReinit != value)
+            {
+                _requestReinit = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private void RequestReinitialize()
+    {
+        RequestReinit = true;
+    }
+
+    public void ModuleTryReinitialize()
+    {
+        if (RequestReinit)
+        {
+            RequestReinit = false;
+            var installedModules = InstalledModules.ToList();
+            _moduleDataService.SaveInstalledModulesDataAsync(installedModules);
+            _libManager.TeardownAllAndResetAsync();
+            _libManager.Initialize();
+        }
+    }
 
     public ModuleRegistryViewModel()
     {
@@ -44,10 +85,16 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
         _registryInfos = _moduleRegistryView.GetRemoteModules();
 
-        // Hide UI if the user has no remote modules (IE not internet connection) and no local modules
-        _modulesDetected = moduleCounts.remoteCount > 0 || moduleCounts.localCount > 0;
+        ResetInstalledModulesList(suppressReinit: true);
 
-        foreach (var module in _moduleInfos)
+        InstalledModules.CollectionChanged += OnLocalModuleCollectionChanged;
+
+        _noRemoteModulesDetected = _registryInfos == null;
+
+        // Hide UI if the user has no remote modules (IE not internet connection) and no local modules
+        _modulesDetected = !_noRemoteModulesDetected || InstalledModules.Count > 0;
+
+        foreach (var module in _registryInfos)
         {
             FilteredModuleInfos.Add(module);
         }
@@ -61,8 +108,8 @@ public partial class ModuleRegistryViewModel : ViewModelBase
     private void UpdateFilteredModules()
     {
         var filtered = string.IsNullOrWhiteSpace(SearchText)
-            ? _moduleInfos
-            : _moduleInfos.Where(m =>
+            ? _registryInfos
+            : _registryInfos.Where(m =>
                 m.ModuleName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
                 m.DllFileName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
                 m.AuthorName.Contains(SearchText, StringComparison.CurrentCultureIgnoreCase) ||
@@ -82,15 +129,36 @@ public partial class ModuleRegistryViewModel : ViewModelBase
 
     private void LocalModuleInstalled()
     {
-        _moduleInfos = _moduleRegistryView.GetModules(out _);
+        _registryInfos = _moduleRegistryView.GetRemoteModules();
+
+        ResetInstalledModulesList();
 
         FilteredModuleInfos.Clear();
-        foreach (var module in _moduleInfos)
+        foreach (var module in _registryInfos)
         {
             FilteredModuleInfos.Add(module);
         }
 
         ModulesDetected = true;
+    }
+
+    public async void OnLocalModuleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        InstalledModules.CollectionChanged -= OnLocalModuleCollectionChanged;
+
+        RenumberModules();
+
+        try
+        {
+            var _installedModules = InstalledModules.ToList(); // Create a copy to avoid modification during save
+            await _moduleDataService.SaveInstalledModulesDataAsync(_installedModules);
+            RequestReinitialize();
+        }
+        finally
+        {
+            // Re-enable the event handler
+            InstalledModules.CollectionChanged += OnLocalModuleCollectionChanged;
+        }
     }
 
     private async void RemoteModuleInstalled(InstallableTrackingModule module)
@@ -99,24 +167,65 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         {
             case InstallState.NotInstalled or InstallState.Outdated:
             {
-                _libManager.TeardownAllAndResetAsync();
                 var path = await _moduleInstaller.InstallRemoteModule(module);
                 if (string.IsNullOrEmpty(path))
                 {
                     module!.InstallationState = InstallState.Installed;
                     await _moduleDataService.IncrementDownloadsAsync(module);
                     module!.Downloads++;
-                    _libManager.Initialize();
+                    RequestReinitialize();
                 }
                 break;
             }
             case InstallState.Installed:
             {
-                _libManager.TeardownAllAndResetAsync();
                 _moduleInstaller.MarkModuleForDeletion(module);
-                _libManager.Initialize();
+                RequestReinitialize();
                 break;
             }
+        }
+
+        ResetInstalledModulesList();
+    }
+
+    private void ResetInstalledModulesList(bool suppressReinit = false)
+    {
+        var installedModules = _moduleDataService.GetInstalledModules();
+
+        InstalledModules.Clear();
+        int i = 0;
+        foreach (var installedModule in installedModules)
+        {
+            installedModule.PropertyChanged += OnLocalModulePropertyChanged;
+            InstalledModules.Add(installedModule);
+        }
+        RenumberModules();
+        if (!suppressReinit)
+            RequestReinitialize();
+    }
+
+    private async void OnLocalModulePropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (sender is not InstallableTrackingModule module)
+            return;
+
+        var desiredIndex = module.Order;
+        var currentIndex = InstalledModules.IndexOf(module);
+
+        if (desiredIndex >= 0 && desiredIndex < InstalledModules.Count)
+            InstalledModules.Move(currentIndex, desiredIndex);
+
+        RenumberModules();
+
+        var _installedModules = InstalledModules.ToList();
+        await _moduleDataService.SaveInstalledModulesDataAsync(_installedModules);
+    }
+
+    private void RenumberModules()
+    {
+        for (int i = 0; i < InstalledModules.Count; i++)
+        {
+            InstalledModules[i].Order = i;
         }
     }
 
@@ -134,21 +243,16 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         catch
         {
 
-#if WINDOWS_DEBUG || WINDOWS_RELEASE
             var url = URL.Replace("&", "^&");
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-#elif MACOS_DEBUG || MACOS_RELEASE
-            Process.Start("open", URL);
-#elif LINUX_DEBUG || LINUX_RELEASE
-            Process.Start("xdg-open", URL);
-#else
-            #error
-#endif
         }
     }
 
-    ~ModuleRegistryViewModel()
+    public void DetachedFromVisualTree()
     {
         ModuleRegistryView.ModuleSelected -= ModuleSelected;
+        _moduleDataService.SaveInstalledModulesDataAsync(InstalledModules);
+
+        ModuleTryReinitialize();
     }
 }

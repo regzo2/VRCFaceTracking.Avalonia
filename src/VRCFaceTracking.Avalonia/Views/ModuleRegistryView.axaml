@@ -13,6 +13,11 @@
     xmlns:models="clr-namespace:VRCFaceTracking.Core.Models;assembly=VRCFaceTracking.Core"
     xmlns:vm="clr-namespace:VRCFaceTracking.Avalonia.ViewModels.SplitViewPane"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <UserControl.Styles>
+    <StyleInclude Source="avares://Avalonia.Xaml.Interactions.Draggable/Styles.axaml" />
+  </UserControl.Styles>
+  
     <ScrollViewer>
         <StackPanel Classes="Page">
             <StackPanel Orientation="Horizontal">
@@ -55,106 +60,230 @@
                     </StackPanel>
                 </controls:ContentExample>
 
-                <controls:ContentExample>
-                    <StackPanel
-                        Height="475"
-                        Orientation="Horizontal"
-                        Spacing="20">
-                        <ScrollViewer
-                            HorizontalScrollBarVisibility="Auto"
-                            VerticalScrollBarVisibility="Auto"
-                            Width="250">
+              <controls:ContentExample>
+                <ScrollViewer>
+                  <Grid RowDefinitions="Auto,Auto">
+                    <Grid ColumnDefinitions="Auto,Auto,*"
+                          IsVisible="{Binding RequestReinit}">
+                      <TextBlock Text="Module data has been changed."
+                                 Grid.Column="0"
+                                 Margin="0,0,5,0"
+                                 VerticalAlignment="Center"/>
+                      <Button Content="Reload Modules"
+                              Grid.Column="1"
+                              Click="ReinitButton_Click"
+                              VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*"
+                          Grid.Row="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Height="400">
+                      <!-- Left-hand content -->
+                      <Grid Grid.Column="0" HorizontalAlignment="Left">
+                        <TabControl HorizontalAlignment="Center">
+                          <TabItem Header="Registry">
                             <StackPanel IsVisible="{Binding ModulesDetected}">
-                                <TextBox
-                                    Margin="0,0,18,8"
-                                    Text="{Binding SearchText}"
-                                    Watermark="Search modules..."
-                                    x:Name="SearchBox" />
+                              <TextBox
+                                  Margin="0,0,18,8"
+                                  Text="{Binding SearchText}"
+                                  Watermark="Search modules..."
+                                  x:Name="SearchBox" />
+                              <ScrollViewer
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto"
+                                            Width="350">
                                 <ListBox
                                     ItemsSource="{Binding FilteredModuleInfos}"
                                     SelectionChanged="OnModuleSelected"
                                     x:Name="ModuleList">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate x:DataType="models:InstallableTrackingModule">
-                                            <TextBlock>
-                                                <Run FontWeight="Bold" Text="{Binding ModuleName}" />
-                                                <LineBreak />
-                                                <Run Text="{Binding AuthorName}" />
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
+                                  <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:InstallableTrackingModule">
+                                      <Grid RowDefinitions="Auto, Auto">
+                                        <TextBlock Grid.Row="0"
+                                                   FontWeight="SemiBold"
+                                                   Text="{Binding ModuleName}" />
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding AuthorName}"
+                                                   Foreground="{DynamicResource SystemChromeGrayColor}"
+                                                   FontSize="12"/>
+                                      </Grid>
+                                    </DataTemplate>
+                                  </ListBox.ItemTemplate>
                                 </ListBox>
+                              </ScrollViewer>
                             </StackPanel>
-                        </ScrollViewer>
+                          </TabItem>
+                          <TabItem Header="Installed">
+                            <StackPanel IsVisible="{Binding ModulesDetected}">
+                              <ScrollViewer
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto"
+                                            Height="400"
+                                            Width="350">
+                                <ListBox
+                                    Classes="draggable"
+                                    ItemsSource="{Binding InstalledModules}"
+                                    SelectionChanged="OnLocalModuleSelected"
+                                    x:Name="LocalModuleList">
+                                  <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:InstallableTrackingModule">
+                                      <Grid ColumnDefinitions="Auto, Auto, *, Auto" Margin="5" VerticalAlignment="Center">
 
-                        <StackPanel
-                            IsVisible="{Binding ModulesDetected}"
-                            Spacing="12"
-                            Width="700">
-                            <TextBlock
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Text="{Binding Module.ModuleName}">
-                                Module Name
-                            </TextBlock>
+                                        <!-- Instantiatable Checkbox -->
+                                        <CheckBox IsChecked="{Binding Instantiatable, Mode=TwoWay}"
+                                                  Grid.Column="1"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  Margin="5,0"/>
 
-                            <Button Click="InstallButton_Click" x:Name="InstallButton">
+                                        <!-- Order Display -->
+                                        <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="5,0">
+                                          <TextBlock Text="{Binding Order}" Grid.Column="0" VerticalAlignment="Center"/>
+                                          <TextBlock Text="." Grid.Column="1" VerticalAlignment="Center"/>
+                                        </Grid>
+
+                                        <!-- Module Information -->
+                                        <StackPanel Grid.Column="2" Orientation="Vertical" Margin="10,0,5,0">
+                                          <TextBlock FontWeight="SemiBold" Text="{Binding ModuleName}" />
+                                          <TextBlock Text="{Binding AuthorName}" Foreground="{DynamicResource SystemChromeGrayColor}" FontSize="12"/>
+                                        </StackPanel>
+
+                                        <!-- Up/Down Buttons -->
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="2">
+                                          <Button Name="LocalModuleUpButton"
+                                                  Padding="3"
+                                                  Content="↑"
+                                                  Command="{Binding DecrementOrderCommand}" />
+                                          <Button Name="LocalModuleDownButton"
+                                                  Padding="3"
+                                                  Content="↓"
+                                                  Command="{Binding IncrementOrderCommand}" />
+                                        </StackPanel>
+
+                                      </Grid>
+                                    </DataTemplate>
+                                  </ListBox.ItemTemplate>
+                                </ListBox>
+                              </ScrollViewer>
+                            </StackPanel>
+                          </TabItem>
+                        </TabControl>
+                      </Grid>
+
+                      <!-- Right-hand content -->
+                      <ScrollViewer Grid.Column="1"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                        <StackPanel IsVisible="{Binding ModulesDetected}" Spacing="20">
+                          <TextBlock
+                              FontSize="24"
+                              FontWeight="SemiBold"
+                              Margin="0,0,0,10"
+                              Text="{Binding Module.ModuleName}">
+                            Module Name
+                          </TextBlock>
+
+                          <Border Background="{DynamicResource SystemChromeMediumColor}"
+                                  CornerRadius="6"
+                                  Padding="10"
+                                  HorizontalAlignment="Stretch">
+                            <StackPanel IsVisible="{Binding ModulesDetected}" Spacing="20">
+                              <TextBlock
+                                  FontSize="14"
+                                  Foreground="{DynamicResource SystemChromeGrayColor}"
+                                  Text="Module Settings"/>
+
+                              <Button Click="InstallButton_Click"
+                                      x:Name="InstallButton"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left">
                                 Install
-                            </Button>
+                              </Button>
 
-                            <TextBlock>
-                                <Run FontWeight="Bold" Text="{l:Localize Author.Text}" />
-                                <LineBreak />
-                                <Run Text="{Binding Module.AuthorName}" />
-                            </TextBlock>
+                              <!--Local controls for managing module settings!-->
+                              <StackPanel IsVisible="{Binding Module.IsInstalled}" Spacing="20" Width="400" HorizontalAlignment="Left">
+                                <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                                  <TextBlock Text="EnableModule" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                  <CheckBox IsChecked="{Binding Module.Instantiatable, Mode=TwoWay}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </Grid>
+                                <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center" >
+                                  <TextBlock Text="Module Load Order" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                  <NumericUpDown Value="{Binding Module.Order, Mode=TwoWay}" Grid.Column="2" Width="100" HorizontalAlignment="Right"/>
+                                </Grid>
+                              </StackPanel>
+                            </StackPanel>
+                          </Border>
 
-                            <TextBlock>
-                                <Run FontWeight="Bold" Text="{l:Localize Version.Text}" />
-                                <LineBreak />
-                                <Run Text="{Binding Module.Version}" />
-                            </TextBlock>
+                          <Border Background="{DynamicResource SystemChromeMediumColor}"
+                                  CornerRadius="6"
+                                  Padding="10">
+                            <StackPanel IsVisible="{Binding ModulesDetected}" Spacing="20">
+                              <TextBlock
+                                  FontSize="14"
+                                  Foreground="{DynamicResource SystemChromeGrayColor}"
+                                  Text="Module Information"/>
 
-                            <TextBlock>
-                                <Run FontWeight="Bold" Text="{l:Localize Downloads.Text}" />
-                                <LineBreak />
-                                <Run Text="{Binding Module.Downloads}" />
-                            </TextBlock>
+                              <StackPanel Spacing="20" Orientation="Horizontal">
+                                <TextBlock>
+                                  <Run FontWeight="Bold" Text="{l:Localize Author.Text}" />
+                                  <LineBreak />
+                                  <Run Text="{Binding Module.AuthorName}" />
+                                </TextBlock>
 
-                            <TextBlock>
-                                <Run FontWeight="Bold" Text="{l:Localize Rating.Text}" />
-                                <LineBreak />
-                                <Run Text="{Binding Module.Rating, StringFormat='{}{0:F2}/5'}" />
-                            </TextBlock>
+                                <TextBlock>
+                                  <Run FontWeight="Bold" Text="{l:Localize Version.Text}" />
+                                  <LineBreak />
+                                  <Run Text="{Binding Module.Version}" />
+                                </TextBlock>
 
-                            <TextBlock>
+                                <TextBlock>
+                                  <Run FontWeight="Bold" Text="{l:Localize Downloads.Text}" />
+                                  <LineBreak />
+                                  <Run Text="{Binding Module.Downloads}" />
+                                </TextBlock>
+
+                                <TextBlock>
+                                  <Run FontWeight="Bold" Text="{l:Localize Rating.Text}" />
+                                  <LineBreak />
+                                  <Run Text="{Binding Module.Rating, StringFormat='{}{0:F2}/5'}" />
+                                </TextBlock>
+                              </StackPanel>
+
+                              <TextBlock>
                                 <Run FontWeight="Bold" Text="{l:Localize ModulePage.Text}" />
                                 <LineBreak />
                                 <htControls:Hyperlink
                                     Alias="{Binding Module.ModulePageUrl}"
                                     Command="{Binding OpenModuleUrl}"
                                     Url="{Binding Module.ModulePageUrl}" />
-                            </TextBlock>
+                              </TextBlock>
 
-                            <TextBlock>
+                              <TextBlock>
                                 <Run FontWeight="Bold" Text="{l:Localize LastUpdated.Text}" />
                                 <LineBreak />
                                 <Run Text="{Binding Module.LastUpdated}" />
-                            </TextBlock>
+                              </TextBlock>
 
-                            <TextBlock TextWrapping="WrapWithOverflow">
+                              <TextBlock TextWrapping="WrapWithOverflow">
                                 <Run FontWeight="Bold" Text="{l:Localize Description.Text}" />
                                 <LineBreak />
                                 <Run Text="{Binding Module.ModuleDescription}" />
-                            </TextBlock>
+                              </TextBlock>
 
-                            <TextBlock TextWrapping="WrapWithOverflow">
+                              <TextBlock TextWrapping="WrapWithOverflow">
                                 <Run FontWeight="Bold" Text="{l:Localize UsageInstructions.Text}" />
                                 <LineBreak />
                                 <Run Text="{Binding Module.UsageInstructions}" />
-                            </TextBlock>
+                              </TextBlock>
+                            </StackPanel>
+                          </Border>
                         </StackPanel>
-                    </StackPanel>
-                </controls:ContentExample>
+                      </ScrollViewer>
+                    </Grid>
+                  </Grid>
+                </ScrollViewer>
+              </controls:ContentExample>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

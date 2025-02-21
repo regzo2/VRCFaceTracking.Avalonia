@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using VRCFaceTracking.Avalonia.ViewModels.SplitViewPane;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Core.Library;
 using VRCFaceTracking.Core.Models;
@@ -24,8 +30,6 @@ public partial class ModuleRegistryView : UserControl
     private IModuleDataService ModuleDataService { get; }
     private ILibManager LibManager { get; set; }
 
-    public ListBox _moduleList;
-
     private static FilePickerFileType ZIP { get; } = new("Zip Files")
     {
         Patterns = [ "*.zip" ]
@@ -38,8 +42,8 @@ public partial class ModuleRegistryView : UserControl
         ModuleDataService = Ioc.Default.GetService<IModuleDataService>()!;
         ModuleInstaller = Ioc.Default.GetService<ModuleInstaller>()!;
         LibManager = Ioc.Default.GetService<ILibManager>()!;
+        this.DetachedFromVisualTree += OnDetachedFromVisualTree;
 
-        _moduleList = this.Get<ListBox>("ModuleList")!;
         this.Get<Button>("BrowseLocal")!.Click += async delegate
         {
             var topLevel = TopLevel.GetTopLevel(this)!;
@@ -74,24 +78,66 @@ public partial class ModuleRegistryView : UserControl
         };
     }
 
+    private void ReinitButton_Click(object? sender, RoutedEventArgs e)
+    {
+        var viewModel = DataContext as ModuleRegistryViewModel;
+        bool init = viewModel.RequestReinit;
+        viewModel.ModuleTryReinitialize();
+    }
+
+    private void OnDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+    {
+        var viewModel = DataContext as ModuleRegistryViewModel;
+        viewModel.DetachedFromVisualTree();
+    }
+
     private void InstallButton_Click(object? sender, RoutedEventArgs e)
     {
-        if (_moduleList.ItemCount == 0) return;
-        var index = _moduleList.SelectedIndex;
+        if (ModuleList.ItemCount == 0) return;
+        var index = ModuleList.SelectedIndex;
         if (index == -1) index = 0;
-        if (_moduleList.Items[index] is not InstallableTrackingModule module) return;
+        if (ModuleList.Items[index] is not InstallableTrackingModule module) return;
 
         InstallButton.Content = "Please Restart VRCFT";
         InstallButton.IsEnabled = false;
         RemoteModuleInstalled?.Invoke(module);
     }
 
+    private void OnLocalModuleSelected(object? sender, SelectionChangedEventArgs e)
+    {
+        if (LocalModuleList.ItemCount == 0) return;
+        var index = LocalModuleList.SelectedIndex;
+        if (index == -1) index = 0;
+        if (LocalModuleList.Items[index] is not InstallableTrackingModule module) return;
+
+        switch (module.InstallationState)
+        {
+            case InstallState.NotInstalled or InstallState.Outdated:
+                {
+                    InstallButton.Content = "Install";
+                    InstallButton.IsEnabled = true;
+                    break;
+                }
+            case InstallState.Installed:
+                {
+                    InstallButton.Content = "Uninstall";
+                    InstallButton.IsEnabled = true;
+                    break;
+                }
+        }
+
+        if (sender is ListBox listBox && listBox.SelectedItem is InstallableTrackingModule selectedModule)
+        {
+            ModuleSelected?.Invoke(selectedModule);
+        }
+    }
+
     private void OnModuleSelected(object? sender, SelectionChangedEventArgs e)
     {
-        if (_moduleList.ItemCount == 0) return;
-        var index = _moduleList.SelectedIndex;
+        if (ModuleList.ItemCount == 0) return;
+        var index = ModuleList.SelectedIndex;
         if (index == -1) index = 0;
-        if (_moduleList.Items[index] is not InstallableTrackingModule module) return;
+        if (ModuleList.Items[index] is not InstallableTrackingModule module) return;
 
         switch (module.InstallationState)
         {
@@ -117,7 +163,6 @@ public partial class ModuleRegistryView : UserControl
 
     public InstallableTrackingModule[] GetRemoteModules()
     {
-        IEnumerable<InstallableTrackingModule> installedModules = ModuleDataService.GetInstalledModules();
         IEnumerable<InstallableTrackingModule> remoteModules = [];
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
         try
@@ -159,7 +204,7 @@ public partial class ModuleRegistryView : UserControl
 
         // Sort our data by name, then place dfg at the top of the list :3
         remoteModules = remoteModules.OrderByDescending(x => x.AuthorName == "dfgHiatus")
-            .ThenBy(x => x.ModuleName);
+                                     .ThenBy(x => x.ModuleName);
 
         var modules = remoteModules.ToArray();
         var first = modules.First();
