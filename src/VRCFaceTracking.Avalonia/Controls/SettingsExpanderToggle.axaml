@@ -25,7 +25,6 @@
                 </Grid.ColumnDefinitions>
                 <PathIcon Data="{Binding IconPath, RelativeSource={RelativeSource AncestorType=controls:SettingsExpanderToggle}, Converter={x:Static converters:TypeConverters.IconConverter}}"
                           Grid.Column="0"
-                          Background="#00000000"
                           VerticalAlignment="Center"
                           Width="32"
                           Margin="10,10,20,10"/>
