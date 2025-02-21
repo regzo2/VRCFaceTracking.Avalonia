@@ -115,7 +115,7 @@ public partial class ModuleRegistryView : UserControl
         }
     }
 
-    public InstallableTrackingModule[] GetModules(out (int localCount, int remoteCount) moduleCounts)
+    public InstallableTrackingModule[] GetRemoteModules()
     {
         IEnumerable<InstallableTrackingModule> installedModules = ModuleDataService.GetInstalledModules();
         IEnumerable<InstallableTrackingModule> remoteModules = [];
@@ -130,25 +130,13 @@ public partial class ModuleRegistryView : UserControl
         }
         catch (AggregateException ex) when (ex.InnerException is TaskCanceledException)
         {
-            // Timeout occurred, just return installed modules (if any)
-            var arr = installedModules.ToArray();
-            moduleCounts.remoteCount = 0;
-            moduleCounts.localCount = arr.Length;
-            return arr;
-        }
-
-        // If we didn't timeout, but we didn't get anything from the module manifest, AND we don't have any installed modules, return nothing
-        if (remoteModules.Count() == 0 && installedModules.Count() == 0)
-        {
-            moduleCounts.remoteCount = 0;
-            moduleCounts.localCount = 0;
-            return [];
+            return null;
         }
 
         // Now comes the tricky bit, we get all locally installed modules and add them to the list.
         // If any of the IDs match a remote module and the other data contained within does not match,
         // then we need to set the local module install state to outdated. If everything matches then we need to set the install state to installed.
-        installedModules = installedModules.Concat(ModuleDataService.GetLegacyModules());
+        var installedModules = ModuleDataService.GetInstalledModules();
 
         var localModules = new List<InstallableTrackingModule>();    // dw about it
         foreach (var installedModule in installedModules)
@@ -170,20 +158,14 @@ public partial class ModuleRegistryView : UserControl
         var remoteCount = remoteModules.Count();
 
         // Sort our data by name, then place dfg at the top of the list :3
-        remoteModules = remoteModules.OrderByDescending(x => x.InstallationState == InstallState.Installed)
-            .ThenByDescending(x => x.AuthorName == "dfgHiatus")
+        remoteModules = remoteModules.OrderByDescending(x => x.AuthorName == "dfgHiatus")
             .ThenBy(x => x.ModuleName);
-
-        // Then prepend the local modules to the list.
-        remoteModules = localModules.Concat(remoteModules);
 
         var modules = remoteModules.ToArray();
         var first = modules.First();
-        _moduleList.SelectedIndex = 0;
+        ModuleList.SelectedIndex = 0;
         ModuleSelected?.Invoke(first);
 
-        moduleCounts.localCount = installedModules.Count();
-        moduleCounts.remoteCount = remoteCount;
         return modules;
     }
 }

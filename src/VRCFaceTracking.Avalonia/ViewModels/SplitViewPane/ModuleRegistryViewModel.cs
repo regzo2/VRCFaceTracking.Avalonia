@@ -42,8 +42,7 @@ public partial class ModuleRegistryViewModel : ViewModelBase
         ModuleRegistryView.LocalModuleInstalled += LocalModuleInstalled;
         ModuleRegistryView.RemoteModuleInstalled += RemoteModuleInstalled;
 
-        _moduleInfos = _moduleRegistryView.GetModules(out var moduleCounts);
-        _noRemoteModulesDetected = moduleCounts.remoteCount == 0;
+        _registryInfos = _moduleRegistryView.GetRemoteModules();
 
         // Hide UI if the user has no remote modules (IE not internet connection) and no local modules
         _modulesDetected = moduleCounts.remoteCount > 0 || moduleCounts.localCount > 0;
