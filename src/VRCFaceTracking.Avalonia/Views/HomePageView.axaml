@@ -90,7 +90,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <controls:ContentExample IsVisible="{Binding NoModulesInstalled}">
+            <controls:ContentExample IsVisible="{Binding NoModulesInstalled}"
+                                     Padding="0,15,15,15">
                 <controls:WarningBlock
                     Caption="{l:Localize no_modules_installed_warning.ButtonText}"
                     DismissCommand="{Binding DismissWarningCommand}"
@@ -99,7 +100,7 @@
                     Subheader="{l:Localize no_modules_installed_warning.Description}" />
             </controls:ContentExample>
 
-            <controls:ContentExample>
+            <controls:ContentExample Padding="0,15,15,15">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -109,7 +110,7 @@
                     </Grid.ColumnDefinitions>
                     <PathIcon Data="{StaticResource WirelessRegular}"
                               Width="32"
-                              Margin="15,30,30,30"
+                              Margin="30,30,30,30"
                               Grid.Column="0"/>
                     <StackPanel Grid.Column="1" Spacing="6" VerticalAlignment="Center" Orientation="Vertical">
                         <TextBlock
