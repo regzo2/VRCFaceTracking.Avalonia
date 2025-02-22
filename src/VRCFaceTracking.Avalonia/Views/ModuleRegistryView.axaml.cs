@@ -85,6 +85,28 @@ public partial class ModuleRegistryView : UserControl
         viewModel.ModuleTryReinitialize();
     }
 
+    private void DecrementOrder(object sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        var module = button.DataContext as InstallableTrackingModule;
+
+        if (module != null)
+        {
+            module.Order--;
+        }
+    }
+
+    private void IncrementOrder(object sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        var module = button.DataContext as InstallableTrackingModule;
+
+        if (module != null)
+        {
+            module.Order++;
+        }
+    }
+
     private void OnDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
     {
         var viewModel = DataContext as ModuleRegistryViewModel;

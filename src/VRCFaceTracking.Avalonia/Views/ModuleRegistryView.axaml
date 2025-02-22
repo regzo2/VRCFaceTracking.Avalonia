@@ -154,11 +154,11 @@
                                           <Button Name="LocalModuleUpButton"
                                                   Padding="3"
                                                   Content="↑"
-                                                  Command="{Binding DecrementOrderCommand}" />
+                                                  Click="DecrementOrder" />
                                           <Button Name="LocalModuleDownButton"
                                                   Padding="3"
                                                   Content="↓"
-                                                  Command="{Binding IncrementOrderCommand}" />
+                                                  Click="IncrementOrder" />
                                         </StackPanel>
 
                                       </Grid>
